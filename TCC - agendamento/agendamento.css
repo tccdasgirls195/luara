@@ -1,0 +1,272 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:white;
+}
+
+header{
+    height:90px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 40px;
+    border-bottom:1px solid #ddd;
+}
+
+.logo img{
+    height:75px;
+}
+
+nav{
+    display:flex;
+    gap:45px;
+}
+
+nav a{
+    text-decoration:none;
+    color:#333;
+    font-size:32px;
+}
+
+.menu{
+    font-size:45px;
+}
+
+.titulo{
+    background:#72c67c;
+    color:white;
+    text-align:center;
+    padding:40px;
+
+}
+
+.titulo h1{
+    font-weight:normal;
+    font-size:42px;
+}
+
+.container{
+    width:90%;
+    margin:30px auto;
+}
+
+.filtros{
+    display:flex;
+    gap:30px;
+    margin-bottom:25px;
+}
+
+.campo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.campo label{
+    font-size:30px;
+}
+
+.campo input{
+    width:180px;
+    height:45px;
+    border-radius:25px;
+    border:2px solid #666;
+    padding:10px;
+    font-size:20px;
+}
+
+.conteudo{
+    display:flex;
+    gap:5px;
+    align-items:flex-start;
+}
+
+.legenda{
+    margin-left:30px;
+}
+
+.mapa{
+    width:810px;
+    border:2px solid #777;
+    border-radius: 10px;
+    padding:50px;
+    display:grid;
+    grid-template-columns:repeat(3,170px);
+    gap:90px;
+}
+
+.lab{
+    width:190px;
+    height:130px;
+    border:2px solid #444;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#7dd67a;
+    font-size:35px;
+    font-weight:bold;
+    border-radius: 5px;
+}
+
+.vazio{
+    width:170px;
+    height:120px;
+}
+
+.legenda h2{
+    color:#72c67c;
+    margin-bottom:20px;
+}
+
+.item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+    font-size:26px;
+}
+
+.item .ocupado{
+    width:28px;
+    height:28px;
+    background:red;
+    border-radius:5px;
+}
+
+.lab.ocupado{
+    background:#d92b2b;
+    color:white;
+}
+
+.item .livre{
+    width:28px;
+    height:28px;
+    border:2px solid black;
+    border-radius:5px;
+}
+
+.livre{
+    width:28px;
+    height:28px;
+    border:2px solid black;
+    border-radius:5px;
+}
+.campo-horario{
+    position: relative;
+    width: 190px;
+}
+
+.campo-horario select{
+    width:100%;
+    height:40px;
+    border:2px solid #666;
+    border-radius:25px;
+    padding:0 40px 0 15px;
+    font-size:18px;
+    appearance:none;
+    background:white;
+    cursor:pointer;
+    outline:none;
+}
+
+.campo-horario i{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#000000;
+    pointer-events:none;
+    font-size:22px;
+}
+
+#formReserva{
+    width:450px;
+    margin-top:5px;
+    margin-left:auto;
+    margin-right:auto;
+    padding:35px;
+    background:white;
+    border:2px solid #72c67c;
+    border-radius:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+#formReserva h2{
+    text-align:center;
+    color:#72c67c;
+    font-size:30px;
+    margin-bottom:25px;
+}
+
+#labEscolhido{
+    background:#f0f8f0;
+    border-radius:10px;
+    padding:15px;
+    font-size:22px;
+    font-weight:bold;
+    text-align:center;
+    color:#444;
+    margin-bottom:25px;
+}
+
+#formReserva label{
+    display:block;
+    font-size:20px;
+    color:#444;
+    margin-bottom:8px;
+    margin-top:15px;
+}
+
+#formReserva input,
+#formReserva textarea{
+    width:100%;
+    padding:12px;
+    border:2px solid #ccc;
+    border-radius:12px;
+    font-size:18px;
+    outline:none;
+}
+
+#formReserva input:focus,
+#formReserva textarea:focus{
+    border-color:#72c67c;
+}
+
+#formReserva textarea{
+    height:120px;
+    resize:none;
+}
+
+#formReserva button{
+    width:100%;
+    height:50px;
+    margin-top:25px;
+    border:none;
+    border-radius:25px;
+    background:#72c67c;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#formReserva button:hover{
+    background:#5aaa65;
+}
+
+#formReserva{
+    background:white !important;
+    border:2px solid 72c67c !important;
+}
+#dataEscolhida,
+#horarioEscolhido{
+    font-size:18px;
+    margin-bottom:10px;
+    color:#444;
+}
+
