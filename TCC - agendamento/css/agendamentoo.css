@@ -407,3 +407,249 @@ nav li{
     margin-bottom:10px;
     color:#444;
 }
+
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+@media (max-width: 768px) {
+
+    /* ===== GERAL ===== */
+
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* ===== CABEÇALHO ===== */
+
+    header {
+        height: auto;
+        min-height: 100px;
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .logo {
+        width: 100%;
+        height: auto;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .logo img {
+        height: 70px;
+        max-width: 90%;
+    }
+
+    /* ===== MENU ===== */
+
+    nav {
+        width: 100%;
+        height: auto;
+        margin-left: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    nav > ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+
+    nav > ul > li {
+        position: relative;
+    }
+
+    nav a {
+        font-size: 15px;
+        padding: 10px 12px;
+        height: auto;
+    }
+
+    /* ===== SUBMENU ===== */
+
+    nav li > .submenu {
+        left: 0;
+        top: 100%;
+    }
+
+    nav li ul {
+        top: 100%;
+        left: 0;
+        width: 200px;
+    }
+
+    /* ===== FAIXA VERDE ===== */
+
+    .titulo {
+        height: 100px;
+        padding: 15px;
+    }
+
+    .titulo h1 {
+        font-size: 25px;
+    }
+
+    /* ===== CONTAINER ===== */
+
+    .container {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    /* ===== FILTROS ===== */
+
+    .filtros {
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .campo {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .campo label {
+        font-size: 20px;
+    }
+
+    .campo input {
+        width: 100%;
+        height: 45px;
+        font-size: 17px;
+    }
+
+    .campo-horario {
+        width: 100%;
+    }
+
+    /* ===== CONTEÚDO ===== */
+
+    .conteudo {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* ===== MAPA ===== */
+
+    .mapa {
+        width: 100%;
+        padding: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .lab {
+        width: 100%;
+        height: 100px;
+        font-size: 25px;
+    }
+
+    .vazio {
+        width: 100%;
+        height: 100px;
+    }
+
+    /* ===== LEGENDA ===== */
+
+    .legenda {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .legenda h2 {
+        font-size: 23px;
+    }
+
+    .item {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .item .ocupado,
+    .item .livre,
+    .livre {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+    }
+
+    /* ===== FORMULÁRIO ===== */
+
+    #formReserva {
+        width: 100%;
+        max-width: 450px;
+        margin: 25px auto;
+        padding: 25px 20px;
+    }
+
+    #formReserva h2 {
+        font-size: 25px;
+    }
+
+    #labEscolhido {
+        font-size: 18px;
+    }
+
+    #formReserva label {
+        font-size: 17px;
+    }
+
+    #formReserva input,
+    #formReserva textarea {
+        font-size: 16px;
+    }
+
+    #formReserva button {
+        font-size: 18px;
+    }
+}
+
+
+/* =========================
+   CELULARES PEQUENOS
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .logo img {
+        height: 60px;
+    }
+
+    nav a {
+        font-size: 13px;
+        padding: 8px 9px;
+    }
+
+    .titulo {
+        height: 85px;
+    }
+
+    .titulo h1 {
+        font-size: 21px;
+    }
+
+    .mapa {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .lab {
+        height: 80px;
+        font-size: 20px;
+    }
+
+    .vazio {
+        height: 80px;
+    }
+
+    #formReserva {
+        padding: 20px 15px;
+    }
+}

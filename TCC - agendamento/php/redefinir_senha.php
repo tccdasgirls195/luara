@@ -1,4 +1,3 @@
-
 <?php
 
 include("conexao.php");
@@ -10,15 +9,29 @@ if (!isset($_GET['token'])) {
 $token = $_GET['token'];
 
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>Nova senha</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="../css/login.css">
+
 </head>
+
 <body>
 
 <main class="container-login">
@@ -29,17 +42,19 @@ $token = $_GET['token'];
 
         <form action="salvar_senha.php" method="POST">
 
-            <input 
-                type="hidden" 
-                name="token" 
+            <!-- Token da recuperação -->
+            <input
+                type="hidden"
+                name="token"
                 value="<?php echo htmlspecialchars($token); ?>"
             >
 
+            <!-- CAMPO DA NOVA SENHA -->
             <div class="campo">
 
                 <label for="senha">Nova senha:</label>
 
-                <div class="input-com-icone">
+                <div class="input-com-icone senha-container">
 
                     <input
                         type="password"
@@ -49,12 +64,17 @@ $token = $_GET['token'];
                         required
                     >
 
-                    <i class="fa-solid fa-lock"></i>
+                    <!-- OLHO -->
+                    <i
+                        class="fa-solid fa-eye olho-senha"
+                        id="mostrarSenha">
+                    </i>
 
                 </div>
 
             </div>
 
+            <!-- BOTÃO -->
             <button type="submit" class="btn-entrar">
 
                 Alterar senha
@@ -68,21 +88,46 @@ $token = $_GET['token'];
     </div>
 
 </main>
-<!-- Maria A. - Alterações: não aparecer a senha e tudo mais ao voltar !-->
+
+
+<!-- =========================
+     MOSTRAR / ESCONDER SENHA
+     ========================= -->
+
 <script>
-// Evita que o navegador salve os dados do formulário no histórico de navegação
-document.querySelector("form").addEventListener("submit", function() {
-    // Substitui o estado atual do histórico por uma versão "limpa" antes do envio
-    if (window.history.replaceState) {
-        window.history.replaceState(null, null, window.location.href);
+
+const senha = document.getElementById("senha");
+
+const mostrarSenha = document.getElementById("mostrarSenha");
+
+
+mostrarSenha.addEventListener("click", function () {
+
+    if (senha.type === "password") {
+
+        // Mostra a senha
+        senha.type = "text";
+
+        // Troca o ícone
+        mostrarSenha.classList.remove("fa-eye");
+        mostrarSenha.classList.add("fa-eye-slash");
+
+    } else {
+
+        // Esconde a senha
+        senha.type = "password";
+
+        // Volta para o olho normal
+        mostrarSenha.classList.remove("fa-eye-slash");
+        mostrarSenha.classList.add("fa-eye");
+
     }
-    
-    // Agenda a limpeza dos campos logo após o disparo da requisição
-    setTimeout(function() {
-        document.getElementById("senha").value = "";
-    }, 10);
+
 });
+
 </script>
-<!-- Maria A. Câmbio desligo !-->
+
+
 </body>
+
 </html>

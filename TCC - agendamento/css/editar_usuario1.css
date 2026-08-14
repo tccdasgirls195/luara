@@ -1,0 +1,242 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+}
+
+
+/* MENU */
+
+.menu {
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 60px;
+
+    background-color: #d9f5e4;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #4a8f68;
+}
+
+.menu nav {
+    display: flex;
+    gap: 30px;
+}
+
+.menu nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+}
+
+.menu nav a:hover {
+    color: #4a8f68;
+}
+
+
+/* CONTEÚDO */
+
+.container {
+    width: 90%;
+    max-width: 600px;
+
+    margin: 45px auto;
+}
+
+h1 {
+    text-align: center;
+
+    color: #4a8f68;
+
+    font-size: 28px;
+
+    margin-bottom: 10px;
+}
+
+.subtitulo {
+    text-align: center;
+
+    color: #777;
+
+    margin-bottom: 30px;
+}
+
+
+/* FORMULÁRIO */
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.formulario label {
+    margin-top: 10px;
+
+    font-size: 14px;
+
+    color: #444;
+}
+
+.formulario input {
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+.formulario input:focus {
+    border-color: #7ac795;
+}
+
+.formulario input:disabled {
+    background-color: #f1f1f1;
+
+    color: #777;
+}
+
+
+/* BOTÕES */
+
+.botoes {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 30px;
+}
+
+.botoes button,
+.cancelar {
+
+    padding: 11px 20px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.botoes button {
+
+    border: none;
+
+    background-color: #7ac795;
+
+    color: white;
+}
+
+.botoes button:hover {
+    background-color: #65b580;
+}
+
+.cancelar {
+
+    background-color: #eeeeee;
+
+    color: #555;
+}
+
+.cancelar:hover {
+    background-color: #dddddd;
+}
+
+/* MENSAGEM DE SUCESSO */
+
+.mensagem {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background-color: #ffffff;
+}
+
+.caixa-sucesso {
+    width: 90%;
+    max-width: 500px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    background-color: #ffffff;
+}
+
+.caixa-sucesso h1 {
+    font-size: 45px;
+
+    color: #4a8f68;
+
+    margin-bottom: 15px;
+}
+
+.caixa-sucesso h2 {
+    color: #4a8f68;
+
+    font-size: 22px;
+
+    margin-bottom: 10px;
+}
+
+.caixa-sucesso p {
+    color: #777;
+
+    margin-bottom: 25px;
+}
+
+.caixa-sucesso a {
+    display: inline-block;
+
+    padding: 11px 20px;
+
+    background-color: #7ac795;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+}
+
+.caixa-sucesso a:hover {
+    background-color: #65b580;
+}

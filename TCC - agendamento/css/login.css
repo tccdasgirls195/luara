@@ -152,8 +152,32 @@ nav a {
     gap: 10px;
 }
 
-#mostrarSenha {
+/* =========================
+   OLHO DA SENHA
+   ========================= */
+
+.senha-container {
+    position: relative;
+}
+
+.senha-container input {
+    padding-right: 50px;
+}
+
+.senha-container .olho-senha {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    color: #666;
+    font-size: 20px;
+
     cursor: pointer;
     pointer-events: auto;
     z-index: 10;
+}
+
+.senha-container .olho-senha:hover {
+    color: #72c67c;
 }
