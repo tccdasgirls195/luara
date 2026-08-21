@@ -1,14 +1,17 @@
 create database MODELO_TCC;
 use MODELO_TCC;
 
+
 create table administrador (
 id_administrador int primary key auto_increment,
+nome varchar (100) not null,
 email varchar (80)  not null,
 senha varchar (20)  not null
 );
 
 create table coordenador (
 id_coordenador int primary key auto_increment,
+nome varchar (100) not null,
 email varchar (80)  not null,
 senha varchar (20)  not null,
 curso ENUM('DS', 'ADM', 'AUT', 'RH'),
@@ -18,6 +21,7 @@ foreign key (id_administrador) references administrador (id_administrador)
 
 create table professor (
 id_professor int primary key auto_increment,
+nome varchar (100) not null,
 email varchar (80)  not null,
 senha varchar (20)  not null,
 id_coordenador int not null,
@@ -36,6 +40,7 @@ foreign key (id_coordenador) references coordenador (id_coordenador)
 
 create table representante (
 id_representante int primary key auto_increment,
+nome varchar (100) not null,
 email varchar (80) not null,
 senha varchar (20)  not null,
 id_turma int not null,
@@ -44,6 +49,7 @@ foreign key (id_turma) references turma (id_turma)
 
 create table gestao (
 id_gestao int primary key auto_increment,
+nome varchar(100) not null,
 email varchar (80)  not null,
 senha varchar (20)  not null,
 id_administrador int not null,
@@ -86,11 +92,18 @@ foreign key (id_ambientes) references ambientes (id_ambientes)
 
 CREATE TABLE recuperacao_senha (
     id_recuperacao INT PRIMARY KEY AUTO_INCREMENT,
-    id_professor INT NOT NULL,
+    usuario_id INT NOT NULL,
+    usuario_tipo ENUM(
+        'administrador',
+        'coordenador',
+        'professor',
+        'representante',
+        'gestao'
+    ) NOT NULL,
     token VARCHAR(64) NOT NULL,
-    expiracao DATETIME NOT NULL,
-    FOREIGN KEY (id_professor) REFERENCES professor(id_professor)
+    expiracao DATETIME NOT NULL
 );
+
 
 create table registros_acesso (
 	id_acesso int primary key auto_increment,
@@ -108,17 +121,17 @@ show tables;
 
 select * from ambientes;
 
-insert into administrador (email, senha) values 
-("luaragporto@gmail.com","123456");
+insert into administrador (nome, email, senha) values 
+("Luara","luaragporto@gmail.com", "123456");
 
-INSERT INTO gestao (email, senha, id_administrador)
-VALUES ('gestao@email.com', '123456', 1);
+INSERT INTO gestao (nome, email, senha, id_administrador)
+VALUES ('nome','gestao@email.com', '123456', 1);
 
-INSERT INTO coordenador (email, senha, curso, id_administrador)
-VALUES ('coordenador@email.com', '123456', 'DS', 1);
+INSERT INTO coordenador (nome, email, senha, curso, id_administrador)
+VALUES ('nome','coordenador@email.com', '123456', 'DS', 1);
 
-INSERT INTO professor (email, senha, id_coordenador, id_administrador)
-VALUES ('professor@email.com', '123456', 1, 1);
+INSERT INTO professor (nome, email, senha, id_coordenador, id_administrador)
+VALUES ('nome','professor@email.com', '123456', 1, 1);
 
 INSERT INTO ambientes (nome, tipo)
 VALUES('Laboratório de Informática 1', 'DS');
@@ -203,6 +216,18 @@ INSERT INTO turma (serie, curso, id_coordenador) VALUES
 
 select * from turma;
 select * from coordenador;
+select * from registros_acesso;
 
-INSERT INTO representante (email, senha, id_turma)
-VALUES('representante@email.com', '123456', '1');
+INSERT INTO representante (nome, email, senha, id_turma)
+VALUES ('Nome', 'representante@email.com', '123456', 1);
+
+CREATE TABLE tentativas_login (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ip VARCHAR(45) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    tentativas INT DEFAULT 1,
+    ultimo_erro DATETIME NOT NULL,
+    bloqueado_ate DATETIME DEFAULT NULL
+);
+
+select * from tentativas_login;
