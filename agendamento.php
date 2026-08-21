@@ -77,7 +77,7 @@ if (isset($_GET["data"]) && isset($_GET["horario"])) {
 
 <title>Agendamento</title>
 
-<link rel="stylesheet" href="../css/agendamentoo.css">
+<link rel="stylesheet" href="../css/agendamento.css">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -135,37 +135,45 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 </nav>
 
 <div class="container">
+
+
     <div class="filtros">
 
-     <form method="POST">
         <div class="campo">
-
-            <label>Data:</label>
+            <label for="data">Data:</label>
             <input type="date" id="data">
-      
+        </div>
 
-       <div class="campo">
-    <label for="horario">Horário:</label>
+        <div class="campo">
+            <label for="horario">Horário:</label>
 
-    <div class="campo-horario">
-        <select id="horario" name="horario">
-            <option value="" selected disabled></option>
-            <option>7h30 - 8h20</option>
-            <option>8h20 - 9h10</option>
-            <option>9h10 - 10h</option>
-            <option>10h20 - 11h10</option>
-            <option>11h10 - 12h</option>
-            <option>13h - 13h50</option>
-            <option>13h50 - 14h40</option>
-            <option>14h40 - 15h30</option>
-        </select>
+            <div class="campo-horario">
+                <select id="horario" name="horario">
+                    <option value="" selected disabled></option>
 
-        <i class="fa-regular fa-clock"></i>
+                    <option>7h30 - 8h20</option>
+                    <option>8h20 - 9h10</option>
+                    <option>9h10 - 10h</option>
+                    <option>10h20 - 11h10</option>
+                    <option>11h10 - 12h</option>
+                    <option>13h - 13h50</option>
+                    <option>13h50 - 14h40</option>
+                    <option>14h40 - 15h30</option>
+                    <option>15h30 - 16h20</option>
+                    <option>16h20 - 17h10</option>
+                    <option>18h - 18h50</option>
+                    <option>18h50 - 19h40</option>
+                    <option>19h40 - 20h</option>
+                    <option>20h - 20h50</option>
+                    <option>20h50 - 21h40</option>
+                    <option>21h40 - 22h30</option>
+                </select>
+
+                <i class="fa-regular fa-clock"></i>
+            </div>
+        </div>
+
     </div>
-</div>
-</div>
-</div>
-</form>
 
     <div class="conteudo">
 <div class="mapa">
@@ -200,6 +208,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 </div>
 
 <div id="formReserva" style="display:none;">
+       <button type="button" class="fechar-formulario" onclick="fecharFormulario()">
+        &times;
+    </button>
 
     <h2>Solicitar reserva</h2>
 
@@ -298,6 +309,13 @@ window.onpageshow = function(event) {
     }
 };
 </script>
+
+<script>
+    function fecharFormulario(){
+    document.getElementById("formReserva").style.display = "none";
+}
+
+    </script>
 
 
 
