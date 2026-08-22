@@ -133,9 +133,32 @@ VALUES ('nome','coordenador@email.com', '123456', 'DS', 1);
 INSERT INTO professor (nome, email, senha, id_coordenador, id_administrador)
 VALUES ('nome','professor@email.com', '123456', 1, 1);
 
-INSERT INTO ambientes (nome, tipo)
-VALUES('Laboratório de Informática 1', 'DS');
+INSERT INTO ambientes (nome, tipo)VALUES
+('Laboratório de Informática 1', 'DS'),
+('Laboratório de Informática 2', 'DS'),
+('Laboratório de Informática 3', 'DS'),
+('Laboratório de Informática 4', 'DS'),
+('Laboratório de Informática 5', 'DS'),
+('Laboratório de Administração 6', 'ADM'),
+('Laboratório de Administração 7', 'ADM'),
+('Laboratório de Automação 8', 'AUT'),
+('Laboratório de Automação 9', 'AUT');
 
+SELECT
+    a.id_agendamentos,
+    a.nome_prof,
+    a.descr,
+    a.data_agendamento,
+    a.horario,
+    a.id_ambientes,
+    am.nome AS ambiente,
+    am.tipo AS tipo_ambiente,
+    a.solicitante_id,
+    a.solicitante_tipo
+FROM agendamentos a
+INNER JOIN ambientes am
+    ON a.id_ambientes = am.id_ambientes;
+    
 INSERT INTO agendamentos
 (nome_prof, descr, data_agendamento, id_gestao, id_professor, id_ambientes, horario)
 VALUES
@@ -156,13 +179,9 @@ WHERE data_agendamento = '2026-07-31'
 AND horario = '13h50 - 14h40';
 
 alter table administrador modify senha varchar (255);
-
 alter table coordenador modify senha varchar (255);
-
 alter table professor modify senha varchar (255);
-
 alter table representante modify senha varchar (255);
-
 alter table gestao modify senha varchar (255);
 
 
@@ -183,13 +202,9 @@ SET senha = '$2y$10$FEUhkuMAkDCd5m7spI0Q6.flGfWEQiN9/MCLrn/xzsuC4PSGkC8gO'
 WHERE id_professor = 1;
 
 alter table administrador add status enum('Ativo','Bloqueado') default 'Ativo';
-
 alter table coordenador add status enum('Ativo','Bloqueado') default 'Ativo';
-
 alter table professor add status enum('Ativo','Bloqueado') default 'Ativo';
-
 alter table representante add status enum('Ativo','Bloqueado') default 'Ativo';
-
 alter table gestao add status enum('Ativo','Bloqueado') default 'Ativo';
 
 -- Maria A. 10/08 20h16 Alterações: Ajustes necessários para o calendário
@@ -231,3 +246,16 @@ CREATE TABLE tentativas_login (
 );
 
 select * from tentativas_login;
+
+-- Luara:
+SHOW CREATE TABLE agendamentos;
+
+ALTER TABLE agendamentos
+DROP FOREIGN KEY agendamentos_ibfk_2;
+
+ALTER TABLE agendamentos
+MODIFY id_professor INT NULL;
+
+ALTER TABLE agendamentos
+ADD solicitante_id INT NULL,
+ADD solicitante_tipo VARCHAR(20) NULL;
