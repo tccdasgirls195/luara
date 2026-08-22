@@ -1,0 +1,790 @@
+/* =========================
+   RESET
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: white;
+}
+
+
+/* =========================
+   CABEÇALHO
+   ========================= */
+
+header {
+    width: 100%;
+    height: 137px;
+    background: #fff;
+
+    display: flex;
+    align-items: center;
+
+    border-bottom: 1px solid #ddd;
+    padding: 0;
+}
+
+
+/* =========================
+   LOGO
+   ========================= */
+
+.logo {
+    width: 360px;
+    height: 137px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    padding-right: 65px;
+}
+
+.logo img {
+    width: auto;
+    height: 95px;
+    object-fit: contain;
+}
+
+
+/* =========================
+   MENU PRINCIPAL
+   ========================= */
+
+nav {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0;
+
+    margin-left: 45px;
+}
+
+nav a {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+
+    text-decoration: none;
+
+    color: #333;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   SETINHA DOS MENUS
+   ========================= */
+
+nav a.has-submenu::after {
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+
+    transform: rotate(45deg);
+
+    margin-left: 8px;
+    margin-top: -3px;
+}
+
+
+/* =========================
+   HOVER DO MENU
+   ========================= */
+
+nav a:hover {
+    background: #dff5e6;
+    color: #176b31;
+}
+
+
+/* =========================
+   SUBMENU DO MENU PRINCIPAL
+   ========================= */
+
+nav ul,
+nav li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li > .submenu{
+    right:100px;
+    top: 50px;
+    
+}
+
+nav li {
+    position: relative;
+}
+
+nav li ul {
+    position: absolute;
+
+    top: 42px;
+    left: 0;
+
+    width: 220px;
+
+    background: white;
+
+    display: none;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+    z-index: 1000;
+}
+
+nav li:hover > ul {
+    display: block;
+}
+
+nav li ul li {
+    width: 100%;
+}
+
+nav li ul li a {
+    width: 100%;
+    height: 41px;
+
+    padding: 0 20px;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 16px;
+
+    color: #333;
+
+    background: white;
+}
+
+nav li ul li a:hover {
+    background: #dff5e6;
+    color: #176b31;
+}
+
+
+/* =========================
+   FAIXA VERDE — EVENTOS
+   ========================= */
+
+.dropdown-container {
+    width: 100%;
+    height: 115px;
+
+    background: #5dcc7b;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    position: relative;
+}
+
+
+/* =========================
+   BOTÃO "EVENTOS"
+   ========================= */
+
+.btn-dropdown {
+    background: transparent;
+
+    border: none;
+
+    color: white;
+
+    font-size: 32px;
+
+    font-weight: normal;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.btn-dropdown i {
+    font-size: 20px;
+}
+
+
+/* =========================
+   MENU DE PERÍODOS
+   ========================= */
+
+.dropdown-menu {
+    display: none;
+
+    position: absolute;
+
+    top: 100%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: white;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    min-width: 180px;
+
+    z-index: 1000;
+}
+
+
+/* Mostra o menu ao passar o mouse */
+
+.dropdown-container:hover .dropdown-menu {
+    display: block;
+}
+
+
+/* =========================
+   INTEGRAL / NOTURNO
+   ========================= */
+
+.menu-item-periodo {
+    position: relative;
+
+    padding: 12px 20px;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    color: #333;
+
+    cursor: pointer;
+
+    border-bottom: 1px solid #eee;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.menu-item-periodo:last-child {
+    border-bottom: none;
+}
+
+.menu-item-periodo:hover {
+    background-color: #f5f5f5;
+
+    border-radius: 8px;
+}
+
+
+/* =========================
+   SETA DOS PERÍODOS
+   ========================= */
+
+.menu-item-periodo > i {
+    font-size: 14px;
+    margin-left: 15px;
+}
+
+
+/* =========================
+   SUBMENU DAS TURMAS
+   ========================= */
+
+.submenu-turmas {
+    display: none;
+
+    position: absolute;
+
+    top: 0;
+    left: 100%;
+
+    background: white;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    min-width: 150px;
+
+    max-height: 250px;
+
+    overflow-y: auto;
+
+    z-index: 1001;
+}
+
+
+/* Mostra as turmas */
+
+.menu-item-periodo:hover .submenu-turmas {
+    display: block;
+}
+
+
+/* =========================
+   LINKS DAS TURMAS
+   ========================= */
+
+.submenu-turmas a {
+    display: block;
+
+    padding: 10px 15px;
+
+    color: #333;
+
+    text-decoration: none;
+
+    font-size: 18px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #f0f0f0;
+
+    background: white;
+}
+
+.submenu-turmas a:hover {
+    background-color: #e8f5e9;
+
+    color: #2e7d32;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   CALENDÁRIO
+   ========================= */
+
+.calendar-box {
+    max-width: 1000px;
+
+    margin: 30px auto;
+
+    border: 2px solid #777;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    background: white;
+}
+
+
+/* =========================
+   CABEÇALHO DOS DIAS
+   ========================= */
+
+.calendar-header-days {
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    background: #fff;
+
+    border-bottom: 1px solid #ccc;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+    padding: 10px 0;
+}
+
+
+/* =========================
+   GRADE DO CALENDÁRIO
+   ========================= */
+
+.calendar-grid {
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+}
+
+
+/* =========================
+   DIA
+   ========================= */
+
+.calendar-day {
+    min-height: 100px;
+
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+
+    padding: 8px;
+
+    position: relative;
+
+    cursor: pointer;
+
+    background: #fff;
+
+    transition: background 0.2s;
+}
+
+.calendar-day:nth-child(7n) {
+    border-right: none;
+}
+
+.calendar-day:hover {
+    background: #f9f9f9;
+}
+
+
+/* =========================
+   NÚMERO DO DIA
+   ========================= */
+
+.day-number {
+    font-size: 20px;
+
+    font-weight: bold;
+
+    display: inline-block;
+}
+
+
+/* =========================
+   DIA COM EVENTO
+   ========================= */
+
+.circled {
+    border: 2px solid #2e7d32;
+
+    color: #2e7d32;
+
+    border-radius: 50%;
+
+    width: 32px;
+    height: 32px;
+
+    text-align: center;
+
+    line-height: 28px;
+}
+
+
+/* =========================
+   EVENTOS
+   ========================= */
+
+.tag-event {
+    margin-top: 8px;
+
+    padding: 4px;
+
+    border-radius: 4px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    color: white;
+}
+
+
+/* Prova */
+
+.tag-Prova {
+    background-color: #d32f2f;
+}
+
+
+/* Trabalho */
+
+.tag-Trabalho {
+    background-color: #fbc02d;
+
+    color: #000;
+}
+
+
+/* Evento */
+
+.tag-Evento {
+    background-color: #1976d2;
+}
+
+
+/* =========================
+   MODAIS
+   ========================= */
+
+.modal-overlay {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 2000;
+}
+
+
+.modal-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    width: 380px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+    border: 1px solid #ccc;
+}
+
+
+/* =========================
+   TEXTAREA DO MODAL
+   ========================= */
+
+.modal-card textarea {
+    width: 100%;
+
+    height: 90px;
+
+    border: 2px solid #2e7d32;
+
+    border-radius: 12px;
+
+    padding: 10px;
+
+    font-size: 16px;
+
+    outline: none;
+
+    resize: none;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================
+   RADIO BUTTONS
+   ========================= */
+
+.radio-options {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+
+    font-size: 18px;
+}
+
+.radio-options label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+
+/* Esconde o radio original */
+
+.radio-options input[type="radio"] {
+    display: none;
+}
+
+
+/* Bolinha */
+
+.dot {
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+
+    display: inline-block;
+
+    transition: all 0.2s ease-in-out;
+}
+
+
+/* =========================
+   CORES DOS RADIOS
+   ========================= */
+
+.dot-red {
+    border: 2px solid #d32f2f;
+    background-color: transparent;
+}
+
+.dot-yellow {
+    border: 2px solid #fbc02d;
+    background-color: transparent;
+}
+
+.dot-blue {
+    border: 2px solid #1976d2;
+    background-color: transparent;
+}
+
+
+/* Radio selecionado */
+
+.radio-options input[value="Prova"]:checked + .dot-red {
+    background-color: #d32f2f;
+}
+
+.radio-options input[value="Trabalho"]:checked + .dot-yellow {
+    background-color: #fbc02d;
+}
+
+.radio-options input[value="Evento"]:checked + .dot-blue {
+    background-color: #1976d2;
+}
+
+
+/* =========================
+   BOTÕES DOS MODAIS
+   ========================= */
+
+.btn-action {
+    background: #2e7d32;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 25px;
+
+    border-radius: 20px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    display: block;
+
+    margin: 0 auto;
+}
+
+
+.btn-cancel {
+    background: #d32f2f;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 25px;
+
+    border-radius: 20px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+
+.modal-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 15px;
+}
+
+
+/* =========================
+   MENSAGEM DE ERRO
+   ========================= */
+
+.alert-box {
+    display: none;
+
+    background-color: #ffebee;
+
+    color: #c62828;
+
+    border: 1px solid #ef9a9a;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    margin-bottom: 15px;
+
+    font-size: 14px;
+
+    text-align: center;
+}
+
+
+/* =========================
+   BOLINHAS SÓLIDAS
+   ========================= */
+
+.dot-red-solid {
+    background-color: #d32f2f;
+
+    border: 2px solid #d32f2f;
+}
+
+.dot-yellow-solid {
+    background-color: #fbc02d;
+
+    border: 2px solid #fbc02d;
+}
+
+.dot-blue-solid {
+    background-color: #1976d2;
+
+    border: 2px solid #1976d2;
+}

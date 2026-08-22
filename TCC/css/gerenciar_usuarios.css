@@ -1,0 +1,508 @@
+/* =====================================================
+   CONFIGURAÇÕES GERAIS
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f8faf9;
+    color: #333;
+}
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+.menu {
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 60px;
+
+    background-color: #d9f5e4;
+
+    border-bottom: 1px solid #c8e8d5;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #4a8f68;
+}
+
+.menu nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.menu nav a {
+    text-decoration: none;
+    color: #333;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+.menu nav a:hover {
+    color: #4a8f68;
+}
+
+
+/* =====================================================
+   CONTAINER PRINCIPAL
+===================================================== */
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+
+    margin: 45px auto;
+}
+
+
+/* =====================================================
+   ÁREA SUPERIOR DO GERENCIAMENTO
+   Centraliza título, texto, botão e pesquisa
+===================================================== */
+
+.container > h1,
+.container > .subtitulo,
+.container > .novo-usuario,
+.container > .pesquisa {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =====================================================
+   TÍTULO
+===================================================== */
+
+.container h1 {
+    color: #4a8f68;
+
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+
+/* =====================================================
+   SUBTÍTULO
+===================================================== */
+
+.subtitulo {
+    color: #777;
+
+    font-size: 14px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =====================================================
+   BOTÃO CADASTRAR
+===================================================== */
+
+.novo-usuario {
+    margin-bottom: 25px;
+}
+
+.novo-usuario a {
+    display: inline-block;
+
+    background-color: #7ac795;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 11px 18px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.novo-usuario a:hover {
+    background-color: #65b580;
+}
+
+
+/* =====================================================
+   PESQUISA
+===================================================== */
+
+.pesquisa {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+.pesquisa input {
+    width: 100%;
+    max-width: 400px;
+
+    padding: 11px 14px;
+
+    border: 1px solid #d7d7d7;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    background-color: white;
+}
+
+.pesquisa input:focus {
+    border-color: #7ac795;
+}
+
+.pesquisa button {
+    padding: 11px 18px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background-color: #4a8f68;
+
+    color: white;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.pesquisa button:hover {
+    background-color: #397653;
+}
+
+/* =====================================================
+   BOTÃO CADASTRAR
+===================================================== */
+
+.novo-usuario {
+    margin-bottom: 25px;
+}
+
+.novo-usuario a {
+    display: inline-block;
+
+    background-color: #7ac795 !important;
+
+    color: white !important;
+
+    text-decoration: none;
+
+    padding: 11px 18px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.novo-usuario a:hover {
+    background-color: #65b580 !important;
+}
+
+
+/* =====================================================
+   TABELA
+===================================================== */
+
+.tabela-container {
+    width: 100%;
+
+    overflow-x: auto;
+
+    background-color: white;
+
+    border: 1px solid #e2e2e2;
+
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 800px;
+}
+
+thead {
+    background-color: #d9f5e4;
+}
+
+th {
+    padding: 15px;
+
+    text-align: left;
+
+    color: #4a8f68;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+td {
+    padding: 14px 15px;
+
+    border-top: 1px solid #eeeeee;
+
+    font-size: 14px;
+
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background-color: #fafdfb;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status {
+    display: inline-block;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.status.ativo {
+    background-color: #dff3e5;
+
+    color: #27834b;
+}
+
+.status.bloqueado {
+    background-color: #fde2df;
+
+    color: #c0392b;
+}
+
+
+/* =====================================================
+   ÁREA DOS BOTÕES
+===================================================== */
+
+.acoes {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   EDITAR - AZUL
+===================================================== */
+
+.acoes a.editar {
+    display: inline-block;
+
+    background-color: #6c8cff !important;
+
+    color: white !important;
+
+    text-decoration: none;
+
+    padding: 8px 14px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.acoes a.editar:hover {
+    background-color: #5575df !important;
+}
+
+
+/* =====================================================
+   BLOQUEAR - VERMELHO
+===================================================== */
+
+.acoes a.bloquear {
+    display: inline-block;
+
+    background-color: #e74c3c !important;
+
+    color: white !important;
+
+    text-decoration: none;
+
+    padding: 8px 14px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.acoes a.bloquear:hover {
+    background-color: #c0392b !important;
+}
+
+
+/* =====================================================
+   ATIVAR - VERDE
+===================================================== */
+
+.acoes a.ativar {
+    display: inline-block;
+
+    background-color: #2ecc71 !important;
+
+    color: white !important;
+
+    text-decoration: none;
+
+    padding: 8px 14px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.acoes a.ativar:hover {
+    background-color: #27ae60 !important;
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .menu {
+        padding: 0 5%;
+    }
+
+    .menu nav {
+        gap: 15px;
+    }
+
+    .menu nav a {
+        font-size: 13px;
+    }
+
+    .container {
+        width: 94%;
+        margin-top: 35px;
+    }
+
+    .container > h1,
+    .container > .subtitulo,
+    .container > .novo-usuario,
+    .container > .pesquisa {
+        width: 100%;
+    }
+
+    .container h1 {
+        font-size: 25px;
+    }
+
+    .pesquisa {
+        flex-direction: column;
+    }
+
+    .pesquisa input {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .pesquisa button {
+        padding: 13px;
+    }
+}
+    .menu nav {
+        gap: 12px;
+    }
+
+    .container {
+        width: 95%;
+
+        margin-top: 30px;
+    }
+
+    .container h1 {
+        font-size: 23px;
+    }
+
+    .pesquisa {
+        flex-direction: column;
+    }
+
+    .pesquisa input {
+        max-width: 100%;
+    }
+
+    .pesquisa button {
+        width: fit-content;
+    }
+
+    .acoes {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .acoes a.editar,
+    .acoes a.bloquear,
+    .acoes a.ativar {
+        text-align: center;
+    }
