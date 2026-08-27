@@ -28,6 +28,31 @@ $busca = "%" . $pesquisa . "%";
 
 
 // =====================================================
+// FILTRO POR TIPO DE USUÁRIO
+// =====================================================
+
+$tipoFiltro = "";
+
+if (isset($_GET["tipo"])) {
+    $tipoFiltro = $_GET["tipo"];
+}
+
+
+// Só permite os tipos existentes no filtro
+$tiposPermitidos = [
+    "",
+    "administrador",
+    "coordenador",
+    "professor",
+    "representante"
+];
+
+if (!in_array($tipoFiltro, $tiposPermitidos, true)) {
+    $tipoFiltro = "";
+}
+
+
+// =====================================================
 // ADMINISTRADORES
 // =====================================================
 
@@ -129,7 +154,7 @@ $resultGestao = $stmt->get_result();
     <title>Gerenciamento de Usuários</title>
 
     <link rel="stylesheet"
-          href="gerenciar_usuarios.css">
+          href="../css/gerenciar_usuarios.css">
 
 </head>
 
@@ -140,44 +165,59 @@ $resultGestao = $stmt->get_result();
 <header class="menu">
 
     <div class="logo">
-        ETEC
+        <img src="../logo.png">
     </div>
 
 
     <nav>
-
-        <a href="#">
-            Home
-        </a>
-
-        <a href="#">
+        <a href="">Home</a>
+        <a href="#" class="has-submenu">
             Cursos
         </a>
-
-        <a href="#">
+        <a href="#" class="has-submenu">
             A Etec
         </a>
+        <a href="#" class="has-submenu">
+            Equipe Etec
+        </a>
+        <li>
+            <a
+                href="../selecionar_lab.html"
+                class="has-submenu">
+                Agendamento
+            </a>
+            <ul class="submenu">
+                <li>
+                    <a href="meus-agendamentos.php">
+                        Meus agendamentos
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <a href="#" class="has-submenu">Notícias</a>
+        <a href="">Empregos & Estágios</a>
+        <a href="">Parceiros</a>
+        <a href=""> TCC</a>
 
     </nav>
-
 </header>
-
 
 
 <main class="container">
 
+
+    <!-- =====================================================
+         TÍTULO
+    ====================================================== -->
 
     <h1>
         Gerenciamento de Usuários
     </h1>
 
 
-    <p class="subtitulo">
-
+    <p class="subtitulo" align="center">
         Gerencie os usuários cadastrados no sistema.
-
     </p>
-
 
 
     <!-- =====================================================
@@ -187,23 +227,22 @@ $resultGestao = $stmt->get_result();
     <div class="novo-usuario">
 
         <a href="cadastrar_usuario.php">
-
             + Cadastrar usuário
-
         </a>
 
     </div>
 
 
-
     <!-- =====================================================
-         PESQUISA
+         PESQUISA + FILTRO
     ====================================================== -->
 
     <form
         method="GET"
-        class="pesquisa">
+        class="pesquisa"
+    >
 
+        <!-- PESQUISA POR NOME OU E-MAIL -->
 
         <input
             type="text"
@@ -213,15 +252,72 @@ $resultGestao = $stmt->get_result();
         >
 
 
+        <!-- FILTRO POR TIPO -->
+
+        <select name="tipo">
+
+            <option value="">
+                Todos os tipos
+            </option>
+
+
+            <option
+                value="administrador"
+                <?php
+                echo ($tipoFiltro === "administrador")
+                    ? "selected"
+                    : "";
+                ?>
+            >
+                Administrador
+            </option>
+
+
+            <option
+                value="coordenador"
+                <?php
+                echo ($tipoFiltro === "coordenador")
+                    ? "selected"
+                    : "";
+                ?>
+            >
+                Coordenador
+            </option>
+
+
+            <option
+                value="professor"
+                <?php
+                echo ($tipoFiltro === "professor")
+                    ? "selected"
+                    : "";
+                ?>
+            >
+                Professor
+            </option>
+
+
+            <option
+                value="representante"
+                <?php
+                echo ($tipoFiltro === "representante")
+                    ? "selected"
+                    : "";
+                ?>
+            >
+                Representante
+            </option>
+
+        </select>
+
+
+        <!-- BOTÃO -->
+
         <button type="submit">
-
             Pesquisar
-
         </button>
 
-
     </form>
-
 
 
     <!-- =====================================================
@@ -230,9 +326,7 @@ $resultGestao = $stmt->get_result();
 
     <div class="tabela-container">
 
-
         <table>
-
 
             <thead>
 
@@ -267,7 +361,6 @@ $resultGestao = $stmt->get_result();
             </thead>
 
 
-
             <tbody>
 
 
@@ -275,498 +368,585 @@ $resultGestao = $stmt->get_result();
                  ADMINISTRADORES
             ================================================== -->
 
-            <?php while ($usuario = $resultAdministrador->fetch_assoc()): ?>
+            <?php
+            if (
+                $tipoFiltro === ""
+                ||
+                $tipoFiltro === "administrador"
+            ):
+            ?>
 
-                <tr>
+                <?php while ($usuario = $resultAdministrador->fetch_assoc()): ?>
 
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["nome"]);
-                        ?>
-                    </td>
-
-
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["email"]);
-                        ?>
-                    </td>
+                    <tr>
 
 
-                    <td>
-                        Administrador
-                    </td>
+                        <td>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["nome"]
+                            );
+                            ?>
+
+                        </td>
 
 
-                    <td>
-                        —
-                    </td>
+                        <td>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["email"]
+                            );
+                            ?>
+
+                        </td>
 
 
-                    <td>
-
-                        <?php if ($usuario["status"] == "Ativo"): ?>
-
-                            <span class="status ativo">
-                                Ativo
-                            </span>
-
-                        <?php else: ?>
-
-                            <span class="status bloqueado">
-                                Bloqueado
-                            </span>
-
-                        <?php endif; ?>
-
-                    </td>
+                        <td>
+                            Administrador
+                        </td>
 
 
-                    <td class="acoes">
+                        <td>
+                            —
+                        </td>
 
 
-                        <!-- EDITAR -->
+                        <td>
 
-                        <a
-                            href="editar_usuario.php?tipo=administrador&id=<?php echo $usuario["id_administrador"]; ?>"
-                            class="editar">
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
 
-                            Editar
+                                <span class="status ativo">
+                                    Ativo
+                                </span>
 
-                        </a>
+                            <?php else: ?>
+
+                                <span class="status bloqueado">
+                                    Bloqueado
+                                </span>
+
+                            <?php endif; ?>
+
+                        </td>
 
 
+                        <td class="acoes">
 
-                        <!-- BLOQUEAR / ATIVAR -->
 
-                        <?php if ($usuario["status"] == "Ativo"): ?>
-
-                            <a
-                                href="acoes_usuario.php?acao=bloquear&tipo=administrador&id=<?php echo $usuario["id_administrador"]; ?>"
-                                class="bloquear">
-
-                                Bloquear
-
-                            </a>
-
-                        <?php else: ?>
+                            <!-- EDITAR -->
 
                             <a
-                                href="acoes_usuario.php?acao=ativar&tipo=administrador&id=<?php echo $usuario["id_administrador"]; ?>"
-                                class="ativar">
-
-                                Ativar
-
+                                href="editar_usuario.php?tipo=administrador&id=<?php echo $usuario["id_administrador"]; ?>"
+                                class="editar"
+                            >
+                                Editar
                             </a>
 
-                        <?php endif; ?>
+
+                            <!-- BLOQUEAR / ATIVAR -->
+
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
+
+                                <a
+                                    href="acoes_usuario.php?acao=bloquear&tipo=administrador&id=<?php echo $usuario["id_administrador"]; ?>"
+                                    class="bloquear"
+                                >
+                                    Bloquear
+                                </a>
+
+                            <?php else: ?>
+
+                                <a
+                                    href="acoes_usuario.php?acao=ativar&tipo=administrador&id=<?php echo $usuario["id_administrador"]; ?>"
+                                    class="ativar"
+                                >
+                                    Ativar
+                                </a>
+
+                            <?php endif; ?>
 
 
-                    </td>
+                        </td>
 
-                </tr>
+                    </tr>
 
-            <?php endwhile; ?>
+                <?php endwhile; ?>
 
+            <?php endif; ?>
 
 
             <!-- =================================================
                  COORDENADORES
             ================================================== -->
 
-            <?php while ($usuario = $resultCoordenador->fetch_assoc()): ?>
+            <?php
+            if (
+                $tipoFiltro === ""
+                ||
+                $tipoFiltro === "coordenador"
+            ):
+            ?>
 
-                <tr>
+                <?php while ($usuario = $resultCoordenador->fetch_assoc()): ?>
 
-
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["nome"]);
-                        ?>
-                    </td>
-
-
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["email"]);
-                        ?>
-                    </td>
+                    <tr>
 
 
-                    <td>
-                        Coordenador
-                    </td>
+                        <td>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["nome"]
+                            );
+                            ?>
+
+                        </td>
 
 
-                    <td>
+                        <td>
 
-                        Curso:
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["email"]
+                            );
+                            ?>
 
-                        <?php
-                        echo htmlspecialchars($usuario["curso"]);
-                        ?>
-
-                    </td>
-
-
-                    <td>
-
-                        <?php if ($usuario["status"] == "Ativo"): ?>
-
-                            <span class="status ativo">
-                                Ativo
-                            </span>
-
-                        <?php else: ?>
-
-                            <span class="status bloqueado">
-                                Bloqueado
-                            </span>
-
-                        <?php endif; ?>
-
-                    </td>
+                        </td>
 
 
-                    <td class="acoes">
+                        <td>
+                            Coordenador
+                        </td>
 
 
-                        <a
-                            href="editar_usuario.php?tipo=coordenador&id=<?php echo $usuario["id_coordenador"]; ?>"
-                            class="editar">
+                        <td>
 
-                            Editar
+                            Curso:
 
-                        </a>
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["curso"]
+                            );
+                            ?>
+
+                        </td>
 
 
+                        <td>
 
-                        <?php if ($usuario["status"] == "Ativo"): ?>
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
+
+                                <span class="status ativo">
+                                    Ativo
+                                </span>
+
+                            <?php else: ?>
+
+                                <span class="status bloqueado">
+                                    Bloqueado
+                                </span>
+
+                            <?php endif; ?>
+
+                        </td>
+
+
+                        <td class="acoes">
+
 
                             <a
-                                href="acoes_usuario.php?acao=bloquear&tipo=coordenador&id=<?php echo $usuario["id_coordenador"]; ?>"
-                                class="bloquear">
-
-                                Bloquear
-
+                                href="editar_usuario.php?tipo=coordenador&id=<?php echo $usuario["id_coordenador"]; ?>"
+                                class="editar"
+                            >
+                                Editar
                             </a>
 
-                        <?php else: ?>
 
-                            <a
-                                href="acoes_usuario.php?acao=ativar&tipo=coordenador&id=<?php echo $usuario["id_coordenador"]; ?>"
-                                class="ativar">
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
 
-                                Ativar
+                                <a
+                                    href="acoes_usuario.php?acao=bloquear&tipo=coordenador&id=<?php echo $usuario["id_coordenador"]; ?>"
+                                    class="bloquear"
+                                >
+                                    Bloquear
+                                </a>
 
-                            </a>
+                            <?php else: ?>
 
-                        <?php endif; ?>
+                                <a
+                                    href="acoes_usuario.php?acao=ativar&tipo=coordenador&id=<?php echo $usuario["id_coordenador"]; ?>"
+                                    class="ativar"
+                                >
+                                    Ativar
+                                </a>
+
+                            <?php endif; ?>
 
 
-                    </td>
+                        </td>
 
-                </tr>
+                    </tr>
 
-            <?php endwhile; ?>
+                <?php endwhile; ?>
 
+            <?php endif; ?>
 
 
             <!-- =================================================
                  PROFESSORES
             ================================================== -->
 
-            <?php while ($usuario = $resultProfessor->fetch_assoc()): ?>
+            <?php
+            if (
+                $tipoFiltro === ""
+                ||
+                $tipoFiltro === "professor"
+            ):
+            ?>
 
-                <tr>
+                <?php while ($usuario = $resultProfessor->fetch_assoc()): ?>
 
-
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["nome"]);
-                        ?>
-                    </td>
-
-
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["email"]);
-                        ?>
-                    </td>
+                    <tr>
 
 
-                    <td>
-                        Professor
-                    </td>
+                        <td>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["nome"]
+                            );
+                            ?>
+
+                        </td>
 
 
-                    <td>
-                        —
-                    </td>
+                        <td>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["email"]
+                            );
+                            ?>
+
+                        </td>
 
 
-                    <td>
-
-                        <?php if ($usuario["status"] == "Ativo"): ?>
-
-                            <span class="status ativo">
-                                Ativo
-                            </span>
-
-                        <?php else: ?>
-
-                            <span class="status bloqueado">
-                                Bloqueado
-                            </span>
-
-                        <?php endif; ?>
-
-                    </td>
+                        <td>
+                            Professor
+                        </td>
 
 
-                    <td class="acoes">
+                        <td>
+                            —
+                        </td>
 
 
-                        <a
-                            href="editar_usuario.php?tipo=professor&id=<?php echo $usuario["id_professor"]; ?>"
-                            class="editar">
+                        <td>
 
-                            Editar
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
 
-                        </a>
+                                <span class="status ativo">
+                                    Ativo
+                                </span>
+
+                            <?php else: ?>
+
+                                <span class="status bloqueado">
+                                    Bloqueado
+                                </span>
+
+                            <?php endif; ?>
+
+                        </td>
 
 
+                        <td class="acoes">
 
-                        <?php if ($usuario["status"] == "Ativo"): ?>
 
                             <a
-                                href="acoes_usuario.php?acao=bloquear&tipo=professor&id=<?php echo $usuario["id_professor"]; ?>"
-                                class="bloquear">
-
-                                Bloquear
-
+                                href="editar_usuario.php?tipo=professor&id=<?php echo $usuario["id_professor"]; ?>"
+                                class="editar"
+                            >
+                                Editar
                             </a>
 
-                        <?php else: ?>
 
-                            <a
-                                href="acoes_usuario.php?acao=ativar&tipo=professor&id=<?php echo $usuario["id_professor"]; ?>"
-                                class="ativar">
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
 
-                                Ativar
+                                <a
+                                    href="acoes_usuario.php?acao=bloquear&tipo=professor&id=<?php echo $usuario["id_professor"]; ?>"
+                                    class="bloquear"
+                                >
+                                    Bloquear
+                                </a>
 
-                            </a>
+                            <?php else: ?>
 
-                        <?php endif; ?>
+                                <a
+                                    href="acoes_usuario.php?acao=ativar&tipo=professor&id=<?php echo $usuario["id_professor"]; ?>"
+                                    class="ativar"
+                                >
+                                    Ativar
+                                </a>
+
+                            <?php endif; ?>
 
 
-                    </td>
+                        </td>
 
-                </tr>
+                    </tr>
 
-            <?php endwhile; ?>
+                <?php endwhile; ?>
 
+            <?php endif; ?>
 
 
             <!-- =================================================
                  REPRESENTANTES
             ================================================== -->
 
-            <?php while ($usuario = $resultRepresentante->fetch_assoc()): ?>
+            <?php
+            if (
+                $tipoFiltro === ""
+                ||
+                $tipoFiltro === "representante"
+            ):
+            ?>
 
-                <tr>
+                <?php while ($usuario = $resultRepresentante->fetch_assoc()): ?>
 
-
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["nome"]);
-                        ?>
-                    </td>
-
-
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["email"]);
-                        ?>
-                    </td>
+                    <tr>
 
 
-                    <td>
-                        Representante
-                    </td>
+                        <td>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["nome"]
+                            );
+                            ?>
+
+                        </td>
 
 
-                    <td>
+                        <td>
 
-                        <?php
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["email"]
+                            );
+                            ?>
 
-                        echo htmlspecialchars(
-                            $usuario["serie"] .
-                            " - " .
-                            $usuario["curso"]
-                        );
-
-                        ?>
-
-                    </td>
+                        </td>
 
 
-                    <td>
-
-                        <?php if ($usuario["status"] == "Ativo"): ?>
-
-                            <span class="status ativo">
-                                Ativo
-                            </span>
-
-                        <?php else: ?>
-
-                            <span class="status bloqueado">
-                                Bloqueado
-                            </span>
-
-                        <?php endif; ?>
-
-                    </td>
+                        <td>
+                            Representante
+                        </td>
 
 
-                    <td class="acoes">
+                        <td>
+
+                            <?php
+
+                            echo htmlspecialchars(
+                                $usuario["serie"]
+                                . " - "
+                                . $usuario["curso"]
+                            );
+
+                            ?>
+
+                        </td>
 
 
-                        <a
-                            href="editar_usuario.php?tipo=representante&id=<?php echo $usuario["id_representante"]; ?>"
-                            class="editar">
+                        <td>
 
-                            Editar
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
 
-                        </a>
+                                <span class="status ativo">
+                                    Ativo
+                                </span>
+
+                            <?php else: ?>
+
+                                <span class="status bloqueado">
+                                    Bloqueado
+                                </span>
+
+                            <?php endif; ?>
+
+                        </td>
 
 
+                        <td class="acoes">
 
-                        <?php if ($usuario["status"] == "Ativo"): ?>
 
                             <a
-                                href="acoes_usuario.php?acao=bloquear&tipo=representante&id=<?php echo $usuario["id_representante"]; ?>"
-                                class="bloquear">
-
-                                Bloquear
-
+                                href="editar_usuario.php?tipo=representante&id=<?php echo $usuario["id_representante"]; ?>"
+                                class="editar"
+                            >
+                                Editar
                             </a>
 
-                        <?php else: ?>
 
-                            <a
-                                href="acoes_usuario.php?acao=ativar&tipo=representante&id=<?php echo $usuario["id_representante"]; ?>"
-                                class="ativar">
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
 
-                                Ativar
+                                <a
+                                    href="acoes_usuario.php?acao=bloquear&tipo=representante&id=<?php echo $usuario["id_representante"]; ?>"
+                                    class="bloquear"
+                                >
+                                    Bloquear
+                                </a>
 
-                            </a>
+                            <?php else: ?>
 
-                        <?php endif; ?>
+                                <a
+                                    href="acoes_usuario.php?acao=ativar&tipo=representante&id=<?php echo $usuario["id_representante"]; ?>"
+                                    class="ativar"
+                                >
+                                    Ativar
+                                </a>
+
+                            <?php endif; ?>
 
 
-                    </td>
+                        </td>
 
-                </tr>
+                    </tr>
 
-            <?php endwhile; ?>
+                <?php endwhile; ?>
 
+            <?php endif; ?>
 
 
             <!-- =================================================
                  GESTÃO
+                 
+                 Gestão NÃO possui opção no filtro.
+                 Ela aparece somente quando "Todos os tipos"
+                 estiver selecionado.
             ================================================== -->
 
-            <?php while ($usuario = $resultGestao->fetch_assoc()): ?>
+            <?php if ($tipoFiltro === ""): ?>
 
-                <tr>
+                <?php while ($usuario = $resultGestao->fetch_assoc()): ?>
 
-
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["nome"]);
-                        ?>
-                    </td>
+                    <tr>
 
 
-                    <td>
-                        <?php
-                        echo htmlspecialchars($usuario["email"]);
-                        ?>
-                    </td>
+                        <td>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["nome"]
+                            );
+                            ?>
+
+                        </td>
 
 
-                    <td>
-                        Gestão
-                    </td>
+                        <td>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $usuario["email"]
+                            );
+                            ?>
+
+                        </td>
 
 
-                    <td>
-                        —
-                    </td>
+                        <td>
+                            Gestão
+                        </td>
 
 
-                    <td>
-
-                        <?php if ($usuario["status"] == "Ativo"): ?>
-
-                            <span class="status ativo">
-                                Ativo
-                            </span>
-
-                        <?php else: ?>
-
-                            <span class="status bloqueado">
-                                Bloqueado
-                            </span>
-
-                        <?php endif; ?>
-
-                    </td>
+                        <td>
+                            —
+                        </td>
 
 
-                    <td class="acoes">
+                        <td>
+
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
+
+                                <span class="status ativo">
+                                    Ativo
+                                </span>
+
+                            <?php else: ?>
+
+                                <span class="status bloqueado">
+                                    Bloqueado
+                                </span>
+
+                            <?php endif; ?>
+
+                        </td>
 
 
-                        <a
-                            href="editar_usuario.php?tipo=gestao&id=<?php echo $usuario["id_gestao"]; ?>"
-                            class="editar">
+                        <td class="acoes">
 
-                            Editar
-
-                        </a>
-
-
-
-                        <?php if ($usuario["status"] == "Ativo"): ?>
 
                             <a
-                                href="acoes_usuario.php?acao=bloquear&tipo=gestao&id=<?php echo $usuario["id_gestao"]; ?>"
-                                class="bloquear">
-
-                                Bloquear
-
+                                href="editar_usuario.php?tipo=gestao&id=<?php echo $usuario["id_gestao"]; ?>"
+                                class="editar"
+                            >
+                                Editar
                             </a>
 
-                        <?php else: ?>
 
-                            <a
-                                href="acoes_usuario.php?acao=ativar&tipo=gestao&id=<?php echo $usuario["id_gestao"]; ?>"
-                                class="ativar">
+                            <?php
+                            if ($usuario["status"] == "Ativo"):
+                            ?>
 
-                                Ativar
+                                <a
+                                    href="acoes_usuario.php?acao=bloquear&tipo=gestao&id=<?php echo $usuario["id_gestao"]; ?>"
+                                    class="bloquear"
+                                >
+                                    Bloquear
+                                </a>
 
-                            </a>
+                            <?php else: ?>
 
-                        <?php endif; ?>
+                                <a
+                                    href="acoes_usuario.php?acao=ativar&tipo=gestao&id=<?php echo $usuario["id_gestao"]; ?>"
+                                    class="ativar"
+                                >
+                                    Ativar
+                                </a>
+
+                            <?php endif; ?>
 
 
-                    </td>
+                        </td>
 
-                </tr>
+                    </tr>
 
-            <?php endwhile; ?>
+                <?php endwhile; ?>
+
+            <?php endif; ?>
 
 
             </tbody>

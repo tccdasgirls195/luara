@@ -44,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = trim($_POST["nome"]);
     $email = trim($_POST["email"]);
     $senhaUsuario = trim($_POST["senha"]);
-    $senhaHash = password_hash($senhaUsuario, PASSWORD_DEFAULT); // inclui o $senhaHash
     $tipo = $_POST["tipo"];
 
 
@@ -66,8 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "sss",
                 $nome,
                 $email,
-                $nome,
-                $senhaHash // inclui o $senhaHash
+                $senhaUsuario
             );
 
             if ($stmt->execute()) {
@@ -111,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "ssssi",
                 $nome,
                 $email,
-                $senhaHash, // inclui o $senhaHash
+                $senhaUsuario,
                 $curso,
                 $idAdministrador
             );
@@ -157,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "sssii",
                 $nome,
                 $email,
-                $senhaHash, // inclui o $senhaHash
+                $senhaUsuario,
                 $idCoordenador,
                 $idAdministrador
             );
@@ -203,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "sssi",
                 $nome,
                 $email,
-                $senhaHash, // inclui o $senhaHash
+                $senhaUsuario,
                 $idTurma
             );
 
@@ -246,7 +244,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "sssi",
                 $nome,
                 $email,
-                $senhaHash, // inclui o $senhaHash
+                $senhaUsuario,
                 $idAdministrador
             );
 
@@ -318,7 +316,7 @@ $turmas = $conn->query(
     <title>Cadastrar Usuário</title>
 
     <link rel="stylesheet"
-          href="cadastrar_usuario.css">
+          href="../css/cadastrar_usuario.css">
 
 </head>
 
@@ -329,26 +327,41 @@ $turmas = $conn->query(
 <header class="menu">
 
     <div class="logo">
-        ETEC
+        <img src="../logo.png">
     </div>
 
 
     <nav>
-
-        <a href="#">
-            Home
-        </a>
-
-        <a href="#">
+        <a href="">Home</a>
+        <a href="#" class="has-submenu">
             Cursos
         </a>
-
-        <a href="#">
+        <a href="#" class="has-submenu">
             A Etec
         </a>
+        <a href="#" class="has-submenu">
+            Equipe Etec
+        </a>
+        <li>
+            <a
+                href="../selecionar_lab.html"
+                class="has-submenu">
+                Agendamento
+            </a>
+            <ul class="submenu">
+                <li>
+                    <a href="meus-agendamentos.php">
+                        Meus agendamentos
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <a href="#" class="has-submenu">Notícias</a>
+        <a href="">Empregos & Estágios</a>
+        <a href="">Parceiros</a>
+        <a href=""> TCC</a>
 
     </nav>
-
 </header>
 
 

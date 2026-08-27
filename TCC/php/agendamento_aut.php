@@ -329,7 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar_agendamento'])
 
                 if (mysqli_stmt_execute($stmtInsert)) {
 
-    header("Location: agendamento_adm.php?sucesso=1");
+    header("Location: agendamento_aut.php?sucesso=1");
     exit();
 
 }
@@ -473,7 +473,7 @@ if (
 
 
 <section class="titulo">
-    <h1>Agendamento - Laboratórios ADM</h1>
+    <h1>Agendamento - Laboratórios AUT</h1>
 
 </section>
 
@@ -482,7 +482,7 @@ if (
 ====================================================== -->
 
 <form
-    action="agendamento_adm.php"
+    action="agendamento_aut.php"
     method="POST"
     style="display:inline;">
 
@@ -591,16 +591,16 @@ if (
         <div class="mapa">
 
             <div
-                class="lab <?= in_array(6,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(6,$ocupados) ? '' : 'selecionarLab(6)' ?>">
+                class="lab <?= in_array(8,$ocupados) ? 'ocupado' : '' ?>"
+                onclick="<?= in_array(8,$ocupados) ? '' : 'selecionarLab(8)' ?>">
                 LAB 1
             </div>
 
             <div class="vazio"></div>
 
             <div
-                class="lab <?= in_array(7,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(7,$ocupados) ? '' : 'selecionarLab(7)' ?>">
+                class="lab <?= in_array(9,$ocupados) ? 'ocupado' : '' ?>"
+                onclick="<?= in_array(9,$ocupados) ? '' : 'selecionarLab(9)' ?>">
                 LAB 2
             </div>
 
@@ -626,7 +626,7 @@ if (
             </h2>
 
             <form
-                action="agendamento_adm.php"
+                action="agendamento_aut.php"
                 method="POST">
 
                 <!-- LABORATÓRIO -->
@@ -725,7 +725,7 @@ document.addEventListener(
                 sessionStorage.setItem("horario",horario.value);
 
 
-                window.location.href ="agendamento_adm.php?data=" +encodeURIComponent(data.value) +"&horario=" + encodeURIComponent(horario.value);
+                window.location.href ="agendamento_aut.php?data=" +encodeURIComponent(data.value) +"&horario=" + encodeURIComponent(horario.value);
             }
         }
 

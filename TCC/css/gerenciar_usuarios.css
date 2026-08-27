@@ -1,508 +1,572 @@
-/* =====================================================
-   CONFIGURAÇÕES GERAIS
-===================================================== */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f8faf9;
-    color: #333;
+body{
+    background:white;
+    overflow-x:hidden;
+}
+
+
+/* =====================================================
+   CABEÇALHO
+   ===================================================== */
+
+header{
+    width:100%;
+    height:137px;
+    background:#fff;
+
+    display:flex;
+    align-items:center;
+
+    border-bottom:1px solid #ddd;
+    padding:0;
+}
+
+
+/* =====================================================
+   LOGO
+   ===================================================== */
+
+.logo{
+    width:360px;
+    height:137px;
+
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+
+    padding-right:65px;
+}
+
+.logo img{
+    width:auto;
+    height:95px;
+    object-fit:contain;
 }
 
 
 /* =====================================================
    MENU
-===================================================== */
+   ===================================================== */
 
-.menu {
-    width: 100%;
-    height: 70px;
+nav{
+    height:100%;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display:flex;
+    align-items:center;
 
-    padding: 0 60px;
-
-    background-color: #d9f5e4;
-
-    border-bottom: 1px solid #c8e8d5;
+    gap:0;
+    margin-left:45px;
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: bold;
-    color: #4a8f68;
-}
+nav a{
+    height:42px;
 
-.menu nav {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
+    display:flex;
+    align-items:center;
 
-.menu nav a {
-    text-decoration: none;
-    color: #333;
+    padding:0 20px;
 
-    font-size: 15px;
+    text-decoration:none;
+    color:#333;
 
-    transition: 0.2s;
-}
+    font-size:18px;
+    font-weight:bold;
 
-.menu nav a:hover {
-    color: #4a8f68;
+    white-space:nowrap;
 }
 
 
-/* =====================================================
-   CONTAINER PRINCIPAL
-===================================================== */
+/* SETINHA DOS MENUS */
 
-.container {
-    width: 90%;
-    max-width: 1200px;
+nav a.has-submenu::after{
+    content:"";
 
-    margin: 45px auto;
+    width:5px;
+    height:5px;
+
+    border-right:1px solid #333;
+    border-bottom:1px solid #333;
+
+    transform:rotate(45deg);
+
+    margin-left:8px;
+    margin-top:-3px;
 }
 
 
-/* =====================================================
-   ÁREA SUPERIOR DO GERENCIAMENTO
-   Centraliza título, texto, botão e pesquisa
-===================================================== */
+/* HOVER */
 
-.container > h1,
-.container > .subtitulo,
-.container > .novo-usuario,
-.container > .pesquisa {
-    width: 75%;
-    margin-left: auto;
-    margin-right: auto;
+nav a:hover{
+    background:#dff5e6;
+    color:#176b31;
 }
 
 
 /* =====================================================
-   TÍTULO
-===================================================== */
+   SUBMENU
+   ===================================================== */
 
-.container h1 {
-    color: #4a8f68;
+nav ul,
+nav li{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
 
-    font-size: 28px;
+nav li{
+    position:relative;
+}
 
-    margin-bottom: 8px;
+nav li ul{
+    position:absolute;
+
+    top:42px;
+    left:0;
+
+    width:220px;
+
+    background:white;
+
+    display:none;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+
+    z-index:1000;
+}
+
+nav li:hover > ul{
+    display:block;
+}
+
+nav li ul li{
+    width:100%;
+}
+
+nav li ul li a{
+    width:100%;
+    height:41px;
+
+    padding:0 20px;
+
+    display:flex;
+    align-items:center;
+
+    font-size:16px;
+    color:#333;
+
+    background:white;
+}
+
+nav li ul li a:hover{
+    background:#dff5e6;
+    color:#176b31;
 }
 
 
 /* =====================================================
-   SUBTÍTULO
-===================================================== */
+   FAIXA VERDE / TÍTULO
+   ===================================================== */
 
-.subtitulo {
-    color: #777;
+.titulo{
+    width:100%;
+    height:115px;
 
-    font-size: 14px;
+    background:#5dcc7b;
 
-    margin-bottom: 25px;
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:0;
+}
+
+.titulo h1{
+    margin:0;
+    padding:0;
+
+    font-weight:normal;
+    font-size:32px;
 }
 
 
 /* =====================================================
-   BOTÃO CADASTRAR
-===================================================== */
+   BOTÃO SAIR
+   ===================================================== */
 
-.novo-usuario {
-    margin-bottom: 25px;
+.area-sair{
+    width:90%;
+
+    margin:20px auto 0;
+
+    display:flex;
+    justify-content:flex-end;
 }
 
-.novo-usuario a {
-    display: inline-block;
-
-    background-color: #7ac795;
-
-    color: white;
-
-    text-decoration: none;
-
-    padding: 11px 18px;
-
-    border-radius: 7px;
-
-    font-size: 14px;
-
-    transition: 0.2s;
+.area-sair form{
+    margin:0;
 }
 
-.novo-usuario a:hover {
-    background-color: #65b580;
+.area-sair button{
+    background:none;
+    border:none;
+
+    color:#ff4d4d;
+
+    cursor:pointer;
+
+    font:inherit;
+    font-size:18px;
+
+    display:flex;
+    align-items:center;
+
+    gap:7px;
 }
 
+.area-sair button:hover{
+    color:#d92b2b;
+}
 
-/* =====================================================
+/* =========================
+   CONTEÚDO
+========================= */
+
+.container{
+    width:calc(100% - 106px);
+    max-width:1500px;
+    margin:42px auto 50px;
+}
+
+.container h1{
+    width:100vw;
+    margin-left:calc(50% - 50vw);
+    margin-bottom:30px;
+    padding:35px 20px;
+    background:#72c67c;
+    color:#fff;
+    text-align:center;
+    font-size:38px;
+    font-weight:normal;
+}
+
+.subtitulo{
+    margin:0 0 32px;
+    color:#333;
+    font-size:18px;
+}
+
+/* =========================
+   CADASTRAR
+========================= */
+
+.novo-usuario{
+    margin-bottom:22px;
+}
+
+.novo-usuario a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 22px;
+    background:#72c67c;
+    color:#fff;
+    text-decoration:none;
+    border:2px solid #72c67c;
+    border-radius:25px;
+    font-size:17px;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.novo-usuario a:hover{
+    background:#5aaa65;
+    border-color:#5aaa65;
+}
+
+/* =========================
    PESQUISA
-===================================================== */
+========================= */
 
-.pesquisa {
-    display: flex;
-
-    gap: 10px;
-
-    margin-bottom: 25px;
+.pesquisa{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:30px;
 }
 
-.pesquisa input {
-    width: 100%;
-    max-width: 400px;
-
-    padding: 11px 14px;
-
-    border: 1px solid #d7d7d7;
-
-    border-radius: 7px;
-
-    outline: none;
-
-    font-size: 14px;
-
-    background-color: white;
+.pesquisa input{
+    width:420px;
+    height:48px;
+    padding:0 18px;
+    border:2px solid #d3d3d3;
+    border-radius:25px;
+    outline:none;
+    background:#fff;
+    color:#333;
+    font-size:16px;
 }
 
-.pesquisa input:focus {
-    border-color: #7ac795;
+.pesquisa input:focus{
+    border-color:#72c67c;
 }
 
-.pesquisa button {
-    padding: 11px 18px;
-
-    border: none;
-
-    border-radius: 7px;
-
-    background-color: #4a8f68;
-
-    color: white;
-
-    font-size: 14px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+.pesquisa button{
+    height:48px;
+    padding:0 25px;
+    border:2px solid #72c67c;
+    border-radius:25px;
+    background:#72c67c;
+    color:#fff;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
 }
 
-.pesquisa button:hover {
-    background-color: #397653;
+.pesquisa button:hover{
+    background:#5aaa65;
+    border-color:#5aaa65;
 }
 
-/* =====================================================
-   BOTÃO CADASTRAR
-===================================================== */
-
-.novo-usuario {
-    margin-bottom: 25px;
-}
-
-.novo-usuario a {
-    display: inline-block;
-
-    background-color: #7ac795 !important;
-
-    color: white !important;
-
-    text-decoration: none;
-
-    padding: 11px 18px;
-
-    border-radius: 7px;
-
-    font-size: 14px;
-
-    transition: 0.2s;
-}
-
-.novo-usuario a:hover {
-    background-color: #65b580 !important;
-}
-
-
-/* =====================================================
+/* =========================
    TABELA
-===================================================== */
+========================= */
 
-.tabela-container {
-    width: 100%;
-
-    overflow-x: auto;
-
-    background-color: white;
-
-    border: 1px solid #e2e2e2;
-
-    border-radius: 10px;
+.tabela-container{
+    width:100%;
+    overflow-x:auto;
+    border:2px solid #ddd;
+    border-radius:14px;
+    background:#fff;
 }
 
-table {
-    width: 100%;
-
-    border-collapse: collapse;
-
-    min-width: 800px;
+table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    min-width:900px;
 }
 
-thead {
-    background-color: #d9f5e4;
+thead th{
+    padding:17px 22px;
+    background:#72c67c;
+    color:#fff;
+    text-align:left;
+    font-size:17px;
+    font-weight:bold;
 }
 
-th {
-    padding: 15px;
-
-    text-align: left;
-
-    color: #4a8f68;
-
-    font-size: 14px;
-
-    font-weight: bold;
+tbody td{
+    padding:17px 22px;
+    border-top:1px solid #e5e5e5;
+    color:#333;
+    font-size:16px;
+    vertical-align:middle;
 }
 
-td {
-    padding: 14px 15px;
-
-    border-top: 1px solid #eeeeee;
-
-    font-size: 14px;
-
-    vertical-align: middle;
+tbody tr:hover{
+    background:#f8fcf8;
 }
 
-tbody tr:hover {
-    background-color: #fafdfb;
-}
-
-
-/* =====================================================
+/* =========================
    STATUS
-===================================================== */
+========================= */
 
-.status {
-    display: inline-block;
-
-    padding: 6px 12px;
-
-    border-radius: 20px;
-
-    font-size: 12px;
-
-    font-weight: bold;
+.status{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:68px;
+    padding:7px 14px;
+    border-radius:20px;
+    font-size:14px;
+    font-weight:bold;
 }
 
-.status.ativo {
-    background-color: #dff3e5;
-
-    color: #27834b;
+.status.ativo{
+    background:#dff1e3;
+    color:#3d9655;
 }
 
-.status.bloqueado {
-    background-color: #fde2df;
-
-    color: #c0392b;
+.status.bloqueado{
+    background:#fde0e0;
+    color:#c62828;
 }
 
+/* =========================
+   AÇÕES
+========================= */
 
-/* =====================================================
-   ÁREA DOS BOTÕES
-===================================================== */
-
-.acoes {
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    white-space: nowrap;
+.acoes{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    white-space:nowrap;
 }
 
-
-/* =====================================================
-   EDITAR - AZUL
-===================================================== */
-
-.acoes a.editar {
-    display: inline-block;
-
-    background-color: #6c8cff !important;
-
-    color: white !important;
-
-    text-decoration: none;
-
-    padding: 8px 14px;
-
-    border-radius: 6px;
-
-    font-size: 13px;
-
-    border: none;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+.acoes a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:9px 16px;
+    border-radius:22px;
+    text-decoration:none;
+    color:#fff !important;
+    font-size:15px;
+    font-weight:bold;
 }
 
-.acoes a.editar:hover {
-    background-color: #5575df !important;
+/* EDITAR */
+
+.acoes a.editar{
+    background:#72c67c !important;
+    border:2px solid #72c67c;
 }
 
-
-/* =====================================================
-   BLOQUEAR - VERMELHO
-===================================================== */
-
-.acoes a.bloquear {
-    display: inline-block;
-
-    background-color: #e74c3c !important;
-
-    color: white !important;
-
-    text-decoration: none;
-
-    padding: 8px 14px;
-
-    border-radius: 6px;
-
-    font-size: 13px;
-
-    border: none;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+.acoes a.editar:hover{
+    background:#5aaa65 !important;
 }
 
-.acoes a.bloquear:hover {
-    background-color: #c0392b !important;
+/* BLOQUEAR */
+
+.acoes a.bloquear{
+    background:#e52b2b !important;
+    border:2px solid #e52b2b;
 }
 
-
-/* =====================================================
-   ATIVAR - VERDE
-===================================================== */
-
-.acoes a.ativar {
-    display: inline-block;
-
-    background-color: #2ecc71 !important;
-
-    color: white !important;
-
-    text-decoration: none;
-
-    padding: 8px 14px;
-
-    border-radius: 6px;
-
-    font-size: 13px;
-
-    border: none;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+.acoes a.bloquear:hover{
+    background:#c91f1f !important;
 }
 
-.acoes a.ativar:hover {
-    background-color: #27ae60 !important;
+/* ATIVAR */
+
+.acoes a.ativar{
+    background:#72c67c !important;
+    border:2px solid #72c67c;
 }
 
+.acoes a.ativar:hover{
+    background:#5aaa65 !important;
+}
 
-/* =====================================================
-   RESPONSIVIDADE
-===================================================== */
+/* =========================
+   RESPONSIVO
+========================= */
 
-@media (max-width: 700px) {
+@media(max-width:900px){
 
-    .menu {
-        padding: 0 5%;
+    .menu{
+        padding:0 25px;
     }
 
-    .menu nav {
-        gap: 15px;
+    .menu nav{
+        gap:22px;
     }
 
-    .menu nav a {
-        font-size: 13px;
+    .menu nav a{
+        font-size:17px;
     }
 
-    .container {
-        width: 94%;
-        margin-top: 35px;
+    .container{
+        width:calc(100% - 40px);
     }
 
-    .container > h1,
-    .container > .subtitulo,
-    .container > .novo-usuario,
-    .container > .pesquisa {
-        width: 100%;
+    .container h1{
+        font-size:34px;
     }
 
-    .container h1 {
-        font-size: 25px;
-    }
-
-    .pesquisa {
-        flex-direction: column;
-    }
-
-    .pesquisa input {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .pesquisa button {
-        padding: 13px;
+    .pesquisa input{
+        width:100%;
+        max-width:420px;
     }
 }
-    .menu nav {
-        gap: 12px;
+
+@media(max-width:650px){
+
+    .menu{
+        height:auto;
+        min-height:90px;
+        padding:12px 20px;
     }
 
-    .container {
-        width: 95%;
-
-        margin-top: 30px;
+    .logo{
+        width:120px;
+        height:65px;
     }
 
-    .container h1 {
-        font-size: 23px;
+    .logo img{
+        width:105px;
     }
 
-    .pesquisa {
-        flex-direction: column;
+    .menu nav{
+        gap:12px;
     }
 
-    .pesquisa input {
-        max-width: 100%;
+    .menu nav a{
+        font-size:15px;
     }
 
-    .pesquisa button {
-        width: fit-content;
+    .container{
+        width:calc(100% - 30px);
     }
 
-    .acoes {
-        flex-direction: column;
-
-        align-items: stretch;
+    .container h1{
+        font-size:28px;
     }
 
-    .acoes a.editar,
-    .acoes a.bloquear,
-    .acoes a.ativar {
-        text-align: center;
+    .pesquisa{
+        flex-direction:column;
+        align-items:stretch;
     }
+
+    .pesquisa input{
+        width:100%;
+        max-width:none;
+    }
+
+    .pesquisa button{
+        width:max-content;
+    }
+
+    /* =========================
+    FILTRO POR TIPO
+    ========================= */
+
+    .pesquisa select{
+        width:210px;
+        height:48px;
+        padding:0 18px;
+
+        border:2px solid #d3d3d3;
+        border-radius:25px;
+
+        outline:none;
+
+        background:#fff;
+        color:#333;
+
+        font-size:16px;
+        cursor:pointer;
+
+        transition:.2s;
+    }
+
+    .pesquisa select:hover{
+        border-color:#72c67c;
+    }
+
+    .pesquisa select:focus{
+        border-color:#72c67c;
+        box-shadow:0 0 0 3px rgba(114,198,124,.12);
+    }
+}

@@ -1,0 +1,455 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:white;
+    overflow-x:hidden;
+}
+
+
+/* =====================================================
+   CABEÇALHO
+   ===================================================== */
+
+header{
+    width:100%;
+    height:137px;
+    background:#fff;
+
+    display:flex;
+    align-items:center;
+
+    border-bottom:1px solid #ddd;
+    padding:0;
+}
+
+
+/* =====================================================
+   LOGO
+   ===================================================== */
+
+.logo{
+    width:360px;
+    height:137px;
+
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+
+    padding-right:65px;
+}
+
+.logo img{
+    width:auto;
+    height:95px;
+    object-fit:contain;
+}
+
+
+/* =====================================================
+   MENU
+   ===================================================== */
+
+nav{
+    height:100%;
+
+    display:flex;
+    align-items:center;
+
+    gap:0;
+    margin-left:45px;
+}
+
+nav a{
+    height:42px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 20px;
+
+    text-decoration:none;
+    color:#333;
+
+    font-size:18px;
+    font-weight:bold;
+
+    white-space:nowrap;
+}
+
+
+/* SETINHA DOS MENUS */
+
+nav a.has-submenu::after{
+    content:"";
+
+    width:5px;
+    height:5px;
+
+    border-right:1px solid #333;
+    border-bottom:1px solid #333;
+
+    transform:rotate(45deg);
+
+    margin-left:8px;
+    margin-top:-3px;
+}
+
+
+/* HOVER */
+
+nav a:hover{
+    background:#dff5e6;
+    color:#176b31;
+}
+
+
+/* =====================================================
+   SUBMENU
+   ===================================================== */
+
+nav ul,
+nav li{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+nav li{
+    position:relative;
+}
+
+nav li ul{
+    position:absolute;
+
+    top:42px;
+    left:0;
+
+    width:220px;
+
+    background:white;
+
+    display:none;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+
+    z-index:1000;
+}
+
+nav li:hover > ul{
+    display:block;
+}
+
+nav li ul li{
+    width:100%;
+}
+
+nav li ul li a{
+    width:100%;
+    height:41px;
+
+    padding:0 20px;
+
+    display:flex;
+    align-items:center;
+
+    font-size:16px;
+    color:#333;
+
+    background:white;
+}
+
+nav li ul li a:hover{
+    background:#dff5e6;
+    color:#176b31;
+}
+
+ /* SUBMENU */
+
+ nav li{
+    position:relative;
+}
+
+nav li ul{
+    top:100%;
+    left:0;
+
+    width:200px;
+}
+
+
+/* -------------------------
+   TÍTULO
+   ------------------------- */
+
+.titulo{
+    height:100px;
+
+    padding:15px;
+}
+
+.titulo h1{
+    font-size:25px;
+}
+
+
+
+/* =====================================================
+   FAIXA VERDE / TÍTULO
+   ===================================================== */
+
+.titulo{
+    width:100%;
+    height:115px;
+
+    background:#5dcc7b;
+
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:0;
+}
+
+.titulo h1{
+    margin:0;
+    padding:0;
+
+    font-weight:normal;
+    font-size:32px;
+}
+
+
+
+
+/* =====================================================
+   LISTA
+===================================================== */
+
+.lista-agendamentos {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card-agendamento {
+
+    background: white;
+
+    border: 1px solid #222;
+    border-radius: 15px;
+
+    min-height: 95px;
+
+    padding: 12px 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    transition: 0.2s;
+}
+
+.card-agendamento:hover {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+
+
+/* =====================================================
+   INFORMAÇÕES
+===================================================== */
+
+.informacoes h2 {
+    font-size: 20px;
+    font-weight: 500;
+
+    margin-bottom: 5px;
+}
+
+.data-horario {
+    color: #555;
+
+    font-size: 18px;
+
+    margin-bottom: 6px;
+}
+
+.data-horario i {
+    margin-right: 5px;
+}
+
+.descricao {
+    color: #555;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status {
+
+    min-width: 140px;
+
+    padding: 10px 18px;
+
+    border-radius: 25px;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    font-size: 15px;
+}
+
+.status i {
+    margin-right: 5px;
+}
+
+
+/* APROVADA */
+
+.status.aprovada {
+    background: #218838;
+    color: white;
+}
+
+
+/* RECUSADA */
+
+.status.recusada {
+    background: #dc0000;
+    color: white;
+}
+
+
+/* PENDENTE */
+
+.status.pendente {
+    background: #f0ad00;
+    color: white;
+}
+
+
+/* =====================================================
+   SEM AGENDAMENTOS
+===================================================== */
+
+.sem-agendamentos {
+
+    background: white;
+
+    border: 1px solid #ddd;
+
+    border-radius: 15px;
+
+    padding: 50px 20px;
+
+    text-align: center;
+}
+
+.sem-agendamentos i {
+
+    font-size: 50px;
+
+    color: #999;
+
+    margin-bottom: 15px;
+}
+
+.sem-agendamentos h2 {
+    margin-bottom: 8px;
+}
+
+.sem-agendamentos p {
+    color: #777;
+
+    margin-bottom: 20px;
+}
+
+.sem-agendamentos a {
+
+    display: inline-block;
+
+    background: #218838;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 11px 20px;
+
+    border-radius: 8px;
+}
+
+.sem-agendamentos a:hover {
+    background: #176c2c;
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media (max-width: 700px) {
+
+    header {
+        padding: 10px 15px;
+
+        flex-direction: column;
+    }
+
+    nav {
+        margin: 15px 0 0;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 12px;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    .card-agendamento {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .status {
+        width: 100%;
+    }
+
+    .informacoes h2 {
+        font-size: 17px;
+    }
+
+    .data-horario {
+        font-size: 16px;
+    }
+
+}
