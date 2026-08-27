@@ -168,33 +168,6 @@ nav li ul li a:hover{
     color:#176b31;
 }
 
- /* SUBMENU */
-
- nav li{
-    position:relative;
-}
-
-nav li ul{
-    top:100%;
-    left:0;
-
-    width:200px;
-}
-
-
-/* -------------------------
-   TÍTULO
-   ------------------------- */
-
-.titulo{
-    height:100px;
-
-    padding:15px;
-}
-
-.titulo h1{
-    font-size:25px;
-}
 
 
 
