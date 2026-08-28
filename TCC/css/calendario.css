@@ -564,18 +564,39 @@ nav li ul li a:hover {
 }
 
 
+/* Garante que o card seja a referência de posicionamento do botão */
 .modal-card {
+    position: relative;
     background: white;
-
     padding: 25px;
-
     border-radius: 12px;
-
     width: 380px;
-
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-
     border: 1px solid #ccc;
+}
+
+/* Botão redondo vermelho com "X" no canto superior direito */
+.btn-close-corner {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-close-corner:hover {
+    background-color: #b71c1c;
+    transform: scale(1.08);
 }
 
 
@@ -695,38 +716,24 @@ nav li ul li a:hover {
 
 .btn-action {
     background: #2e7d32;
-
     color: white;
-
     border: none;
-
     padding: 10px 25px;
-
     border-radius: 20px;
-
     font-size: 16px;
-
     cursor: pointer;
-
     display: block;
-
     margin: 0 auto;
 }
 
 
 .btn-cancel {
     background: #d32f2f;
-
     color: white;
-
     border: none;
-
     padding: 10px 25px;
-
     border-radius: 20px;
-
     font-size: 16px;
-
     cursor: pointer;
 }
 
@@ -748,21 +755,13 @@ nav li ul li a:hover {
 
 .alert-box {
     display: none;
-
     background-color: #ffebee;
-
     color: #c62828;
-
     border: 1px solid #ef9a9a;
-
     padding: 10px;
-
     border-radius: 8px;
-
     margin-bottom: 15px;
-
     font-size: 14px;
-
     text-align: center;
 }
 
@@ -787,4 +786,126 @@ nav li ul li a:hover {
     background-color: #1976d2;
 
     border: 2px solid #1976d2;
+}
+
+/* =========================
+   NAVEGAÇÃO ENTRE MESES
+   ========================= */
+
+.calendar-month-nav {
+    max-width: 1000px;
+    margin: 25px auto 10px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.calendar-month-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #2e7d32;
+    margin: 0;
+}
+
+.nav-month-btn {
+    background: #e8f5e9;
+    color: #2e7d32;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.nav-month-btn:hover {
+    background: #2e7d32;
+    color: white;
+}
+
+/* Células vazias que alinham os dias da semana */
+.calendar-day.empty-day {
+    background: #fafafa;
+    cursor: default;
+}
+
+.calendar-day.empty-day:hover {
+    background: #fafafa;
+}
+
+.fa-solid fa-circle-exclamation{
+    font-size: 40px; 
+    background-color: #d32f2f;
+    margin-bottom: 15px;
+}
+
+/* =========================
+   ESTILOS ADICIONAIS DO PHP
+   ========================= */
+
+.form-logout {
+    display: inline;
+}
+
+.btn-logout {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.modal-card-centered {
+    text-align: center;
+}
+
+.txt-confirmacao {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.ver-evento-box {
+    border: 2px solid #2e7d32;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.ver-nome {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.ver-data {
+    color: #555;
+}
+
+.ver-tipo-container {
+    margin-bottom: 20px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ver-actions {
+    margin-top: 15px;
+}
+
+.btn-edit {
+    background-color: #2e7d32;
+}
+
+.btn-delete {
+    background-color: #d32f2f;
+    color: white;
+}
+
+.form-inline {
+    display: inline;
 }
