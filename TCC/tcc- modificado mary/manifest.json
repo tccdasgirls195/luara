@@ -1,0 +1,16 @@
+{
+    "name": "GAE - Sistema de Gerenciamento de Ambientes e Eventos",
+    "short_name": "Sistema GAE",
+    "start_url": "/TCC/php/login.php",
+    "display": "standalone",
+    "theme_color": "#d9f5e4",
+    "background_color": "#ffffff",
+
+    "icons": [
+        {
+            "src": "gaelogo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        } 
+    ]
+} 

@@ -1,0 +1,500 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:white;
+    overflow-x:hidden;
+}
+
+
+/* =====================================================
+   CABEÇALHO
+   ===================================================== */
+
+header{
+    width:100%;
+    height:137px;
+    background:#fff;
+
+    display:flex;
+    align-items:center;
+
+    border-bottom:1px solid #ddd;
+    padding:0;
+}
+
+
+/* =====================================================
+   LOGO
+   ===================================================== */
+
+.logo{
+    width:360px;
+    height:137px;
+
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+
+    padding-right:65px;
+}
+
+.logo img{
+    width:auto;
+    height:95px;
+    object-fit:contain;
+}
+
+
+/* =====================================================
+   MENU
+   ===================================================== */
+
+nav{
+    height:100%;
+
+    display:flex;
+    align-items:center;
+
+    gap:0;
+    margin-left:45px;
+}
+
+nav a{
+    height:42px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 20px;
+
+    text-decoration:none;
+    color:#333;
+
+    font-size:18px;
+    font-weight:bold;
+
+    white-space:nowrap;
+}
+
+
+/* SETINHA DOS MENUS */
+
+nav a.has-submenu::after{
+    content:"";
+
+    width:5px;
+    height:5px;
+
+    border-right:1px solid #333;
+    border-bottom:1px solid #333;
+
+    transform:rotate(45deg);
+
+    margin-left:8px;
+    margin-top:-3px;
+}
+
+
+/* HOVER */
+
+nav a:hover{
+    background:#dff5e6;
+    color:#176b31;
+}
+
+
+/* =====================================================
+   SUBMENU
+   ===================================================== */
+
+nav ul,
+nav li{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+nav li{
+    position:relative;
+}
+
+nav li ul{
+    position:absolute;
+
+    top:42px;
+    left:0;
+
+    width:220px;
+
+    background:white;
+
+    display:none;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+
+    z-index:1000;
+}
+
+nav li:hover > ul{
+    display:block;
+}
+
+nav li ul li{
+    width:100%;
+}
+
+nav li ul li a{
+    width:100%;
+    height:41px;
+
+    padding:0 20px;
+
+    display:flex;
+    align-items:center;
+
+    font-size:16px;
+    color:#333;
+
+    background:white;
+}
+
+nav li ul li a:hover{
+    background:#dff5e6;
+    color:#176b31;
+}
+
+
+/* =====================================================
+   FAIXA VERDE / TÍTULO
+   ===================================================== */
+
+.titulo{
+    width:100%;
+    height:115px;
+
+    background:#5dcc7b;
+
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:0;
+}
+
+.titulo h1{
+    margin:0;
+    padding:0;
+
+    font-weight:normal;
+    font-size:32px;
+}
+
+
+/* =====================================================
+   BOTÃO SAIR
+   ===================================================== */
+
+.area-sair{
+    width:90%;
+
+    margin:20px auto 0;
+
+    display:flex;
+    justify-content:flex-end;
+}
+
+.area-sair form{
+    margin:0;
+}
+
+.area-sair button{
+    background:none;
+    border:none;
+
+    color:#ff4d4d;
+
+    cursor:pointer;
+
+    font:inherit;
+    font-size:18px;
+
+    display:flex;
+    align-items:center;
+
+    gap:7px;
+}
+
+.area-sair button:hover{
+    color:#d92b2b;
+}
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+    width: 90%;
+    max-width: 850px;
+    margin: 30px auto 50px;
+}
+
+/* =========================
+   TÍTULO
+========================= */
+
+.container h1{
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-bottom: 30px;
+    padding: 35px 20px;
+    background: #72c67c;
+    color: #fff;
+    text-align: center;
+    font-size: 38px;
+    font-weight: normal;
+}
+
+/* =========================
+   SUBTÍTULO
+========================= */
+
+.subtitulo{
+    text-align: center;
+    color: #555;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* =========================
+   ERRO
+========================= */
+
+.erro{
+    width: 100%;
+    padding: 14px 18px;
+    margin-bottom: 25px;
+    border: 1px solid #e3aaaa;
+    border-radius: 10px;
+    background: #fde5e5;
+    color: #b51f1f;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* =========================
+   FORMULÁRIO
+========================= */
+
+.formulario{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formulario label{
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #444;
+}
+
+.formulario input,
+.formulario select{
+    width: 100%;
+    height: 46px;
+    padding: 0 15px;
+    border: 2px solid #777;
+    border-radius: 25px;
+    background: #fff;
+    color: #333;
+    font-size: 16px;
+    outline: none;
+    transition: .2s;
+}
+
+.formulario input:focus,
+.formulario select:focus{
+    border-color: #72c67c;
+    box-shadow: 0 0 0 2px rgba(114,198,124,.15);
+}
+
+/* CAMPO DESABILITADO */
+
+.formulario input:disabled{
+    background: #f1f1f1;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* =========================
+   BOTÕES
+========================= */
+
+.botoes{
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.botoes button,
+.botoes a{
+    min-height: 46px;
+    padding: 11px 24px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: .2s;
+}
+
+/* SALVAR */
+
+.botoes button{
+    border: 2px solid #72c67c;
+    background: #72c67c;
+    color: #fff;
+}
+
+.botoes button:hover{
+    background: #5aaa65;
+    border-color: #5aaa65;
+}
+
+/* CANCELAR */
+
+.cancelar{
+    border: 2px solid #777 !important;
+    background: #fff !important;
+    color: #555 !important;
+}
+
+.cancelar:hover{
+    background: #f1f1f1 !important;
+    border-color: #555 !important;
+}
+
+/* =========================
+   MENSAGEM DE SUCESSO
+========================= */
+
+.mensagem{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    padding: 30px;
+}
+
+.caixa-sucesso{
+    width: 90%;
+    max-width: 550px;
+    padding: 45px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(0,0,0,.08);
+}
+
+.caixa-sucesso h1{
+    width: auto;
+    margin: 0 0 15px;
+    padding: 0;
+    background: none;
+    color: #4a8f68;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.caixa-sucesso h2{
+    color: #4a8f68;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.caixa-sucesso p{
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 28px;
+}
+
+.caixa-sucesso a{
+    display: inline-block;
+    padding: 12px 24px;
+    background: #72c67c;
+    color: #fff;
+    text-decoration: none;
+    border: 2px solid #72c67c;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.caixa-sucesso a:hover{
+    background: #5aaa65;
+    border-color: #5aaa65;
+}
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media(max-width:700px){
+
+    .menu{
+        height: auto;
+        min-height: 80px;
+        padding: 15px 20px;
+        gap: 20px;
+    }
+
+    .logo{
+        font-size: 25px;
+    }
+
+    .menu nav{
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .menu nav a{
+        font-size: 15px;
+    }
+
+    .container{
+        width: 92%;
+        margin-top: 25px;
+    }
+
+    .container h1{
+        font-size: 30px;
+        padding: 30px 15px;
+    }
+
+    .botoes{
+        flex-direction: column-reverse;
+    }
+
+    .botoes button,
+    .botoes a{
+        width: 100%;
+        text-align: center;
+    }
+
+    .caixa-sucesso{
+        padding: 30px 20px;
+    }
+}

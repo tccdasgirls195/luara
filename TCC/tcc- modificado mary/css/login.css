@@ -1,0 +1,183 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: white;
+}
+
+/* Header padronizado com agendamento.css */
+header {
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+    height: 75px;
+}
+
+nav {
+    display: flex;
+    gap: 45px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 32px;
+}
+
+.menu {
+    font-size: 45px;
+}
+
+/* Faixa do título padronizada com agendamento.css */
+.titulo {
+    background: #72c67c;
+    color: white;
+    text-align: center;
+    padding: 40px;
+}
+
+.titulo h1 {
+    font-weight: normal;
+    font-size: 42px;
+}
+
+/* Estrutura do formulário de login */
+.container-login {
+    width: 90%;
+    max-width: 550px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.card-login {
+    width: 100%;
+    border: 2px solid #777;
+    border-radius: 10px;
+    padding: 40px;
+    background: #fff;
+}
+
+.card-login h2 {
+    color: #000000;
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Campos de entrada idênticos ao estilo de agendamento.css */
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.campo label {
+    font-size: 22px;
+    color: #333;
+}
+
+.input-com-icone {
+    position: relative;
+    width: 100%;
+}
+
+.input-com-icone input {
+    width: 100%;
+    height: 45px;
+    border-radius: 25px;
+    border: 2px solid #666;
+    padding: 10px 45px 10px 20px;
+    font-size: 18px;
+    outline: none;
+}
+
+.input-com-icone input:focus {
+    border-color: #72c67c;
+}
+
+.input-com-icone i {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #333;
+    font-size: 20px;
+    pointer-events: none;
+}
+
+/* Botão de envio usando a cor verde temática */
+.btn-entrar {
+    width: 100%;
+    height: 50px;
+    background: #72c67c;
+    color: white;
+    font-size: 22px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s ease;
+}
+
+.btn-entrar:hover {
+    background: #5eb568;
+}
+
+/* Mensagem de Erro utilizando a cor vermelha (#d92b2b) das vagas ocupadas */
+.mensagem-erro {
+    background: #fde8e8;
+    color: #d92b2b;
+    border: 2px solid #d92b2b;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* =========================
+   OLHO DA SENHA
+   ========================= */
+
+.senha-container {
+    position: relative;
+}
+
+.senha-container input {
+    padding-right: 50px;
+}
+
+.senha-container .olho-senha {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    color: #666;
+    font-size: 20px;
+
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 10;
+}
+
+.senha-container .olho-senha:hover {
+    color: #72c67c;
+}
