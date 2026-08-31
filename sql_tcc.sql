@@ -143,21 +143,6 @@ INSERT INTO ambientes (nome, tipo)VALUES
 ('Laboratório de Administração 7', 'ADM'),
 ('Laboratório de Automação 8', 'AUT'),
 ('Laboratório de Automação 9', 'AUT');
-
-SELECT
-    a.id_agendamentos,
-    a.nome_prof,
-    a.descr,
-    a.data_agendamento,
-    a.horario,
-    a.id_ambientes,
-    am.nome AS ambiente,
-    am.tipo AS tipo_ambiente,
-    a.solicitante_id,
-    a.solicitante_tipo
-FROM agendamentos a
-INNER JOIN ambientes am
-    ON a.id_ambientes = am.id_ambientes;
     
 INSERT INTO agendamentos
 (nome_prof, descr, data_agendamento, id_gestao, id_professor, id_ambientes, horario)
@@ -259,3 +244,49 @@ MODIFY id_professor INT NULL;
 ALTER TABLE agendamentos
 ADD solicitante_id INT NULL,
 ADD solicitante_tipo VARCHAR(20) NULL;
+
+ALTER TABLE agendamentos
+ADD status ENUM('Pendente', 'Aprovado', 'Recusado') 
+DEFAULT 'Pendente';
+
+ALTER TABLE turma ADD COLUMN periodo VARCHAR(20);
+ALTER TABLE turma modify COLUMN periodo CHAR(1);
+
+update turma set periodo='I' where id_turma=1;
+update turma set periodo='I' where id_turma=2;
+update turma set periodo='I' where id_turma=3;
+update turma set periodo='I' where id_turma=4;
+update turma set periodo='I' where id_turma=5;
+update turma set periodo='I' where id_turma=6;
+update turma set periodo='I' where id_turma=7;
+update turma set periodo='I' where id_turma=8;
+update turma set periodo='I' where id_turma=9;
+update turma set periodo='I' where id_turma=10;
+
+INSERT INTO turma (serie, curso, id_coordenador, periodo) VALUES 
+('1°', 'DS', 1, 'N'),
+('2°', 'DS', 1, 'N'),
+('1°', 'ADM', 1, 'N'),
+('2°', 'ADM', 1, 'N'),
+('1°', 'RH', 1, 'N'),
+('2°', 'ELE', 1, 'N');
+
+ALTER TABLE turma modify COLUMN curso ENUM('DS', 'ADM', 'AUT', 'RH', 'ELE');
+
+update turma set curso='ELE' where id_turma=16;
+
+SELECT
+    a.id_agendamentos,
+    a.nome_prof,
+    a.descr,
+    a.data_agendamento,
+    a.horario,
+    a.id_ambientes,
+    am.nome AS ambiente,
+    am.tipo AS tipo_ambiente,
+    a.solicitante_id,
+    a.solicitante_tipo
+FROM agendamentos a
+INNER JOIN ambientes am
+    ON a.id_ambientes = am.id_ambientes;
+    
