@@ -103,10 +103,8 @@ nav ul{
     list-style:none;
 }
 
-nav li > .submenu{
-    left:900px;
-    top: 90px;
-    
+nav li {
+    position: relative;
 }
 
 nav li ul{
@@ -250,5 +248,4 @@ nav li{
 
     cursor: pointer;
 }
-
 

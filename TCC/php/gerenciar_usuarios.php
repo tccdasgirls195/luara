@@ -205,11 +205,6 @@ $resultGestao = $stmt->get_result();
 
 <main class="container">
 
-
-    <!-- =====================================================
-         TÍTULO
-    ====================================================== -->
-
     <h1>
         Gerenciamento de Usuários
     </h1>

@@ -23,7 +23,8 @@ header{
     display:flex;
     align-items:center;
 
-    border-bottom:1px solid #ddd;
+    border-bottom:none !important;
+    box-shadow:none !important;
     padding:0;
 }
 
@@ -457,6 +458,19 @@ tbody tr:hover{
 
 .acoes a.ativar:hover{
     background:#5aaa65 !important;
+}
+
+header.menu {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+header.menu::before,
+header.menu::after {
+    display: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
 }
 
 /* =========================

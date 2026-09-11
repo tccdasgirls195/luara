@@ -1,7 +1,6 @@
 create database MODELO_TCC;
 use MODELO_TCC;
 
-
 create table administrador (
 id_administrador int primary key auto_increment,
 nome varchar (100) not null,
@@ -93,17 +92,10 @@ foreign key (id_ambientes) references ambientes (id_ambientes)
 CREATE TABLE recuperacao_senha (
     id_recuperacao INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
-    usuario_tipo ENUM(
-        'administrador',
-        'coordenador',
-        'professor',
-        'representante',
-        'gestao'
-    ) NOT NULL,
+    usuario_tipo ENUM('administrador','coordenador','professor','representante','gestao') NOT NULL,
     token VARCHAR(64) NOT NULL,
     expiracao DATETIME NOT NULL
 );
-
 
 create table registros_acesso (
 	id_acesso int primary key auto_increment,
@@ -114,12 +106,17 @@ create table registros_acesso (
     pagina varchar(255)
 );
 
+CREATE TABLE tentativas_login (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ip VARCHAR(45) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    tentativas INT DEFAULT 1,
+    ultimo_erro DATETIME NOT NULL,
+    bloqueado_ate DATETIME DEFAULT NULL
+);
+
 ALTER TABLE agendamentos
 ADD horario VARCHAR(20) NOT NULL;
-
-show tables;
-
-select * from ambientes;
 
 insert into administrador (nome, email, senha) values 
 ("Luara","luaragporto@gmail.com", "123456");
@@ -133,6 +130,8 @@ VALUES ('nome','coordenador@email.com', '123456', 'DS', 1);
 INSERT INTO professor (nome, email, senha, id_coordenador, id_administrador)
 VALUES ('nome','professor@email.com', '123456', 1, 1);
 
+
+
 INSERT INTO ambientes (nome, tipo)VALUES
 ('Laboratório de Informática 1', 'DS'),
 ('Laboratório de Informática 2', 'DS'),
@@ -143,32 +142,24 @@ INSERT INTO ambientes (nome, tipo)VALUES
 ('Laboratório de Administração 7', 'ADM'),
 ('Laboratório de Automação 8', 'AUT'),
 ('Laboratório de Automação 9', 'AUT');
-    
-INSERT INTO agendamentos
-(nome_prof, descr, data_agendamento, id_gestao, id_professor, id_ambientes, horario)
-VALUES
-('João', 'Aula de BD', '2026-07-31', 1, 1, 1, '13h50 - 14h40');
 
-select * from agendamentos;
-select * from professor;
-select * from coordenador;
-select * from gestao;
-select * from administrador;
-
-SELECT * FROM agendamentos
-WHERE id_ambientes = 1;
-
-SELECT id_ambientes 
-FROM agendamentos
-WHERE data_agendamento = '2026-07-31'
-AND horario = '13h50 - 14h40';
+INSERT INTO turma (serie, curso, id_coordenador) VALUES 
+('1°', 'DS', 1),
+('2°', 'DS', 1),
+('3°', 'DS', 1),
+('1°', 'ADM', 1),
+('2°', 'ADM', 1),
+('3°', 'ADM', 1),
+('1°', 'AUT', 1),
+('2°', 'AUT', 1),
+('3°', 'AUT', 1),
+('1°', 'RH', 1);
 
 alter table administrador modify senha varchar (255);
 alter table coordenador modify senha varchar (255);
 alter table professor modify senha varchar (255);
 alter table representante modify senha varchar (255);
 alter table gestao modify senha varchar (255);
-
 
 UPDATE administrador
 SET senha = '$2y$10$l.iQDnnwC5HSiUMn9O95kuiEhBjaalYokwsnPXplEkRzbpG2nTlBO'
@@ -192,48 +183,12 @@ alter table professor add status enum('Ativo','Bloqueado') default 'Ativo';
 alter table representante add status enum('Ativo','Bloqueado') default 'Ativo';
 alter table gestao add status enum('Ativo','Bloqueado') default 'Ativo';
 
--- Maria A. 10/08 20h16 Alterações: Ajustes necessários para o calendário
--- Ajuste da tabela eventos para incluir os tipos da interface
 ALTER TABLE eventos 
 MODIFY tipo ENUM('Prova', 'Trabalho', 'Evento') NOT NULL;
 
--- Relacionar o calendário/evento à turma específica
 ALTER TABLE calendario 
 ADD id_turma INT NOT NULL,
 ADD FOREIGN KEY (id_turma) REFERENCES turma(id_turma);
-
-INSERT INTO turma (serie, curso, id_coordenador) VALUES 
-('1°', 'DS', 1),
-('2°', 'DS', 1),
-('3°', 'DS', 1),
-('1°', 'ADM', 1),
-('2°', 'ADM', 1),
-('3°', 'ADM', 1),
-('1°', 'AUT', 1),
-('2°', 'AUT', 1),
-('3°', 'AUT', 1),
-('1°', 'RH', 1);
-
-select * from turma;
-select * from coordenador;
-select * from registros_acesso;
-
-INSERT INTO representante (nome, email, senha, id_turma)
-VALUES ('Nome', 'representante@email.com', '123456', 1);
-
-CREATE TABLE tentativas_login (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    ip VARCHAR(45) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    tentativas INT DEFAULT 1,
-    ultimo_erro DATETIME NOT NULL,
-    bloqueado_ate DATETIME DEFAULT NULL
-);
-
-select * from tentativas_login;
-
--- Luara:
-SHOW CREATE TABLE agendamentos;
 
 ALTER TABLE agendamentos
 DROP FOREIGN KEY agendamentos_ibfk_2;
@@ -244,6 +199,9 @@ MODIFY id_professor INT NULL;
 ALTER TABLE agendamentos
 ADD solicitante_id INT NULL,
 ADD solicitante_tipo VARCHAR(20) NULL;
+
+INSERT INTO representante (nome, email, senha, id_turma)
+VALUES ('Nome', 'representante@email.com', '123456', 1);
 
 SELECT
     a.id_agendamentos,
@@ -259,3 +217,36 @@ SELECT
 FROM agendamentos a
 INNER JOIN ambientes am
     ON a.id_ambientes = am.id_ambientes;
+    
+ALTER TABLE agendamentos
+ADD status ENUM('Pendente', 'Aprovada', 'Recusada')
+DEFAULT 'Pendente';
+
+ALTER TABLE turma ADD COLUMN periodo VARCHAR(20);
+ALTER TABLE turma modify COLUMN periodo CHAR(1);
+
+update turma set periodo='I' where id_turma=1;
+update turma set periodo='I' where id_turma=2;
+update turma set periodo='I' where id_turma=3;
+update turma set periodo='I' where id_turma=4;
+update turma set periodo='I' where id_turma=5;
+update turma set periodo='I' where id_turma=6;
+update turma set periodo='I' where id_turma=7;
+update turma set periodo='I' where id_turma=8;
+update turma set periodo='I' where id_turma=9;
+update turma set periodo='I' where id_turma=10;
+
+INSERT INTO turma (serie, curso, id_coordenador, periodo) VALUES 
+('1°', 'DS', 1, 'N'),
+('2°', 'DS', 1, 'N'),
+('1°', 'ADM', 1, 'N'),
+('2°', 'ADM', 1, 'N'),
+('1°', 'RH', 1, 'N'),
+('2°', 'ELE', 1, 'N');
+
+ALTER TABLE turma modify COLUMN curso ENUM('DS', 'ADM', 'AUT', 'RH', 'ELE');
+update turma set curso='ELE' where id_turma=16;
+
+UPDATE agendamentos SET
+status = 'Pendente', solicitante_id = 1, solicitante_tipo = 'professor'
+WHERE id_agendamentos = 1;

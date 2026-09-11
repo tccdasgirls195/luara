@@ -23,7 +23,8 @@ header{
     display:flex;
     align-items:center;
 
-    border-bottom:1px solid #ddd;
+    border-bottom:none !important;
+    box-shadow:none !important;
     padding:0;
 }
 

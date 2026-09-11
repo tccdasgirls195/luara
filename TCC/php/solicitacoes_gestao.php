@@ -179,12 +179,14 @@ if ($stmt) {
             Equipe Etec
         </a>
         <li>
-            <a
-                href="../selecionar_lab.html"
-                class="has-submenu">
-                Agendamento
-            </a>
+           <li>
+    <a href="selecionar_lab.html" class="has-submenu">Agendamento</a>
+             <ul class="submenu">
+                <li>
+                <a href="meus-agendamentos.php">Meus agendamentos</a>
         </li>
+    </ul>
+</li>
         <a href="#" class="has-submenu">Notícias</a>
         <a href="">Empregos & Estágios</a>
         <a href="">Parceiros</a>
@@ -205,6 +207,8 @@ if ($stmt) {
         </h1>
 
     </div>
+
+    <br><br>
 
 
     <div class="lista-solicitacoes">

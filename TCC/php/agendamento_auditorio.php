@@ -1,4 +1,3 @@
-
 <?php
 // ==========================================================
 // 1. INICIA A SESSÃO
@@ -194,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar_agendamento'])
 
     if ($id_ambientes <= 0) {
 
-        $erro = "Selecione um laboratório.";
+        $erro = "Selecione o espaço.";
 
     } elseif (empty($data_agendamento)) {
 
@@ -254,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar_agendamento'])
 
             if (mysqli_num_rows($resultadoVerifica) > 0) {
 
-                $erro = "Este laboratório já está ocupado nessa data e horário.";
+                $erro = "O auditório já está ocupado nessa data e horário.";
 
             }
 
@@ -329,7 +328,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar_agendamento'])
 
                 if (mysqli_stmt_execute($stmtInsert)) {
 
-    header("Location: agendamento.php?sucesso=1");
+    header("Location: agendamento_auditorio.php?sucesso=1");
     exit();
 
 }
@@ -423,7 +422,7 @@ if (
 
 <link
     rel="stylesheet"
-    href="../css/agendamento.css">
+    href="../css/agendamento_auditorio.css">
 
 <link
     rel="stylesheet"
@@ -473,7 +472,7 @@ if (
 
 
 <section class="titulo">
-    <h1>Agendamento - Laboratórios DS</h1>
+    <h1>Agendamento - Auditório</h1>
 
 </section>
 
@@ -482,7 +481,7 @@ if (
 ====================================================== -->
 
 <form
-    action="agendamento.php"
+    action="agendamento_auditorio.php"
     method="POST"
     style="display:inline;">
 
@@ -589,37 +588,10 @@ if (
         ================================================== -->
 
         <div class="mapa">
-
             <div
-                class="lab <?= in_array(3,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(3,$ocupados) ? '' : 'selecionarLab(3)' ?>">
-                LAB 3
-            </div>
-
-            <div
-                class="lab <?= in_array(4,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(4,$ocupados) ? '' : 'selecionarLab(4)' ?>">
-                LAB 4
-            </div>
-
-            <div
-                class="lab <?= in_array(5,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(5,$ocupados) ? '' : 'selecionarLab(5)' ?>">
-                LAB 5
-            </div>
-
-            <div
-                class="lab <?= in_array(2,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(2,$ocupados) ? '' : 'selecionarLab(2)' ?>">
-                LAB 2
-            </div>
-
-            <div class="vazio"></div>
-
-            <div
-                class="lab <?= in_array(1,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(1,$ocupados) ? '' : 'selecionarLab(1)' ?>">
-                LAB 1
+                class="lab <?= in_array(10,$ocupados) ? 'ocupado' : '' ?>"
+                onclick="<?= in_array(10,$ocupados) ? '' : 'selecionarLab(10)' ?>">
+                Auditório
             </div>
 
         </div>
@@ -644,7 +616,7 @@ if (
             </h2>
 
             <form
-                action="agendamento.php"
+                action="agendamento_auditorio.php"
                 method="POST">
 
                 <!-- LABORATÓRIO -->
@@ -743,7 +715,7 @@ document.addEventListener(
                 sessionStorage.setItem("horario",horario.value);
 
 
-                window.location.href ="agendamento.php?data=" +encodeURIComponent(data.value) +"&horario=" + encodeURIComponent(horario.value);
+                window.location.href ="agendamento_auditorio.php?data=" +encodeURIComponent(data.value) +"&horario=" + encodeURIComponent(horario.value);
             }
         }
 
@@ -788,7 +760,8 @@ function selecionarLab(id) {
     document.getElementById("formReserva").style.display = "block";
 
     // Texto do laboratório
-    document.getElementById("labEscolhido" ).innerHTML = "<strong></strong> Laboratório " + id;
+    document.getElementById("labEscolhido").innerHTML =
+    "<strong></strong> Auditório";
 
     // Texto da data
     document.getElementById("dataEscolhida").innerHTML ="<strong>Data:</strong> " + data;
