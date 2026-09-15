@@ -526,3 +526,139 @@ nav li ul li a:hover{
         font-size: 16px;
     }
 }
+
+/* ================================
+   CAIXA DE CONFIRMAÇÃO
+================================ */
+
+.modal-confirmacao {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+}
+
+
+.caixa-confirmacao {
+    position: relative;
+
+    width: 400px;
+    max-width: 90%;
+
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    text-align: center;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+
+.caixa-confirmacao h2 {
+    margin-top: 5px;
+    margin-bottom: 12px;
+
+    color: #5dcc7b;
+
+    font-size: 24px;
+}
+
+
+.caixa-confirmacao p {
+    margin-bottom: 25px;
+
+    color: #444;
+
+    font-size: 16px;
+}
+
+
+.fechar-modal {
+    position: absolute;
+
+    top: 12px;
+    right: 16px;
+
+    border: none;
+    background: none;
+
+    font-size: 28px;
+
+    color: #777;
+
+    cursor: pointer;
+}
+
+
+.fechar-modal:hover {
+    color: #333;
+}
+
+
+.botoes-confirmacao {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+}
+
+
+.btn-cancelar,
+.btn-confirmar {
+    border: none;
+
+    padding: 11px 25px;
+
+    border-radius: 25px;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.btn-cancelar {
+    background: #eeeeee;
+
+    color: #555;
+}
+
+
+.btn-cancelar:hover {
+    background: #dddddd;
+}
+
+
+.btn-confirmar {
+    background: #1c7136;
+
+    color: white;
+}
+
+
+.btn-confirmar:hover {
+    background: #1c7136;
+}
+
+
+.btn-confirmar-recusar {
+    background: #d92b2b;
+}
+
+
+.btn-confirmar-recusar:hover {
+    background: #d92b2b;
+}

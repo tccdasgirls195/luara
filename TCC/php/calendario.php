@@ -1,10 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: login.php");
-    exit();
-}
+
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -179,27 +176,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_evento'])) {
     if ($id_evento_del > 0 && isset($turma_representante)) {
 
         /*
-         * Só exclui o evento se ele pertencer à turma
-         * do representante autenticado.
+         * Primeiro verificamos se o evento realmente
+         * pertence à turma do representante.
          */
-        $stmt_del = mysqli_prepare(
+        $stmt_verifica = mysqli_prepare(
             $conexao,
-            "DELETE c, e
-             FROM calendario c
-             INNER JOIN eventos e ON e.id_eventos = c.id_eventos
-             WHERE c.id_eventos = ?
-             AND c.id_turma = ?"
+            "SELECT id_eventos
+             FROM calendario
+             WHERE id_eventos = ?
+             AND id_turma = ?
+             LIMIT 1"
         );
 
-        if ($stmt_del) {
+        if ($stmt_verifica) {
+
             mysqli_stmt_bind_param(
-                $stmt_del,
+                $stmt_verifica,
                 "ii",
                 $id_evento_del,
                 $turma_representante
             );
-            mysqli_stmt_execute($stmt_del);
-            mysqli_stmt_close($stmt_del);
+
+            mysqli_stmt_execute($stmt_verifica);
+
+            $resultado = mysqli_stmt_get_result($stmt_verifica);
+            $evento_existe = mysqli_fetch_assoc($resultado);
+
+            mysqli_stmt_close($stmt_verifica);
+
+            if ($evento_existe) {
+
+                /*
+                 * 1º - Remove o vínculo do evento com a turma.
+                 */
+                $stmt_del_cal = mysqli_prepare(
+                    $conexao,
+                    "DELETE FROM calendario
+                     WHERE id_eventos = ?
+                     AND id_turma = ?"
+                );
+
+                if ($stmt_del_cal) {
+
+                    mysqli_stmt_bind_param(
+                        $stmt_del_cal,
+                        "ii",
+                        $id_evento_del,
+                        $turma_representante
+                    );
+
+                    mysqli_stmt_execute($stmt_del_cal);
+                    mysqli_stmt_close($stmt_del_cal);
+                }
+
+                /*
+                 * 2º - Remove o evento da tabela eventos.
+                 */
+                $stmt_del_evento = mysqli_prepare(
+                    $conexao,
+                    "DELETE FROM eventos
+                     WHERE id_eventos = ?"
+                );
+
+                if ($stmt_del_evento) {
+
+                    mysqli_stmt_bind_param(
+                        $stmt_del_evento,
+                        "i",
+                        $id_evento_del
+                    );
+
+                    mysqli_stmt_execute($stmt_del_evento);
+                    mysqli_stmt_close($stmt_del_evento);
+                }
+            }
         }
     }
 
@@ -209,6 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_evento'])) {
         "&mes=" . $mes_atual .
         "&ano=" . $ano_atual
     );
+
     exit();
 }
 
@@ -884,6 +935,10 @@ $param_turma = $id_turma_selecionada
 
     <div class="modal-card modal-card-centered">
 
+    <button class="btn-close-corner" data-fechar-modal>
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
         <div class="icone-confirmacao-exclusao">
             <i class="fa-solid fa-trash"></i>
         </div>
@@ -927,9 +982,645 @@ $param_turma = $id_turma_selecionada
         turmaSelecionada: <?= json_encode($id_turma_selecionada) ?>,
         modoEditor: <?= $modo_editor ? 'true' : 'false' ?>
     };
-</script>
 
-<script src="../js/calendario.js"></script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        /*
+         * ==========================================
+         * CONFIGURAÇÃO
+         * ==========================================
+         */
+
+        const config = window.CALENDARIO_CONFIG;
+
+
+        /*
+         * ==========================================
+         * MODAIS
+         * ==========================================
+         */
+
+        const modalAviso = document.getElementById("modalAviso");
+        const modalCriar = document.getElementById("modalCriar");
+        const modalConfirmar = document.getElementById("modalConfirmar");
+        const modalVer = document.getElementById("modalVer");
+        const modalEditar = document.getElementById("modalEditar");
+        const modalExcluir = document.getElementById("modalExcluir");
+
+
+        /*
+         * ==========================================
+         * FUNÇÕES PARA ABRIR E FECHAR MODAIS
+         * ==========================================
+         */
+
+        function abrirModal(modal) {
+
+            if (!modal) {
+                return;
+            }
+
+            modal.style.display = "flex";
+
+        }
+
+
+        function fecharModal(modal) {
+
+            if (!modal) {
+                return;
+            }
+
+            modal.style.display = "none";
+
+        }
+
+
+        /*
+         * ==========================================
+         * GARANTE QUE OS MODAIS COMEÇAM FECHADOS
+         * ==========================================
+         */
+
+        [modalAviso, modalCriar, modalConfirmar, modalVer, modalEditar, modalExcluir]
+            .forEach(function (modal) {
+
+                if (modal) {
+                    modal.style.display = "none";
+                }
+
+            });
+
+
+        /*
+         * ==========================================
+         * BOTÕES DE FECHAR
+         * ==========================================
+         */
+
+        document.querySelectorAll("[data-fechar-modal]").forEach(function (botao) {
+
+            botao.addEventListener("click", function () {
+
+                const modal = botao.closest(".modal-overlay");
+
+                fecharModal(modal);
+
+            });
+
+        });
+
+
+        /*
+         * ==========================================
+         * CLICAR FORA DA CAIXA PARA FECHAR
+         * ==========================================
+         */
+
+        document.querySelectorAll(".modal-overlay").forEach(function (modal) {
+
+            modal.addEventListener("click", function (evento) {
+
+                if (evento.target === modal) {
+
+                    fecharModal(modal);
+
+                }
+
+            });
+
+        });
+
+
+        /*
+         * ==========================================
+         * DROPDOWN DE TURMAS
+         * ==========================================
+         */
+
+        const btnDropdown = document.querySelector(".btn-dropdown");
+        const dropdownMenu = document.querySelector(".dropdown-menu");
+
+        if (btnDropdown && dropdownMenu) {
+
+            btnDropdown.addEventListener("click", function (evento) {
+
+                evento.stopPropagation();
+
+                dropdownMenu.classList.toggle("ativo");
+
+            });
+
+        }
+
+
+        /*
+         * ==========================================
+         * VARIÁVEIS DOS FORMULÁRIOS
+         * ==========================================
+         */
+
+        const tempNome = document.getElementById("tempNome");
+
+        const alertaForm = document.getElementById("alertaForm");
+
+        const btnAbrirConfirmacao =
+            document.getElementById("btnAbrirConfirmacao");
+
+        const finalData =
+            document.getElementById("finalData");
+
+        const finalNome =
+            document.getElementById("finalNome");
+
+        const finalTipo =
+            document.getElementById("finalTipo");
+
+
+        /*
+         * Guarda a data que o representante clicou.
+         */
+
+        let dataSelecionada = null;
+
+
+        /*
+         * Guarda os eventos do dia selecionado.
+         */
+
+        let eventosSelecionados = [];
+
+
+        /*
+         * ==========================================
+         * CLIQUE NOS DIAS DO CALENDÁRIO
+         * ==========================================
+         */
+
+        const diasCalendario =
+            document.querySelectorAll(".calendar-day:not(.empty-day)");
+
+
+        diasCalendario.forEach(function (dia) {
+
+            dia.addEventListener("click", function () {
+
+                /*
+                 * Pega a data do dia.
+                 */
+
+                dataSelecionada = dia.getAttribute("data-date");
+
+
+                /*
+                 * Pega os eventos daquele dia.
+                 */
+
+                let eventos = [];
+
+                const dadosEventos =
+                    dia.getAttribute("data-events");
+
+
+                if (dadosEventos) {
+
+                    try {
+
+                        eventos = JSON.parse(dadosEventos);
+
+                    } catch (erro) {
+
+                        console.error(
+                            "Erro ao carregar os eventos:",
+                            erro
+                        );
+
+                        eventos = [];
+
+                    }
+
+                }
+
+
+                eventosSelecionados = eventos;
+
+
+                /*
+                 * ==================================
+                 * SE NÃO EXISTE TURMA SELECIONADA
+                 * ==================================
+                 */
+
+                if (!config.turmaSelecionada) {
+
+                    abrirModal(modalAviso);
+
+                    return;
+
+                }
+
+
+                /*
+                 * ==================================
+                 * SE JÁ EXISTE EVENTO
+                 * ==================================
+                 */
+
+                if (eventos.length > 0) {
+
+                    abrirModalVer(eventos);
+
+                    return;
+
+                }
+
+
+                /*
+                 * ==================================
+                 * SE NÃO É REPRESENTANTE
+                 * ==================================
+                 */
+
+                if (!config.modoEditor) {
+
+                    /*
+                     * Não permite adicionar evento.
+                     */
+
+                    return;
+
+                }
+
+
+                /*
+                 * ==================================
+                 * REPRESENTANTE PODE ADICIONAR
+                 * ==================================
+                 */
+
+                if (tempNome) {
+                    tempNome.value = "";
+                }
+
+                if (alertaForm) {
+                    alertaForm.style.display = "none";
+                }
+
+
+                /*
+                 * Coloca o tipo Prova como padrão.
+                 */
+
+                const tipoPadrao =
+                    document.querySelector(
+                        'input[name="tempTipo"][value="Prova"]'
+                    );
+
+                if (tipoPadrao) {
+                    tipoPadrao.checked = true;
+                }
+
+
+                /*
+                 * Abre o modal de criação.
+                 */
+
+                abrirModal(modalCriar);
+
+            });
+
+        });
+
+
+        /*
+         * ==========================================
+         * ABRIR MODAL DE VISUALIZAÇÃO
+         * ==========================================
+         */
+
+        function abrirModalVer(eventos) {
+
+            const listaEventos =
+                document.getElementById("listaEventos");
+
+
+            if (!listaEventos) {
+                return;
+            }
+
+
+            listaEventos.innerHTML = "";
+
+
+            eventos.forEach(function (evento) {
+
+                const item =
+                    document.createElement("div");
+
+                item.className = "evento-item";
+
+
+                const titulo =
+                    document.createElement("strong");
+
+                titulo.textContent =
+                    evento.tipo;
+
+
+                const descricao =
+                    document.createElement("p");
+
+                descricao.textContent =
+                    evento.nome;
+
+
+                item.appendChild(titulo);
+                item.appendChild(descricao);
+
+
+                listaEventos.appendChild(item);
+
+            });
+
+
+            abrirModal(modalVer);
+
+        }
+
+
+        /*
+         * ==========================================
+         * BOTÃO "ADICIONAR" DO PRIMEIRO MODAL
+         * ==========================================
+         */
+
+        if (btnAbrirConfirmacao) {
+
+            btnAbrirConfirmacao.addEventListener(
+                "click",
+                function () {
+
+                    const nome =
+                        tempNome.value.trim();
+
+
+                    /*
+                     * Verifica descrição.
+                     */
+
+                    if (nome === "") {
+
+                        if (alertaForm) {
+
+                            alertaForm.textContent =
+                                "Por favor, preencha a descrição do evento.";
+
+                            alertaForm.style.display = "block";
+
+                        }
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Verifica a data.
+                     */
+
+                    if (!dataSelecionada) {
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Pega o tipo escolhido.
+                     */
+
+                    const tipoSelecionado =
+                        document.querySelector(
+                            'input[name="tempTipo"]:checked'
+                        );
+
+
+                    if (!tipoSelecionado) {
+
+                        if (alertaForm) {
+
+                            alertaForm.textContent =
+                                "Selecione o tipo do evento.";
+
+                            alertaForm.style.display = "block";
+
+                        }
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Coloca os valores no formulário
+                     * de confirmação.
+                     */
+
+                    finalData.value =
+                        dataSelecionada;
+
+                    finalNome.value =
+                        nome;
+
+                    finalTipo.value =
+                        tipoSelecionado.value;
+
+
+                    /*
+                     * Fecha o primeiro modal.
+                     */
+
+                    fecharModal(modalCriar);
+
+
+                    /*
+                     * Abre confirmação.
+                     */
+
+                    abrirModal(modalConfirmar);
+
+                }
+            );
+
+        }
+
+
+        /*
+         * ==========================================
+         * EDITAR EVENTO
+         * ==========================================
+         */
+
+        const btnEditarEvento =
+            document.getElementById("btnEditarEvento");
+
+        if (btnEditarEvento) {
+
+            btnEditarEvento.addEventListener(
+                "click",
+                function () {
+
+                    if (!config.modoEditor) {
+                        return;
+                    }
+
+
+                    if (eventosSelecionados.length === 0) {
+                        return;
+                    }
+
+
+                    /*
+                     * Pega o primeiro evento.
+                     */
+
+                    const evento =
+                        eventosSelecionados[0];
+
+
+                    document.getElementById("editIdEvento").value =
+                        evento.id_eventos;
+
+
+                    document.getElementById("editNome").value =
+                        evento.nome;
+
+
+                    /*
+                     * Limpa os radio buttons.
+                     */
+
+                    document.getElementById("editTipoProva").checked =
+                        false;
+
+                    document.getElementById("editTipoTrabalho").checked =
+                        false;
+
+                    document.getElementById("editTipoEvento").checked =
+                        false;
+
+
+                    /*
+                     * Marca o tipo correto.
+                     */
+
+                    if (evento.tipo === "Prova") {
+
+                        document.getElementById("editTipoProva").checked =
+                            true;
+
+                    }
+
+                    if (evento.tipo === "Trabalho") {
+
+                        document.getElementById("editTipoTrabalho").checked =
+                            true;
+
+                    }
+
+                    if (evento.tipo === "Evento") {
+
+                        document.getElementById("editTipoEvento").checked =
+                            true;
+
+                    }
+
+
+                    fecharModal(modalVer);
+
+                    abrirModal(modalEditar);
+
+                }
+            );
+
+        }
+
+
+        /*
+         * ==========================================
+         * EXCLUIR EVENTO
+         * ==========================================
+         */
+
+        const btnExcluirEvento =
+            document.getElementById("btnExcluirEvento");
+
+        if (btnExcluirEvento) {
+
+            btnExcluirEvento.addEventListener(
+                "click",
+                function () {
+
+                    if (!config.modoEditor) {
+                        return;
+                    }
+
+
+                    if (eventosSelecionados.length === 0) {
+                        return;
+                    }
+
+
+                    const evento =
+                        eventosSelecionados[0];
+
+
+                    document.getElementById("delIdEvento").value =
+                        evento.id_eventos;
+
+
+                    fecharModal(modalVer);
+
+                    abrirModal(modalExcluir);
+
+                }
+            );
+
+        }
+
+
+        /*
+         * ==========================================
+         * ESC FECHA O MODAL
+         * ==========================================
+         */
+
+        document.addEventListener(
+            "keydown",
+            function (evento) {
+
+                if (evento.key === "Escape") {
+
+                    [
+                        modalAviso,
+                        modalCriar,
+                        modalConfirmar,
+                        modalVer,
+                        modalEditar,
+                        modalExcluir
+                    ].forEach(function (modal) {
+
+                        fecharModal(modal);
+
+                    });
+
+                }
+
+            }
+        );
+
+    });
+</script>
 
 </body>
 </html>

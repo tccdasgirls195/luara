@@ -19,6 +19,7 @@ if ($_SESSION['usuario_tipo'] !== 'gestao') {
 
 include("conexao.php");
 
+
 /*
 |--------------------------------------------------------------------------
 | APROVAR / RECUSAR SOLICITAÇÃO
@@ -146,15 +147,20 @@ if ($stmt) {
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Solicitações</title>
 
     <link
-        rel="stylesheet"href="../css/solicitacoes_gestao.css">
+        rel="stylesheet"
+        href="../css/solicitacoes_gestao.css"
+    >
 
     <link
-        rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 
 </head>
 
@@ -163,38 +169,72 @@ if ($stmt) {
 
 <header>
 
-     <div class="logo">
+    <div class="logo">
         <img src="../logo.png">
     </div>
 
     <nav>
+
         <a href="">Home</a>
+
         <a href="#" class="has-submenu">
             Cursos
         </a>
+
         <a href="#" class="has-submenu">
             A Etec
         </a>
+
         <a href="#" class="has-submenu">
             Equipe Etec
         </a>
+
         <li>
-           <li>
-    <a href="selecionar_lab.html" class="has-submenu">Agendamento</a>
-             <ul class="submenu">
-                <li>
-                <a href="meus-agendamentos.php">Meus agendamentos</a>
+
+            <li>
+
+                <a
+                    href="selecionar_lab.html"
+                    class="has-submenu"
+                >
+                    Agendamento
+                </a>
+
+                <ul class="submenu">
+
+                    <li>
+
+                        <a href="meus-agendamentos.php">
+                            Meus agendamentos
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </li>
+
         </li>
-    </ul>
-</li>
-        <a href="#" class="has-submenu">Notícias</a>
-        <a href="">Empregos & Estágios</a>
-        <a href="">Parceiros</a>
-        <a href=""> TCC</a>
+
+        <a href="#" class="has-submenu">
+            Notícias
+        </a>
+
+        <a href="">
+            Empregos & Estágios
+        </a>
+
+        <a href="">
+            Parceiros
+        </a>
+
+        <a href="">
+            TCC
+        </a>
 
     </nav>
-</header>
 
+</header>
 
 
 <main class="container">
@@ -208,6 +248,7 @@ if ($stmt) {
 
     </div>
 
+
     <br><br>
 
 
@@ -215,6 +256,7 @@ if ($stmt) {
 
 
         <?php if (empty($solicitacoes)): ?>
+
 
             <div class="sem-solicitacoes">
 
@@ -312,6 +354,7 @@ if ($stmt) {
 
                         <?php if (!empty($solicitacao['descr'])): ?>
 
+
                             <p class="descricao">
 
                                 <?= htmlspecialchars(
@@ -319,6 +362,7 @@ if ($stmt) {
                                 ) ?>
 
                             </p>
+
 
                         <?php endif; ?>
 
@@ -329,9 +373,15 @@ if ($stmt) {
                     <div class="botoes">
 
 
+                        <!--
+                        --------------------------------------------------
+                        FORMULÁRIO DE APROVAÇÃO
+                        --------------------------------------------------
+                        -->
+
                         <form
                             method="POST"
-                            onsubmit="return confirmarAprovacao();"
+                            onsubmit="abrirConfirmacao(this, 'aprovar'); return false;"
                         >
 
                             <input
@@ -358,9 +408,15 @@ if ($stmt) {
                         </form>
 
 
+                        <!--
+                        --------------------------------------------------
+                        FORMULÁRIO DE RECUSA
+                        --------------------------------------------------
+                        -->
+
                         <form
                             method="POST"
-                            onsubmit="return confirmarRecusa();"
+                            onsubmit="abrirConfirmacao(this, 'recusar'); return false;"
                         >
 
                             <input
@@ -405,22 +461,189 @@ if ($stmt) {
 </main>
 
 
+<!--
+|--------------------------------------------------------------------------
+| CAIXINHA DE CONFIRMAÇÃO
+|--------------------------------------------------------------------------
+-->
+
+<div
+    id="modalConfirmacao"
+    class="modal-confirmacao"
+>
+
+    <div class="caixa-confirmacao">
+
+
+        <button
+            type="button"
+            class="fechar-modal"
+            onclick="fecharConfirmacao()"
+        >
+
+            &times;
+
+        </button>
+
+
+        <h2 id="tituloConfirmacao">
+            Aprovar solicitação?
+        </h2>
+
+
+        <p id="textoConfirmacao">
+            Deseja realmente aprovar esta solicitação?
+        </p>
+
+
+        <div class="botoes-confirmacao">
+
+          <button
+                type="button"
+                id="btnConfirmar"
+                class="btn-confirmar"
+                onclick="confirmarAcao()"
+            >
+
+                Aprovar
+
+            </button>
+
+
+            <button
+                type="button"
+                class="btn-cancelar"
+                onclick="fecharConfirmacao()"
+            >
+
+                Cancelar
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
 <script>
 
-function confirmarAprovacao() {
+let formularioSelecionado = null;
 
-    return confirm(
-        "Deseja aprovar esta solicitação?"
-    );
+
+/*
+|--------------------------------------------------------------------------
+| ABRIR CAIXINHA
+|--------------------------------------------------------------------------
+*/
+
+function abrirConfirmacao(formulario, acao) {
+
+    formularioSelecionado = formulario;
+
+    const modal =
+        document.getElementById("modalConfirmacao");
+
+    const titulo =
+        document.getElementById("tituloConfirmacao");
+
+    const texto =
+        document.getElementById("textoConfirmacao");
+
+    const botao =
+        document.getElementById("btnConfirmar");
+
+
+    if (acao === "aprovar") {
+
+        titulo.innerText =
+            "Aprovar solicitação?";
+
+        texto.innerText =
+            "Deseja realmente aprovar esta solicitação?";
+
+        botao.innerText =
+            "Aprovar";
+
+        botao.className =
+            "btn-confirmar";
+
+    } else {
+
+        titulo.innerText =
+            "Recusar solicitação?";
+
+        texto.innerText =
+            "Deseja realmente recusar esta solicitação?";
+
+        botao.innerText =
+            "Recusar";
+
+        botao.className =
+            "btn-confirmar btn-confirmar-recusar";
+    }
+
+
+    modal.style.display = "flex";
 }
 
 
-function confirmarRecusa() {
+/*
+|--------------------------------------------------------------------------
+| FECHAR CAIXINHA
+|--------------------------------------------------------------------------
+*/
 
-    return confirm(
-        "Deseja recusar esta solicitação?"
-    );
+function fecharConfirmacao() {
+
+    document.getElementById(
+        "modalConfirmacao"
+    ).style.display = "none";
+
+    formularioSelecionado = null;
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| CONFIRMAR AÇÃO
+|--------------------------------------------------------------------------
+*/
+
+function confirmarAcao() {
+
+    if (formularioSelecionado) {
+
+        formularioSelecionado.submit();
+
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| FECHAR AO CLICAR FORA DA CAIXINHA
+|--------------------------------------------------------------------------
+*/
+
+document.getElementById(
+    "modalConfirmacao"
+).addEventListener(
+    "click",
+    function(event) {
+
+        if (event.target === this) {
+
+            fecharConfirmacao();
+
+        }
+
+    }
+);
 
 </script>
 

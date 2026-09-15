@@ -760,8 +760,7 @@ function selecionarLab(id) {
     document.getElementById("formReserva").style.display = "block";
 
     // Texto do laboratório
-    document.getElementById("labEscolhido").innerHTML =
-    "<strong></strong> Auditório";
+    document.getElementById("labEscolhido").innerHTML = "<strong></strong> Auditório";
 
     // Texto da data
     document.getElementById("dataEscolhida").innerHTML ="<strong>Data:</strong> " + data;
