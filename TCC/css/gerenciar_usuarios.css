@@ -253,7 +253,7 @@ nav li ul li a:hover{
     margin-left:calc(50% - 50vw);
     margin-bottom:30px;
     padding:35px 20px;
-    background:#72c67c;
+    background:#5dcc7b;
     color:#fff;
     text-align:center;
     font-size:38px;
@@ -279,10 +279,10 @@ nav li ul li a:hover{
     align-items:center;
     justify-content:center;
     padding:12px 22px;
-    background:#72c67c;
+    background:#5dcc7b;
     color:#fff;
     text-decoration:none;
-    border:2px solid #72c67c;
+    border:2px solid #5dcc7b;
     border-radius:25px;
     font-size:17px;
     font-weight:bold;
@@ -318,15 +318,15 @@ nav li ul li a:hover{
 }
 
 .pesquisa input:focus{
-    border-color:#72c67c;
+    border-color:#5dcc7b;
 }
 
 .pesquisa button{
     height:48px;
     padding:0 25px;
-    border:2px solid #72c67c;
+    border:2px solid #5dcc7b;
     border-radius:25px;
-    background:#72c67c;
+    background:#5dcc7b;
     color:#fff;
     font-size:17px;
     font-weight:bold;
@@ -360,7 +360,7 @@ table{
 
 thead th{
     padding:17px 22px;
-    background:#72c67c;
+    background:#5dcc7b;
     color:#fff;
     text-align:left;
     font-size:17px;
@@ -430,8 +430,8 @@ tbody tr:hover{
 /* EDITAR */
 
 .acoes a.editar{
-    background:#72c67c !important;
-    border:2px solid #72c67c;
+    background:#5dcc7b !important;
+    border:2px solid #5dcc7b;
 }
 
 .acoes a.editar:hover{
@@ -452,8 +452,8 @@ tbody tr:hover{
 /* ATIVAR */
 
 .acoes a.ativar{
-    background:#72c67c !important;
-    border:2px solid #72c67c;
+    background:#5dcc7b !important;
+    border:2px solid #5dcc7b;
 }
 
 .acoes a.ativar:hover{
@@ -576,11 +576,11 @@ header.menu::after {
     }
 
     .pesquisa select:hover{
-        border-color:#72c67c;
+        border-color:#5dcc7b;
     }
 
     .pesquisa select:focus{
-        border-color:#72c67c;
+        border-color:#5dcc7b;
         box-shadow:0 0 0 3px rgba(114,198,124,.12);
     }
 }

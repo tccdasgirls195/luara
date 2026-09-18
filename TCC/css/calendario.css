@@ -578,25 +578,43 @@ nav li ul li a:hover {
 /* Botão redondo vermelho com "X" no canto superior direito */
 .btn-close-corner {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background-color: #d32f2f;
-    color: white;
-    border: none;
+
+    top: 10px;
+    right: 15px;
+
+    width: 30px !important;
+    height: 30px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    border: none !important;
+    background: transparent !important;
+
+    color: #555555 !important;
+
+    font-size: 20px !important;
+    font-weight: normal !important;
+
+    line-height: 30px !important;
+
     cursor: pointer;
-    display: flex;
+
+    display: flex !important;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    transition: background 0.2s ease, transform 0.1s ease;
+
+    box-shadow: none !important;
+    outline: none !important;
+
+    appearance: none;
+
+    transition: color 0.2s ease;
 }
 
 .btn-close-corner:hover {
-    background-color: #b71c1c;
-    transform: scale(1.08);
+    background: transparent !important;
+    color: #d92b2b !important;
 }
 
 

@@ -257,7 +257,7 @@ nav li ul li a:hover{
     margin-left: calc(50% - 50vw);
     margin-bottom: 30px;
     padding: 35px 20px;
-    background: #72c67c;
+    background: #5dcc7b;
     color: #fff;
     text-align: center;
     font-size: 38px;
@@ -324,7 +324,7 @@ nav li ul li a:hover{
 
 .formulario input:focus,
 .formulario select:focus{
-    border-color: #72c67c;
+    border-color: #5dcc7b;
     box-shadow: 0 0 0 2px rgba(114,198,124,.15);
 }
 
@@ -375,8 +375,8 @@ nav li ul li a:hover{
 /* CADASTRAR */
 
 .cadastrar{
-    border: 2px solid #72c67c !important;
-    background: #72c67c !important;
+    border: 2px solid #5dcc7b !important;
+    background: #5dcc7b !important;
     color: #fff !important;
 }
 
@@ -442,10 +442,10 @@ nav li ul li a:hover{
 .voltar{
     display: inline-block;
     padding: 12px 24px;
-    background: #72c67c;
+    background: #5dcc7b;
     color: #fff;
     text-decoration: none;
-    border: 2px solid #72c67c;
+    border: 2px solid #5dcc7b;
     border-radius: 25px;
     font-size: 16px;
     font-weight: bold;

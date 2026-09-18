@@ -490,18 +490,6 @@ $param_turma = $id_turma_selecionada
         <a href="#" class="has-submenu">A Etec</a>
         <a href="#" class="has-submenu">Equipe Etec</a>
 
-        <li>
-            <a href="../selecionar_lab.html" class="has-submenu">Agendamento</a>
-
-            <ul class="submenu">
-                <li>
-                    <a href="meus-agendamentos.php">
-                        Meus agendamentos
-                    </a>
-                </li>
-            </ul>
-        </li>
-
         <a href="#" class="has-submenu">Notícias</a>
         <a href="">Empregos & Estágios</a>
         <a href="">Parceiros</a>
@@ -840,11 +828,6 @@ $param_turma = $id_turma_selecionada
             </div>
 
         <?php else: ?>
-
-            <p class="somente-visualizacao">
-                <i class="fa-solid fa-eye"></i>
-                Modo somente visualização
-            </p>
 
         <?php endif; ?>
 

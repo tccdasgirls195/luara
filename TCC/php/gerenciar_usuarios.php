@@ -202,7 +202,6 @@ $resultGestao = $stmt->get_result();
     </nav>
 </header>
 
-
 <main class="container">
 
     <h1>

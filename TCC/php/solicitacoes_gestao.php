@@ -194,10 +194,7 @@ if ($stmt) {
             <li>
 
                 <a
-                    href="selecionar_lab.html"
-                    class="has-submenu"
-                >
-                    Agendamento
+                    href="selecionar_lab.html"class="has-submenu"> Agendamento
                 </a>
 
                 <ul class="submenu">

@@ -329,7 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar_agendamento'])
 
                 if (mysqli_stmt_execute($stmtInsert)) {
 
-    header("Location: agendamento_adm.php?sucesso=1");
+    header("Location: agendamento.php?sucesso=1");
     exit();
 
 }
@@ -423,7 +423,7 @@ if (
 
 <link
     rel="stylesheet"
-    href="../css/agendamento.css">
+    href="../css/agendamento_menu.css">
 
 <link
     rel="stylesheet"
@@ -469,41 +469,128 @@ if (
         <a href=""> TCC</a>
 
     </nav>
+
+    <!-- BOTÕES DA BARRA LATERAL -->
+    <div class="acoes-header">
+
+        <button
+            type="button"
+            class="botao-header botao-menu"
+            aria-label="Abrir menu lateral"
+            onclick="abrirBarraLateral()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+    </div>
+
 </header>
 
 
 <section class="titulo">
-    <h1>Agendamento - Laboratórios ADM</h1>
-
+    <h1>Agendamento - Laboratórios DS</h1>
 </section>
 
+
 <!-- =====================================================
-     LOGOUT
+     BARRA LATERAL
 ====================================================== -->
 
-<form
-    action="agendamento_adm.php"
-    method="POST"
-    style="display:inline;">
+<div
+    id="fundoBarraLateral"
+    class="fundo-barra"
+    onclick="fecharBarraLateral()">
+</div>
 
-    <input
-        type="hidden"
-        name="logout"
-        value="1">
+<aside id="barraLateral" class="barra-lateral">
 
-    <button
-        type="submit"
-        style="
-            background:none;
-            border:none;
-            color:#ff4d4d;
-            cursor:pointer;
-            font:inherit;">
+    <div class="barra-topo"></div>
 
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Sair
-    </button>
-</form>
+    <!-- OPÇÃO FIXA DE CIMA -->
+    <div class="barra-opcao-fixa">
+
+        <?php if ($usuario_tipo === 'coordenador'): ?>
+
+            <a href="#" class="opcao-lateral">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Cadastro representante</span>
+            </a>
+
+        <?php else: ?>
+
+            <a href="../tcc/php/solicitacoes_gestao.php" class="opcao-lateral">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <span>Solicitações</span>
+            </a>
+
+        <?php endif; ?>
+
+    </div>
+
+
+    <!-- NOTIFICAÇÕES: ESTA ÁREA ROLA -->
+    <div class="area-notificacoes">
+
+        <h2>Notificações</h2>
+
+        <div class="lista-notificacoes">
+
+            <div class="notificacao">
+                <i class="fa-solid fa-circle-check notificacao-ok"></i>
+                <span>Agendamento</span>
+            </div>
+
+            <div class="notificacao">
+                <i class="fa-solid fa-circle-xmark notificacao-erro"></i>
+                <span>Cancelamento</span>
+            </div>
+
+            <div class="notificacao">
+                <i class="fa-solid fa-circle-xmark notificacao-erro"></i>
+                <span>Cancelamento</span>
+            </div>
+
+            <div class="notificacao">
+                <i class="fa-solid fa-circle-check notificacao-ok"></i>
+                <span>Agendamento</span>
+            </div>
+
+            <div class="notificacao">
+                <i class="fa-solid fa-circle-check notificacao-ok"></i>
+                <span>Agendamento</span>
+            </div>
+
+            <div class="notificacao">
+                <i class="fa-solid fa-circle-check notificacao-ok"></i>
+                <span>Agendamento</span>
+            </div>
+
+            <div class="notificacao">
+                <i class="fa-solid fa-circle-xmark notificacao-erro"></i>
+                <span>Cancelamento</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOGOUT: FICA SEMPRE EMBAIXO -->
+    <div class="barra-logout">
+
+        <form action="agendamento.php" method="POST">
+
+            <input type="hidden" name="logout" value="1">
+
+            <button type="submit">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Sair</span>
+            </button>
+
+        </form>
+
+    </div>
+
+</aside>
 
 <div class="container">
 
@@ -591,17 +678,35 @@ if (
         <div class="mapa">
 
             <div
-                class="lab <?= in_array(6,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(6,$ocupados) ? '' : 'selecionarLab(6)' ?>">
-                LAB 1
+                class="lab <?= in_array(3,$ocupados) ? 'ocupado' : '' ?>"
+                onclick="<?= in_array(3,$ocupados) ? '' : 'selecionarLab(3)' ?>">
+                LAB 3
+            </div>
+
+            <div
+                class="lab <?= in_array(4,$ocupados) ? 'ocupado' : '' ?>"
+                onclick="<?= in_array(4,$ocupados) ? '' : 'selecionarLab(4)' ?>">
+                LAB 4
+            </div>
+
+            <div
+                class="lab <?= in_array(5,$ocupados) ? 'ocupado' : '' ?>"
+                onclick="<?= in_array(5,$ocupados) ? '' : 'selecionarLab(5)' ?>">
+                LAB 5
+            </div>
+
+            <div
+                class="lab <?= in_array(2,$ocupados) ? 'ocupado' : '' ?>"
+                onclick="<?= in_array(2,$ocupados) ? '' : 'selecionarLab(2)' ?>">
+                LAB 2
             </div>
 
             <div class="vazio"></div>
 
             <div
-                class="lab <?= in_array(7,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(7,$ocupados) ? '' : 'selecionarLab(7)' ?>">
-                LAB 2
+                class="lab <?= in_array(1,$ocupados) ? 'ocupado' : '' ?>"
+                onclick="<?= in_array(1,$ocupados) ? '' : 'selecionarLab(1)' ?>">
+                LAB 1
             </div>
 
         </div>
@@ -626,7 +731,7 @@ if (
             </h2>
 
             <form
-                action="agendamento_adm.php"
+                action="agendamento.php"
                 method="POST">
 
                 <!-- LABORATÓRIO -->
@@ -694,31 +799,6 @@ if (
     </div>
 </div>
 
-<div id="alertaDataHorario" class="overlay-alerta">
-
-    <div class="caixa-alerta">
-
-        <button
-            type="button"
-            class="fechar-alerta"
-            onclick="fecharAlertaDataHorario()">
-            &times;
-        </button>
-
-        <div class="icone-alerta">
-            <i class="fa-solid fa-calendar-xmark"></i>
-        </div>
-
-        <h2>Selecione uma data e um horário!</h2>
-
-        <p>
-            Para prosseguir o agendamento, selecione uma data e um horário
-        </p>
-
-    </div>
-
-</div>
-
 <script>
 
 // ==========================================================
@@ -750,7 +830,7 @@ document.addEventListener(
                 sessionStorage.setItem("horario",horario.value);
 
 
-                window.location.href ="agendamento_adm.php?data=" +encodeURIComponent(data.value) +"&horario=" + encodeURIComponent(horario.value);
+                window.location.href ="agendamento.php?data=" +encodeURIComponent(data.value) +"&horario=" + encodeURIComponent(horario.value);
             }
         }
 
@@ -786,17 +866,16 @@ function selecionarLab(id) {
     const horario = document.getElementById("horario").value;
 
 
-  if (data === "" || horario === "") {
-    document.getElementById("alertaDataHorario").style.display = "flex";
-    return;
-}
+    if (data === "" || horario === "") {
+        alert("Selecione a data e o horário antes de escolher um laboratório.");
+        return;
+    }
 
     // Mostra o formulário
     document.getElementById("formReserva").style.display = "block";
 
     // Texto do laboratório
-    document.getElementById("labEscolhido").innerHTML = "<strong></strong> Laboratório " + (id - 5);
-
+    document.getElementById("labEscolhido" ).innerHTML = "<strong>Laboratório:</strong> LAB " + id;
 
     // Texto da data
     document.getElementById("dataEscolhida").innerHTML ="<strong>Data:</strong> " + data;
@@ -814,13 +893,42 @@ function selecionarLab(id) {
 // ==========================================================
 // FECHA FORMULÁRIO
 // ==========================================================
-function fecharAlertaDataHorario() {
-    document.getElementById("alertaDataHorario").style.display = "none";
-}
 
 function fecharFormulario() {
     document.getElementById("formReserva").style.display = "none";
 }
+
+
+// ==========================================================
+// BARRA LATERAL
+// ==========================================================
+
+function abrirBarraLateral() {
+
+    document.getElementById("barraLateral").classList.add("aberta");
+    document.getElementById("fundoBarraLateral").classList.add("ativo");
+
+    document.body.classList.add("barra-aberta");
+}
+
+
+function fecharBarraLateral() {
+
+    document.getElementById("barraLateral").classList.remove("aberta");
+    document.getElementById("fundoBarraLateral").classList.remove("ativo");
+
+    document.body.classList.remove("barra-aberta");
+}
+
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+        fecharBarraLateral();
+    }
+
+});
+
 
 // ==========================================================
 // VOLTAR PARA LOGIN

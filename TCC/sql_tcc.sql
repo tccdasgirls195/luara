@@ -133,11 +133,11 @@ VALUES ('nome','professor@email.com', '123456', 1, 1);
 
 
 INSERT INTO ambientes (nome, tipo)VALUES
-('Laboratório de Informática 1', 'DS'),
-('Laboratório de Informática 2', 'DS'),
-('Laboratório de Informática 3', 'DS'),
-('Laboratório de Informática 4', 'DS'),
-('Laboratório de Informática 5', 'DS'),
+('Laboratório de Desenvolvimento de Sistemas 1', 'DS'),
+('Laboratório de Desenvolvimento de Sistemas 2', 'DS'),
+('Laboratório de Desenvolvimento de Sistemas 3', 'DS'),
+('Laboratório de Desenvolvimento de Sistemas 4', 'DS'),
+('Laboratório de Desenvolvimento de Sistemas 5', 'DS'),
 ('Laboratório de Administração 6', 'ADM'),
 ('Laboratório de Administração 7', 'ADM'),
 ('Laboratório de Automação 8', 'AUT'),
@@ -250,3 +250,23 @@ update turma set curso='ELE' where id_turma=16;
 UPDATE agendamentos SET
 status = 'Pendente', solicitante_id = 1, solicitante_tipo = 'professor'
 WHERE id_agendamentos = 1;
+
+select * from agendamentos;
+SELECT * FROM representante;
+select * from registros_acesso;
+SELECT 
+    a.id_agendamentos,
+    a.nome_prof,
+    a.descr,
+    a.data_agendamento,
+    a.id_gestao,
+    a.id_professor,
+    a.id_ambientes,
+    TRIM(REGEXP_REPLACE(amb.nome, '[[:space:]]*[0-9]+$', '')) AS nome_ambiente,
+    a.horario,
+    a.solicitante_id,
+    a.solicitante_tipo,
+    a.status
+FROM agendamentos a
+INNER JOIN ambientes amb
+    ON a.id_ambientes = amb.id_ambientes;

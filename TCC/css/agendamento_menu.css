@@ -305,21 +305,22 @@ nav li ul li a:hover{
 .campo-horario select{
     width:100%;
     height:40px;
+
     border:2px solid #666;
     border-radius:25px;
+
     padding:0 40px 0 15px;
+
     font-size:18px;
+
     appearance:none;
+
     background:white;
+
     cursor:pointer;
+
     outline:none;
 }
-
-
-
-
-
-
 
 .campo-horario select:focus{
     border-color:#72c67c;
@@ -866,6 +867,46 @@ nav li ul li a:hover{
     }
 }
 
+/* =========================
+   BOTÃO X - FECHAR FORMULÁRIO
+   ========================= */
+
+#formReserva{
+    position:fixed;
+}
+
+.fechar-formulario{
+    position:absolute;
+
+    top:10px;
+    right:15px;
+
+    width:35px !important;
+    height:35px !important;
+
+    margin:0 !important;
+    padding:0;
+
+    border:none !important;
+    border-radius:50% !important;
+
+    background:transparent !important;
+
+    color:#555 !important;
+
+    font-size:30px !important;
+    font-weight:normal !important;
+
+    line-height:30px;
+
+    cursor:pointer;
+}
+
+.fechar-formulario:hover{
+    background:#f1f1f1 !important;
+    color:#d92b2b !important;
+}
+
 
 /* =====================================================
    CELULARES PEQUENOS
@@ -912,168 +953,353 @@ nav li ul li a:hover{
     }
 }
 
-/* =====================================================
-   CAIXINHA DE AVISO - DATA E HORÁRIO
-===================================================== */
 
-.overlay-alerta {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.45);
-
-    justify-content: center;
-    align-items: center;
-
-    z-index: 99999;
-}
-
-.caixa-alerta {
-    position: relative;
-
-    width: 330px;
-    min-height: 120px;
-
-    background: #ffffff;
-
-    border-radius: 12px;
-
-    padding: 25px 25px 22px;
-
-    text-align: center;
-
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.30);
-
-    box-sizing: border-box;
-}
-
-.caixa-alerta h2 {
-    margin: 0 0 6px 0;
-
-    font-size: 18px;
-    font-weight: bold;
-
-    color: #111111;
-}
-
-.caixa-alerta p {
-    margin: 0;
-
-    font-size: 16px;
-    line-height: 1.3;
-
-    color: #222222;
-}
-
-.icone-alerta {
-    margin-bottom: 3px;
-
-    font-size: 18px;
-
-    color: #111111;
-}
 
 /* =====================================================
-   X DOS MODAIS
-===================================================== */
+   BOTÕES DO CABEÇALHO
+   ===================================================== */
 
-.fechar-formulario,
-.fechar-alerta {
-    position: absolute;
+.acoes-header{
+    margin-left:auto;
+    height:100%;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:0 20px 0 10px;
+    flex-shrink:0;
+}
 
-    top: 10px;
-    right: 15px;
+.botao-header{
+    width:48px;
+    height:48px;
+    border:none;
+    background:transparent;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:#111;
+    font-size:30px;
+    border-radius:8px;
+    transition:0.2s;
+}
 
-    width: 30px !important;
-    height: 30px !important;
+.botao-header:hover{
+    background:#dff5e6;
+    color:#176b31;
+}
 
-    padding: 0 !important;
-    margin: 0 !important;
-
-    border: none !important;
-    background: transparent !important;
-
-    color: #555555 !important;
-
-    font-size: 30px !important;
-    font-weight: normal !important;
-
-    line-height: 30px !important;
-
-    cursor: pointer;
-
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-
-    box-shadow: none !important;
-    outline: none !important;
-
-    transition: color 0.2s ease;
+.botao-menu{
+    font-size:32px;
 }
 
 
 /* =====================================================
-   QUANDO PASSAR O MOUSE
-===================================================== */
+   BARRA LATERAL
+   ===================================================== */
 
-.fechar-formulario:hover,
-.fechar-alerta:hover {
-    background: transparent !important;
+.barra-lateral{
+    position:fixed;
+    top:137px;
+    right:0;
 
-    color: #d92b2b !important;
+    width:310px;
+    height:calc(100vh - 137px);
 
-    border: none !important;
+    background:#fff;
 
-    box-shadow: none !important;
+    display:flex;
+    flex-direction:column;
+
+    box-shadow:-4px 0 18px rgba(0,0,0,0.18);
+
+    z-index:10000;
+
+    transform:translateX(100%);
+    transition:transform 0.3s ease;
+
+    overflow:hidden;
 }
+
+.barra-lateral.aberta{
+    transform:translateX(0);
+}
+
+
+/* FAIXA VERDE */
+
+.barra-topo{
+    width:100%;
+    height:50px;
+    min-height:50px;
+    background:#72c67c;
+}
+
+
+/* FUNDO ATRÁS DA BARRA */
+
+.fundo-barra{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,0.18);
+
+    z-index:9999;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:0.25s;
+}
+
+.fundo-barra.ativo{
+    opacity:1;
+    visibility:visible;
+}
+
 
 /* =====================================================
-   FUNDO ESCURO DO FORMULÁRIO DE RESERVA
-===================================================== */
+   OPÇÃO FIXA SUPERIOR
+   ===================================================== */
 
-.overlay-reserva {
-    display: none;
+.barra-opcao-fixa{
+    width:100%;
+    padding:12px 14px 6px;
+    flex-shrink:0;
+}
 
-    position: fixed;
+.opcao-lateral{
+    min-height:48px;
+    width:100%;
 
-    top: 0;
-    left: 0;
+    padding:10px 14px;
 
-    width: 100%;
-    height: 100%;
+    display:flex;
+    align-items:center;
+    gap:10px;
 
-    background: rgba(0, 0, 0, 0.55);
+    border:2px solid #222;
+    border-radius:14px;
 
-    align-items: center;
-    justify-content: center;
+    color:#222;
+    background:#fff;
 
-    z-index: 9998;
+    text-decoration:none;
+
+    font-size:19px;
+
+    transition:0.2s;
+}
+
+.opcao-lateral:hover{
+    background:#f1fff4;
+    border-color:#72c67c;
+}
+
+.opcao-lateral i{
+    width:24px;
+    text-align:center;
+    color:#72c67c;
+    flex-shrink:0;
 }
 
 
 /* =====================================================
-   QUANDO O FORMULÁRIO ESTIVER ABERTO
-===================================================== */
+   NOTIFICAÇÕES COM ROLAGEM
+   ===================================================== */
 
-.overlay-reserva.ativo {
-    display: flex;
+.area-notificacoes{
+    min-height:0;
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:8px 14px 10px;
+}
+
+.area-notificacoes h2{
+    margin:0;
+    padding:5px 5px 10px;
+
+    font-size:21px;
+    font-weight:normal;
+    color:#222;
+
+    flex-shrink:0;
+}
+
+.lista-notificacoes{
+    flex:1;
+    min-height:0;
+
+    overflow-y:auto;
+
+    padding:0 2px 5px 0;
+
+    scrollbar-width:thin;
+    scrollbar-color:#b8b8b8 transparent;
+}
+
+.lista-notificacoes::-webkit-scrollbar{
+    width:7px;
+}
+
+.lista-notificacoes::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+.lista-notificacoes::-webkit-scrollbar-thumb{
+    background:#bbb;
+    border-radius:10px;
+}
+
+
+/* CADA NOTIFICAÇÃO */
+
+.notificacao{
+    width:100%;
+    min-height:44px;
+
+    margin-bottom:14px;
+    padding:8px 12px;
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    border:2px solid #222;
+    border-radius:14px;
+
+    background:#fff;
+
+    font-size:19px;
+}
+
+.notificacao i{
+    font-size:18px;
+    flex-shrink:0;
+}
+
+.notificacao-ok{
+    color:#5fd477;
+}
+
+.notificacao-erro{
+    color:#e94a43;
 }
 
 
 /* =====================================================
-   FORMULÁRIO
-===================================================== */
+   LOGOUT FIXO EMBAIXO
+   ===================================================== */
 
-.overlay-reserva .form-reserva {
-    display: block;
+.barra-logout{
+    width:100%;
 
-    position: relative;
+    padding:10px 14px 16px;
 
-    z-index: 9999;
+    background:#fff;
+
+    border-top:1px solid #ddd;
+
+    flex-shrink:0;
 }
 
+.barra-logout form{
+    margin:0;
+}
+
+.barra-logout button{
+    width:100%;
+    height:50px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#f5f5f5;
+
+    color:#e34842;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+
+    font-size:19px;
+
+    transition:0.2s;
+}
+
+.barra-logout button:hover{
+    background:#ffe9e8;
+    color:#c92f29;
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE DA BARRA LATERAL
+   ===================================================== */
+
+@media (max-width:768px){
+
+    .acoes-header{
+        width:100%;
+        height:auto;
+        justify-content:flex-end;
+        padding:5px 10px 0;
+    }
+
+    .barra-lateral{
+        top:0;
+        width:min(310px,88vw);
+        height:100vh;
+    }
+
+    .barra-topo{
+        height:55px;
+        min-height:55px;
+    }
+
+    .opcao-lateral{
+        font-size:18px;
+    }
+
+    .notificacao{
+        font-size:17px;
+    }
+
+    .area-notificacoes h2{
+        font-size:20px;
+    }
+}
+
+@media (max-width:480px){
+
+    .botao-header{
+        width:42px;
+        height:42px;
+        font-size:26px;
+    }
+
+    .botao-menu{
+        font-size:29px;
+    }
+
+    .barra-lateral{
+        width:88vw;
+    }
+
+    .notificacao{
+        min-height:42px;
+        margin-bottom:12px;
+        font-size:16px;
+    }
+
+    .opcao-lateral{
+        min-height:45px;
+        font-size:17px;
+    }
+}

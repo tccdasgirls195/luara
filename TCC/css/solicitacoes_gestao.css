@@ -586,23 +586,18 @@ nav li ul li a:hover{
 
 .fechar-modal {
     position: absolute;
-
     top: 12px;
     right: 16px;
-
     border: none;
     background: none;
-
     font-size: 28px;
-
-    color: #777;
-
+    color: #555555;
     cursor: pointer;
 }
 
 
 .fechar-modal:hover {
-    color: #333;
+    color: #d92b2b;
 }
 
 
@@ -643,7 +638,7 @@ nav li ul li a:hover{
 
 
 .btn-confirmar {
-    background: #1c7136;
+    background: #5dcc7b;
 
     color: white;
 }
@@ -655,7 +650,7 @@ nav li ul li a:hover{
 
 
 .btn-confirmar-recusar {
-    background: #d92b2b;
+    background: #ea3e3e;
 }
 
 

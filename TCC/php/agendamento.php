@@ -628,69 +628,104 @@ if (
              FORMULÁRIO
         ================================================== -->
 
-        <div
-            id="formReserva"
-            style="display:none;">
+       <!-- =================================================
+     FUNDO ESCURO + FORMULÁRIO DE RESERVA
+================================================== -->
+
+<div id="overlayReserva" class="overlay-reserva">
+
+    <div id="formReserva" class="form-reserva">
+
+        <button
+            type="button"
+            class="fechar-formulario"
+            onclick="fecharFormulario()">
+            &times;
+        </button>
+
+        <h2>
+            Solicitar reserva
+        </h2>
+
+        <form
+            action="agendamento.php"
+            method="POST">
+
+            <!-- LABORATÓRIO -->
+
+            <p id="labEscolhido"></p>
+
+
+            <!-- DATA -->
+
+            <p id="dataEscolhida"></p>
+
+
+            <!-- HORÁRIO -->
+
+            <p id="horarioEscolhido"></p>
+
+
+            <!-- CAMPOS OCULTOS -->
+
+            <input
+                type="hidden"
+                name="id_ambientes"
+                id="id_ambientes">
+
+
+            <input
+                type="hidden"
+                name="data_agendamento"
+                id="data_agendamento">
+
+
+            <input
+                type="hidden"
+                name="horario"
+                id="horario_form">
+
+
+            <!-- NOME -->
+
+            <label>
+                Nome do solicitante:
+            </label>
+
+
+            <input
+                type="text"
+                value="<?= htmlspecialchars($nome_usuario) ?>"
+                readonly>
+
+
+            <!-- DESCRIÇÃO -->
+
+            <label>
+                Descrição:
+            </label>
+
+
+            <textarea
+                name="descr"
+                maxlength="120"
+                required
+                placeholder="Descrição..."></textarea>
+
+
+            <!-- BOTÃO -->
 
             <button
-                type="button"
-                class="fechar-formulario"
-                onclick="fecharFormulario()">
-                &times;
+                type="submit"
+                name="enviar_agendamento">
+                Enviar solicitação
             </button>
 
-            <h2>
-                Solicitar reserva
-            </h2>
+        </form>
 
-            <form
-                action="agendamento.php"
-                method="POST">
+    </div>
 
-                <!-- LABORATÓRIO -->
-                <p id="labEscolhido"></p>
-
-                <!-- DATA -->
-                <p id="dataEscolhida"></p>
-
-                <!-- HORÁRIO -->
-                <p id="horarioEscolhido"></p>
-
-                <!-- CAMPOS OCULTOS -->
-                <input
-                    type="hidden"
-                    name="id_ambientes"
-                    id="id_ambientes">
-
-                <input
-                    type="hidden"
-                    name="data_agendamento"
-                    id="data_agendamento">
-
-                <input
-                    type="hidden"
-                    name="horario"
-                    id="horario_form">
-
-                <!-- NOME -->
-
-                <label>Nome do solicitante:</label>
-
-                <input type="text"value="<?= htmlspecialchars($nome_usuario) ?>"readonly>
-
-                <!-- DESCRIÇÃO -->
-
-                <label>Descrição:</label>
-
-                <textarea
-                    name="descr" maxlength="120" required placeholder="Descrição..."></textarea>
-
-                <!-- BOTÃO -->
-                <button type="submit" name="enviar_agendamento">
-                    Enviar solicitação
-                </button>
-            </form>
-        </div>
+</div>
 
         <!-- =================================================
              LEGENDA
@@ -710,6 +745,31 @@ if (
             </div>
         </div>
     </div>
+</div>
+
+<div id="alertaDataHorario" class="overlay-alerta">
+
+    <div class="caixa-alerta">
+
+        <button
+            type="button"
+            class="fechar-alerta"
+            onclick="fecharAlertaDataHorario()">
+            &times;
+        </button>
+
+        <div class="icone-alerta">
+            <i class="fa-solid fa-calendar-xmark"></i>
+        </div>
+
+        <h2>Selecione uma data e um horário!</h2>
+
+        <p>
+            Para prosseguir o agendamento, selecione uma data e um horário
+        </p>
+
+    </div>
+
 </div>
 
 <script>
@@ -779,13 +839,13 @@ function selecionarLab(id) {
     const horario = document.getElementById("horario").value;
 
 
-    if (data === "" || horario === "") {
-        alert("Selecione a data e o horário antes de escolher um laboratório.");
-        return;
-    }
+  if (data === "" || horario === "") {
+    document.getElementById("alertaDataHorario").style.display = "flex";
+    return;
+}
 
     // Mostra o formulário
-    document.getElementById("formReserva").style.display = "block";
+    document.getElementById("overlayReserva").classList.add("ativo");
 
     // Texto do laboratório
     document.getElementById("labEscolhido" ).innerHTML = "<strong></strong> Laboratório " + id;
@@ -807,8 +867,12 @@ function selecionarLab(id) {
 // FECHA FORMULÁRIO
 // ==========================================================
 
+function fecharAlertaDataHorario() {
+    document.getElementById("alertaDataHorario").style.display = "none";
+}
+
 function fecharFormulario() {
-    document.getElementById("formReserva").style.display = "none";
+    document.getElementById("overlayReserva").classList.remove("ativo");
 }
 
 // ==========================================================

@@ -694,6 +694,31 @@ if (
     </div>
 </div>
 
+<div id="alertaDataHorario" class="overlay-alerta">
+
+    <div class="caixa-alerta">
+
+        <button
+            type="button"
+            class="fechar-alerta"
+            onclick="fecharAlertaDataHorario()">
+            &times;
+        </button>
+
+        <div class="icone-alerta">
+            <i class="fa-solid fa-calendar-xmark"></i>
+        </div>
+
+        <h2>Selecione uma data e um horário!</h2>
+
+        <p>
+            Para prosseguir o agendamento, selecione uma data e um horário
+        </p>
+
+    </div>
+
+</div>
+
 <script>
 
 // ==========================================================
@@ -761,10 +786,10 @@ function selecionarLab(id) {
     const horario = document.getElementById("horario").value;
 
 
-    if (data === "" || horario === "") {
-        alert("Selecione a data e o horário antes de escolher um laboratório.");
-        return;
-    }
+  if (data === "" || horario === "") {
+    document.getElementById("alertaDataHorario").style.display = "flex";
+    return;
+}
 
     // Mostra o formulário
     document.getElementById("formReserva").style.display = "block";
@@ -788,6 +813,9 @@ document.getElementById("labEscolhido").innerHTML = "<strong></strong> Laborató
 // ==========================================================
 // FECHA FORMULÁRIO
 // ==========================================================
+function fecharAlertaDataHorario() {
+    document.getElementById("alertaDataHorario").style.display = "none";
+}
 
 function fecharFormulario() {
     document.getElementById("formReserva").style.display = "none";
