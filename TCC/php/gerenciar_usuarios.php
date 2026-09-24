@@ -152,6 +152,9 @@ $resultGestao = $stmt->get_result();
           content="width=device-width, initial-scale=1.0">
 
     <title>Gerenciamento de Usuários</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
 
     <link rel="stylesheet"
           href="../css/gerenciar_usuarios.css">
@@ -202,18 +205,18 @@ $resultGestao = $stmt->get_result();
     </nav>
 </header>
 
-<main class="container">
 
-    <h1>
-        Gerenciamento de Usuários
-    </h1>
+<section class="titulo">
 
+    <h1>Gerenciamento de Usuários</h1>
+
+</section>
 
     <p class="subtitulo" align="center">
         Gerencie os usuários cadastrados no sistema.
     </p>
 
-
+    <main class="container">
     <!-- =====================================================
          CADASTRAR USUÁRIO
     ====================================================== -->
@@ -953,9 +956,27 @@ $resultGestao = $stmt->get_result();
 </main>
 
 
-</body>
+<section>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2 offset-sm-5 text-center">
+            <button class="btn btn-warning text-white btn-block" onclick="voltar()">Voltar</button>
+            <script>
+              function voltar(){
+                history.back();
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+    </section><!-- End About Section -->
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
 </html>
+
 
 
 <?php

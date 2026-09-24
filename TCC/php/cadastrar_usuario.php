@@ -315,8 +315,9 @@ $turmas = $conn->query(
 
     <title>Cadastrar Usuário</title>
 
-    <link rel="stylesheet"
-          href="../css/cadastrar_usuario.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet"href="../css/cadastrar_usuario.css">
 
 </head>
 
@@ -412,20 +413,19 @@ $turmas = $conn->query(
          FORMULÁRIO
     ================================================== -->
 
-    <main class="container">
 
+    <section class="titulo">
 
-        <h1>
-            Cadastrar Usuário
-        </h1>
+        <h1>Cadastrar Usuários</h1>
 
+    </section>
 
         <p class="subtitulo">
 
             Preencha os dados para cadastrar um novo usuário.
 
         </p>
-
+        <main class="container">
 
 
         <?php if (!empty($erro)): ?>
@@ -782,14 +782,25 @@ function mostrarCampos() {
 
 </script>
 
+<section>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2 offset-sm-5 text-center">
+            <button class="btn btn-warning text-white btn-block" onclick="voltar()">Voltar</button>
+            <script>
+              function voltar(){
+                history.back();
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+    </section><!-- End About Section -->
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
-
 </html>
 
-
 <?php
-
 $conn->close();
-
 ?>
