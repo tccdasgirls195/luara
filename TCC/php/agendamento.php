@@ -474,7 +474,7 @@ if (
 
 
 <section class="titulo">
-    <h1>Agendamento - Laboratórios DS</h1>
+    <h1>Agendamento</h1>
 
 </section>
 
@@ -589,41 +589,84 @@ if (
              MAPA DOS LABORATÓRIOS
         ================================================== -->
 
-        <div class="mapa">
+        <div class="area-laboratorios">
 
-            <div
-                class="lab <?= in_array(3,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(3,$ocupados) ? '' : 'selecionarLab(3)' ?>">
-                LAB 3
-            </div>
+    <!-- DS -->
+    <div class="titulo-laboratorios">
+        <h2>Laboratórios de DS</h2>
+    </div>
 
-            <div
-                class="lab <?= in_array(4,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(4,$ocupados) ? '' : 'selecionarLab(4)' ?>">
-                LAB 4
-            </div>
+    <div class="mapa">
 
-            <div
-                class="lab <?= in_array(5,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(5,$ocupados) ? '' : 'selecionarLab(5)' ?>">
-                LAB 5
-            </div>
-
-            <div
-                class="lab <?= in_array(2,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(2,$ocupados) ? '' : 'selecionarLab(2)' ?>">
-                LAB 2
-            </div>
-
-            <div class="vazio"></div>
-
-            <div
-                class="lab <?= in_array(1,$ocupados) ? 'ocupado' : '' ?>"
-                onclick="<?= in_array(1,$ocupados) ? '' : 'selecionarLab(1)' ?>">
-                LAB 1
-            </div>
-
+        <div class="lab <?= in_array(1, $ocupados) ? 'ocupado' : '' ?>"
+             onclick="<?= in_array(1, $ocupados) ? '' : 'selecionarLab(1)' ?>">
+            LAB 1
         </div>
+
+        <div class="lab <?= in_array(2, $ocupados) ? 'ocupado' : '' ?>"
+             onclick="<?= in_array(2, $ocupados) ? '' : 'selecionarLab(2)' ?>">
+            LAB 2
+        </div>
+
+        <div class="lab <?= in_array(3, $ocupados) ? 'ocupado' : '' ?>"
+             onclick="<?= in_array(3, $ocupados) ? '' : 'selecionarLab(3)' ?>">
+            LAB 3
+        </div>
+
+        <div class="lab <?= in_array(4, $ocupados) ? 'ocupado' : '' ?>"
+             onclick="<?= in_array(4, $ocupados) ? '' : 'selecionarLab(4)' ?>">
+            LAB 4
+        </div>
+
+        <div class="lab <?= in_array(5, $ocupados) ? 'ocupado' : '' ?>"
+             onclick="<?= in_array(5, $ocupados) ? '' : 'selecionarLab(5)' ?>">
+            LAB 5
+        </div>
+
+    </div>
+
+    <br><br>
+
+    <!-- ADM / RH -->
+    <div class="titulo-laboratorios">
+        <h2>Laboratórios de ADM / RH</h2>
+    </div>
+
+    <div class="mapa">
+
+        <div class="lab <?= in_array(6, $ocupados) ? 'ocupado' : '' ?>"
+             onclick="<?= in_array(6, $ocupados) ? '' : 'selecionarLab(6)' ?>">
+            LAB 1
+        </div>
+
+        <div class="lab <?= in_array(7, $ocupados) ? 'ocupado' : '' ?>"
+             onclick="<?= in_array(7, $ocupados) ? '' : 'selecionarLab(7)' ?>">
+            LAB 2
+        </div>
+
+    </div>
+
+   <br><br>
+    <!-- AUTOMAÇÃO -->
+    <div class="titulo-laboratorios">
+        <h2>Laboratórios de Automação</h2>
+    </div>
+
+    <div class="mapa">
+
+        <div class="lab <?= in_array(8, $ocupados) ? 'ocupado' : '' ?>"
+             onclick="<?= in_array(8, $ocupados) ? '' : 'selecionarLab(8)' ?>">
+            LAB 1
+        </div>
+
+        <div class="lab <?= in_array(9, $ocupados) ? 'ocupado' : '' ?>"
+             onclick="<?= in_array(9, $ocupados) ? '' : 'selecionarLab(9)' ?>">
+            LAB 2
+        </div>
+
+    </div>
+
+</div>
 
         <!-- =================================================
              FORMULÁRIO

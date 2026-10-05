@@ -11,7 +11,7 @@ header("Expires: 0");
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: login.php");
+    header("Location: eventos_login.php");
     exit();
 }
 
@@ -23,6 +23,13 @@ include("conexao.php");
  * da página eventos_login.php pode adicionar, editar ou excluir.
  */
 $modo_editor = isset($_SESSION['eventos_editor']) && $_SESSION['eventos_editor'] === true;
+$modo_gestao = isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'gestao';
+
+// Representante e Gestão possuem permissões diferentes:
+// representante -> eventos somente da própria turma
+// gestão -> eventos gerais para todas as turmas
+$pode_gerenciar_eventos = $modo_editor || $modo_gestao;
+
 $id_representante = isset($_SESSION['eventos_representante_id'])
     ? (int)$_SESSION['eventos_representante_id']
     : null;
@@ -86,7 +93,7 @@ if ($mes_atual < 1) {
  */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salvar_evento'])) {
 
-    if (!$modo_editor) {
+    if (!$pode_gerenciar_eventos) {
         header("Location: calendario.php");
         exit();
     }
@@ -94,17 +101,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salvar_evento'])) {
     $nome = trim($_POST['nome'] ?? '');
     $data_evento = $_POST['data_evento'] ?? '';
     $tipo = $_POST['tipo'] ?? '';
-    $id_turma = (int)($_POST['id_turma'] ?? 0);
 
     $tipos_validos = ['Prova', 'Trabalho', 'Evento'];
+
+    // Gestão cria evento geral: id_turma = NULL.
+    // Representante cria evento somente na própria turma.
+    if ($modo_gestao) {
+        $id_turma = null;
+    } elseif ($modo_editor && isset($turma_representante)) {
+        $id_turma = $turma_representante;
+    } else {
+        $id_turma = null;
+    }
 
     if (
         $nome !== '' &&
         $data_evento !== '' &&
-        $id_turma > 0 &&
         in_array($tipo, $tipos_validos, true) &&
-        isset($turma_representante) &&
-        $id_turma === $turma_representante
+        ($modo_gestao || ($modo_editor && isset($turma_representante)))
     ) {
 
         $stmt_evento = mysqli_prepare(
@@ -128,20 +142,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salvar_evento'])) {
 
                 $id_evento = mysqli_insert_id($conexao);
 
-                $stmt_cal = mysqli_prepare(
-                    $conexao,
-                    "INSERT INTO calendario (id_eventos, id_turma)
-                     VALUES (?, ?)"
-                );
+                if ($id_turma === null) {
+                    $stmt_cal = mysqli_prepare(
+                        $conexao,
+                        "INSERT INTO calendario (id_eventos, id_turma)
+                         VALUES (?, NULL)"
+                    );
+                } else {
+                    $stmt_cal = mysqli_prepare(
+                        $conexao,
+                        "INSERT INTO calendario (id_eventos, id_turma)
+                         VALUES (?, ?)"
+                    );
+                }
 
                 if ($stmt_cal) {
-                    mysqli_stmt_bind_param(
-                        $stmt_cal,
-                        "ii",
-                        $id_evento,
-                        $id_turma
-                    );
-                    mysqli_stmt_execute($stmt_cal);
+                    if ($id_turma === null) {
+                        mysqli_stmt_bind_param($stmt_cal, "i", $id_evento);
+                        mysqli_stmt_execute($stmt_cal);
+                    } else {
+                        mysqli_stmt_bind_param(
+                            $stmt_cal,
+                            "ii",
+                            $id_evento,
+                            $id_turma
+                        );
+                        mysqli_stmt_execute($stmt_cal);
+                    }
                     mysqli_stmt_close($stmt_cal);
                 }
             }
@@ -166,86 +193,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salvar_evento'])) {
  */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_evento'])) {
 
-    if (!$modo_editor) {
+    if (!$pode_gerenciar_eventos) {
         header("Location: calendario.php");
         exit();
     }
 
     $id_evento_del = (int)($_POST['id_evento'] ?? 0);
 
-    if ($id_evento_del > 0 && isset($turma_representante)) {
+    if ($id_evento_del > 0) {
 
-        /*
-         * Primeiro verificamos se o evento realmente
-         * pertence à turma do representante.
-         */
-        $stmt_verifica = mysqli_prepare(
-            $conexao,
-            "SELECT id_eventos
-             FROM calendario
-             WHERE id_eventos = ?
-             AND id_turma = ?
-             LIMIT 1"
-        );
+        // Gestão só pode excluir eventos gerais.
+        // Representante só pode excluir eventos da própria turma.
+        if ($modo_gestao) {
+            $stmt_verifica = mysqli_prepare(
+                $conexao,
+                "SELECT id_eventos FROM calendario
+                 WHERE id_eventos = ? AND id_turma IS NULL
+                 LIMIT 1"
+            );
+        } elseif (isset($turma_representante)) {
+            $stmt_verifica = mysqli_prepare(
+                $conexao,
+                "SELECT id_eventos FROM calendario
+                 WHERE id_eventos = ? AND id_turma = ?
+                 LIMIT 1"
+            );
+        } else {
+            $stmt_verifica = false;
+        }
 
         if ($stmt_verifica) {
-
-            mysqli_stmt_bind_param(
-                $stmt_verifica,
-                "ii",
-                $id_evento_del,
-                $turma_representante
-            );
+            if ($modo_gestao) {
+                mysqli_stmt_bind_param($stmt_verifica, "i", $id_evento_del);
+            } else {
+                mysqli_stmt_bind_param($stmt_verifica, "ii", $id_evento_del, $turma_representante);
+            }
 
             mysqli_stmt_execute($stmt_verifica);
-
             $resultado = mysqli_stmt_get_result($stmt_verifica);
             $evento_existe = mysqli_fetch_assoc($resultado);
-
             mysqli_stmt_close($stmt_verifica);
 
             if ($evento_existe) {
-
-                /*
-                 * 1º - Remove o vínculo do evento com a turma.
-                 */
-                $stmt_del_cal = mysqli_prepare(
-                    $conexao,
-                    "DELETE FROM calendario
-                     WHERE id_eventos = ?
-                     AND id_turma = ?"
-                );
-
-                if ($stmt_del_cal) {
-
-                    mysqli_stmt_bind_param(
-                        $stmt_del_cal,
-                        "ii",
-                        $id_evento_del,
-                        $turma_representante
+                // Remove o vínculo correto.
+                if ($modo_gestao) {
+                    $stmt_del_cal = mysqli_prepare(
+                        $conexao,
+                        "DELETE FROM calendario WHERE id_eventos = ? AND id_turma IS NULL"
                     );
-
-                    mysqli_stmt_execute($stmt_del_cal);
-                    mysqli_stmt_close($stmt_del_cal);
+                    if ($stmt_del_cal) {
+                        mysqli_stmt_bind_param($stmt_del_cal, "i", $id_evento_del);
+                        mysqli_stmt_execute($stmt_del_cal);
+                        mysqli_stmt_close($stmt_del_cal);
+                    }
+                } else {
+                    $stmt_del_cal = mysqli_prepare(
+                        $conexao,
+                        "DELETE FROM calendario WHERE id_eventos = ? AND id_turma = ?"
+                    );
+                    if ($stmt_del_cal) {
+                        mysqli_stmt_bind_param($stmt_del_cal, "ii", $id_evento_del, $turma_representante);
+                        mysqli_stmt_execute($stmt_del_cal);
+                        mysqli_stmt_close($stmt_del_cal);
+                    }
                 }
 
-                /*
-                 * 2º - Remove o evento da tabela eventos.
-                 */
                 $stmt_del_evento = mysqli_prepare(
                     $conexao,
-                    "DELETE FROM eventos
-                     WHERE id_eventos = ?"
+                    "DELETE FROM eventos WHERE id_eventos = ?"
                 );
-
                 if ($stmt_del_evento) {
-
-                    mysqli_stmt_bind_param(
-                        $stmt_del_evento,
-                        "i",
-                        $id_evento_del
-                    );
-
+                    mysqli_stmt_bind_param($stmt_del_evento, "i", $id_evento_del);
                     mysqli_stmt_execute($stmt_del_evento);
                     mysqli_stmt_close($stmt_del_evento);
                 }
@@ -270,7 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_evento'])) {
  */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar_evento'])) {
 
-    if (!$modo_editor) {
+    if (!$pode_gerenciar_eventos) {
         header("Location: calendario.php");
         exit();
     }
@@ -285,28 +303,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar_evento'])) {
         $id_evento_edit > 0 &&
         $nome_edit !== '' &&
         in_array($tipo_edit, $tipos_validos, true) &&
-        isset($turma_representante)
+        ($modo_gestao || isset($turma_representante))
     ) {
 
-        $stmt_edit = mysqli_prepare(
-            $conexao,
-            "UPDATE eventos e
-             INNER JOIN calendario c ON c.id_eventos = e.id_eventos
-             SET e.nome = ?, e.descr = ?, e.tipo = ?
-             WHERE e.id_eventos = ?
-             AND c.id_turma = ?"
-        );
+        if ($modo_gestao) {
+            $stmt_edit = mysqli_prepare(
+                $conexao,
+                "UPDATE eventos e
+                 INNER JOIN calendario c ON c.id_eventos = e.id_eventos
+                 SET e.nome = ?, e.descr = ?, e.tipo = ?
+                 WHERE e.id_eventos = ?
+                 AND c.id_turma IS NULL"
+            );
+        } elseif (isset($turma_representante)) {
+            $stmt_edit = mysqli_prepare(
+                $conexao,
+                "UPDATE eventos e
+                 INNER JOIN calendario c ON c.id_eventos = e.id_eventos
+                 SET e.nome = ?, e.descr = ?, e.tipo = ?
+                 WHERE e.id_eventos = ?
+                 AND c.id_turma = ?"
+            );
+        } else {
+            $stmt_edit = false;
+        }
 
         if ($stmt_edit) {
-            mysqli_stmt_bind_param(
-                $stmt_edit,
-                "sssii",
-                $nome_edit,
-                $nome_edit,
-                $tipo_edit,
-                $id_evento_edit,
-                $turma_representante
-            );
+            if ($modo_gestao) {
+                mysqli_stmt_bind_param(
+                    $stmt_edit,
+                    "sssi",
+                    $nome_edit, $nome_edit, $tipo_edit, $id_evento_edit
+                );
+            } else {
+                mysqli_stmt_bind_param(
+                    $stmt_edit,
+                    "sssii",
+                    $nome_edit, $nome_edit, $tipo_edit, $id_evento_edit, $turma_representante
+                );
+            }
 
             mysqli_stmt_execute($stmt_edit);
             mysqli_stmt_close($stmt_edit);
@@ -330,7 +365,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar_evento'])) {
 $eventos_cadastrados = [];
 $nome_turma_atual = "";
 
-if ($id_turma_selecionada) {
+if ($id_turma_selecionada && !$modo_gestao) {
 
     $stmt_turma = mysqli_prepare(
         $conexao,
@@ -359,10 +394,10 @@ if ($id_turma_selecionada) {
      */
     $stmt_busca = mysqli_prepare(
         $conexao,
-        "SELECT e.id_eventos, e.nome, e.descr, e.data_evento, e.tipo
+        "SELECT e.id_eventos, e.nome, e.descr, e.data_evento, e.tipo, c.id_turma
          FROM eventos e
          INNER JOIN calendario c ON e.id_eventos = c.id_eventos
-         WHERE c.id_turma = ?
+         WHERE c.id_turma = ? OR c.id_turma IS NULL
          ORDER BY e.data_evento ASC, e.id_eventos ASC"
     );
 
@@ -390,6 +425,32 @@ if ($id_turma_selecionada) {
         }
 
         mysqli_stmt_close($stmt_busca);
+    }
+}
+
+// Gestão visualiza somente os eventos gerais.
+if ($modo_gestao) {
+    $stmt_busca_gerais = mysqli_prepare(
+        $conexao,
+        "SELECT e.id_eventos, e.nome, e.descr, e.data_evento, e.tipo, c.id_turma
+         FROM eventos e
+         INNER JOIN calendario c ON e.id_eventos = c.id_eventos
+         WHERE c.id_turma IS NULL
+         ORDER BY e.data_evento ASC, e.id_eventos ASC"
+    );
+
+    if ($stmt_busca_gerais) {
+        mysqli_stmt_execute($stmt_busca_gerais);
+        $res_gerais = mysqli_stmt_get_result($stmt_busca_gerais);
+
+        while ($row = mysqli_fetch_assoc($res_gerais)) {
+            $data_evento = $row['data_evento'];
+            if (!isset($eventos_cadastrados[$data_evento])) {
+                $eventos_cadastrados[$data_evento] = [];
+            }
+            $eventos_cadastrados[$data_evento][] = $row;
+        }
+        mysqli_stmt_close($stmt_busca_gerais);
     }
 }
 
@@ -456,7 +517,7 @@ if ($mes_proximo > 12) {
     $ano_proximo++;
 }
 
-$param_turma = $id_turma_selecionada
+$param_turma = (!$modo_gestao && $id_turma_selecionada)
     ? "&turma=" . $id_turma_selecionada
     : "";
 ?>
@@ -515,65 +576,51 @@ $param_turma = $id_turma_selecionada
 
 <section class="dropdown-container">
 
-    <button class="btn-dropdown">
-        <?= $nome_turma_atual
-            ? "Eventos - " . htmlspecialchars($nome_turma_atual)
-            : "Eventos" ?>
+    <?php if ($modo_gestao): ?>
 
-        <i class="fa-solid fa-chevron-down"></i>
-    </button>
+        <div class="btn-dropdown eventos-gestao">
+            Eventos
+        </div>
 
-    <div class="dropdown-menu">
+    <?php else: ?>
 
-        <div class="menu-item-periodo">
+        <button class="btn-dropdown">
+            <?= $nome_turma_atual
+                ? "Eventos - " . htmlspecialchars($nome_turma_atual)
+                : "Eventos" ?>
 
-            <span>Integral</span>
+            <i class="fa-solid fa-chevron-down"></i>
+        </button>
 
-            <i class="fa-solid fa-chevron-right seta"></i>
+        <div class="dropdown-menu">
 
-            <div class="submenu-turmas">
+            <div class="menu-item-periodo">
+                <span>Integral</span>
+                <i class="fa-solid fa-chevron-right seta"></i>
+                <div class="submenu-turmas">
+                    <?php foreach ($turmas_integral as $t): ?>
+                        <a href="calendario.php?turma=<?= (int)$t['id_turma'] ?>&mes=<?= $mes_atual ?>&ano=<?= $ano_atual ?>">
+                            <?= htmlspecialchars($t['serie'] . ' ' . $t['curso']) ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
 
-                <?php foreach ($turmas_integral as $t): ?>
-
-                    <a href="calendario.php?turma=<?= (int)$t['id_turma'] ?>&mes=<?= $mes_atual ?>&ano=<?= $ano_atual ?>">
-
-                        <?= htmlspecialchars(
-                            $t['serie'] . ' ' . $t['curso']
-                        ) ?>
-
-                    </a>
-
-                <?php endforeach; ?>
-
+            <div class="menu-item-periodo">
+                <span>Noturno</span>
+                <i class="fa-solid fa-chevron-right seta"></i>
+                <div class="submenu-turmas">
+                    <?php foreach ($turmas_noturno as $t): ?>
+                        <a href="calendario.php?turma=<?= (int)$t['id_turma'] ?>&mes=<?= $mes_atual ?>&ano=<?= $ano_atual ?>">
+                            <?= htmlspecialchars($t['serie'] . ' ' . $t['curso']) ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
             </div>
 
         </div>
 
-        <div class="menu-item-periodo">
-
-            <span>Noturno</span>
-
-            <i class="fa-solid fa-chevron-right seta"></i>
-
-            <div class="submenu-turmas">
-
-                <?php foreach ($turmas_noturno as $t): ?>
-
-                    <a href="calendario.php?turma=<?= (int)$t['id_turma'] ?>&mes=<?= $mes_atual ?>&ano=<?= $ano_atual ?>">
-
-                        <?= htmlspecialchars(
-                            $t['serie'] . ' ' . $t['curso']
-                        ) ?>
-
-                    </a>
-
-                <?php endforeach; ?>
-
-            </div>
-
-        </div>
-
-    </div>
+    <?php endif; ?>
 
 </section>
 
@@ -766,7 +813,7 @@ $param_turma = $id_turma_selecionada
         <form method="POST">
 
             <input type="hidden" name="salvar_evento" value="1">
-            <input type="hidden" name="id_turma" value="<?= (int)$id_turma_selecionada ?>">
+            <input type="hidden" name="id_turma" value="<?= $modo_gestao ? "" : (int)$id_turma_selecionada ?>">
             <input type="hidden" name="data_evento" id="finalData">
             <input type="hidden" name="nome" id="finalNome">
             <input type="hidden" name="tipo" id="finalTipo">
@@ -803,7 +850,7 @@ $param_turma = $id_turma_selecionada
 
         <div id="listaEventos" class="lista-eventos"></div>
 
-        <?php if ($modo_editor): ?>
+        <?php if ($pode_gerenciar_eventos): ?>
 
             <div class="modal-actions ver-actions">
 
@@ -963,7 +1010,8 @@ $param_turma = $id_turma_selecionada
 <script>
     window.CALENDARIO_CONFIG = {
         turmaSelecionada: <?= json_encode($id_turma_selecionada) ?>,
-        modoEditor: <?= $modo_editor ? 'true' : 'false' ?>
+        modoEditor: <?= $modo_editor ? 'true' : 'false' ?>,
+        modoGestao: <?= $modo_gestao ? 'true' : 'false' ?>
     };
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -1132,6 +1180,7 @@ $param_turma = $id_turma_selecionada
          */
 
         let eventosSelecionados = [];
+        let eventoAcaoSelecionado = null;
 
 
         /*
@@ -1194,7 +1243,7 @@ $param_turma = $id_turma_selecionada
                  * ==================================
                  */
 
-                if (!config.turmaSelecionada) {
+                if (!config.turmaSelecionada && !config.modoGestao) {
 
                     abrirModal(modalAviso);
 
@@ -1224,14 +1273,8 @@ $param_turma = $id_turma_selecionada
                  * ==================================
                  */
 
-                if (!config.modoEditor) {
-
-                    /*
-                     * Não permite adicionar evento.
-                     */
-
+                if (!config.modoEditor && !config.modoGestao) {
                     return;
-
                 }
 
 
@@ -1294,6 +1337,28 @@ $param_turma = $id_turma_selecionada
 
             listaEventos.innerHTML = "";
 
+            // Define qual evento poderá ser editado/excluído.
+            // Gestão -> somente eventos gerais.
+            // Representante -> somente eventos da própria turma.
+            eventoAcaoSelecionado = eventos.find(function (evento) {
+                if (config.modoGestao) {
+                    return evento.id_turma === null || evento.id_turma === undefined || evento.id_turma === "";
+                }
+
+                if (config.modoEditor) {
+                    return String(evento.id_turma) === String(config.turmaSelecionada);
+                }
+
+                return false;
+            }) || null;
+
+            if (btnEditarEvento) {
+                btnEditarEvento.style.display = eventoAcaoSelecionado ? "inline-flex" : "none";
+            }
+
+            if (btnExcluirEvento) {
+                btnExcluirEvento.style.display = eventoAcaoSelecionado ? "inline-flex" : "none";
+            }
 
             eventos.forEach(function (evento) {
 
@@ -1453,7 +1518,7 @@ $param_turma = $id_turma_selecionada
                 "click",
                 function () {
 
-                    if (!config.modoEditor) {
+                    if (!config.modoEditor && !config.modoGestao) {
                         return;
                     }
 
@@ -1467,9 +1532,11 @@ $param_turma = $id_turma_selecionada
                      * Pega o primeiro evento.
                      */
 
-                    const evento =
-                        eventosSelecionados[0];
+                    const evento = eventoAcaoSelecionado;
 
+                    if (!evento) {
+                        return;
+                    }
 
                     document.getElementById("editIdEvento").value =
                         evento.id_eventos;
@@ -1544,7 +1611,7 @@ $param_turma = $id_turma_selecionada
                 "click",
                 function () {
 
-                    if (!config.modoEditor) {
+                    if (!config.modoEditor && !config.modoGestao) {
                         return;
                     }
 
@@ -1554,9 +1621,11 @@ $param_turma = $id_turma_selecionada
                     }
 
 
-                    const evento =
-                        eventosSelecionados[0];
+                    const evento = eventoAcaoSelecionado;
 
+                    if (!evento) {
+                        return;
+                    }
 
                     document.getElementById("delIdEvento").value =
                         evento.id_eventos;
