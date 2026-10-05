@@ -456,7 +456,7 @@ if (
     <a href="agendamento.php" class="has-submenu">Agendamento</a>
              <ul class="submenu">
                 <li>
-                <a href="../TCC/php/meus-agendamentos.php">Meus agendamentos</a>
+                <a href="meus-agendamentos.php">Meus agendamentos</a>
         </li>
     </ul>
 </li>
