@@ -126,7 +126,7 @@ if ($stmt) {
         </a>
         <li>
             <a
-                href="../selecionar_lab.html"
+                href="agendamento.php"
                 class="has-submenu">
                 Agendamento
             </a>
@@ -140,7 +140,7 @@ if ($stmt) {
 </header>
 
 
-<main class="container">
+
 
     <div class="titulo">
 
@@ -149,7 +149,7 @@ if ($stmt) {
         </h1>
     </div>
     <br><br>
-
+<main class="container">
 
     <?php if (empty($agendamentos)): ?>
 
@@ -289,6 +289,8 @@ if ($stmt) {
     <?php endif; ?>
 
 </main>
+
+<br><br>
 
 <section>
       <div class="container">

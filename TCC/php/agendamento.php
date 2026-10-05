@@ -452,7 +452,7 @@ if (
         </a>
         <li>
             <a
-                href="../selecionar_lab.html"
+                href="agendamento.php"
                 class="has-submenu">
                 Agendamento
             </a>
