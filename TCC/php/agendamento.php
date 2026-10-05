@@ -441,33 +441,31 @@ if (
 
     <nav>
         <a href="">Home</a>
-        <a href="#" class="has-submenu">
-            Cursos
-        </a>
-        <a href="#" class="has-submenu">
-            A Etec
-        </a>
-        <a href="#" class="has-submenu">
-            Equipe Etec
-        </a>
+        <a href="#" class="has-submenu">Cursos</a>
         <li>
-            <a
-                href="agendamento.php"
-                class="has-submenu">
-                Agendamento
-            </a>
-            <ul class="submenu">
+    <a href="#" class="has-submenu">A Etec</a>
+             <ul class="submenu">
                 <li>
-                    <a href="meus-agendamentos.php">
-                        Meus agendamentos
-                    </a>
-                </li>
-            </ul>
+                <a href="eventos_login.php">Eventos</a>
         </li>
+    </ul>
+</li>
+        <a href="#" class="has-submenu">Equipe Etec</a>
+        
+        <li>
+    <a href="agendamento.php" class="has-submenu">Agendamento</a>
+             <ul class="submenu">
+                <li>
+                <a href="../TCC/php/meus-agendamentos.php">Meus agendamentos</a>
+        </li>
+    </ul>
+</li>
+
         <a href="#" class="has-submenu">Notícias</a>
         <a href="">Empregos & Estágios</a>
         <a href="">Parceiros</a>
-        <a href=""> TCC</a>
+        <a href="">TCC</a>
+    
 
     </nav>
 </header>

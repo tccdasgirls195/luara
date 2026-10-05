@@ -130,10 +130,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             // ==========================================
                             $destinos = [
                                 'representante' => 'calendario.php',   // Representante vai para o Calendário
-                                'administrador' => '../selecionar_lab.html',  // Altere se o admin tiver outra página
-                                'coordenador'   => '../selecionar_lab.html',  // Altere se o coordenador tiver outra página
-                                'professor'     => '../selecionar_lab.html',  // Altere se o professor tiver outra página
-                                'gestao'        => '../selecionar_lab.html'   // Altere se a gestão tiver outra página
+                                'administrador' => '../opcoes.html',  // Altere se o admin tiver outra página
+                                'coordenador'   => 'agendamento.php',  // Altere se o coordenador tiver outra página
+                                'professor'     => 'agendamento.php',  // Altere se o professor tiver outra página
+                                'gestao'        => 'solicitacoes_gestao.php'   // Altere se a gestão tiver outra página
                             ];
 
                             // Pega a página configurada para o tipo de usuário ou redireciona para o agendamento por padrão
