@@ -749,18 +749,6 @@ nav li ul li a:hover{
         font-size:25px;
     }
 
-
-    /* -------------------------
-       BOTÃO SAIR
-       ------------------------- */
-
-    .area-sair{
-        width:95%;
-
-        margin-top:15px;
-    }
-
-
     /* -------------------------
        CONTAINER
        ------------------------- */
@@ -1135,4 +1123,391 @@ nav li ul li a:hover{
     position:relative;
 
     z-index:9999;
+}
+
+/* =====================================================
+   BOTÕES DO CABEÇALHO
+   ===================================================== */
+
+.acoes-header{
+    margin-left:auto;
+    height:100%;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:0 20px 0 10px;
+    flex-shrink:0;
+}
+
+.botao-header{
+    width:48px;
+    height:48px;
+    border:none;
+    background:transparent;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:#111;
+    font-size:30px;
+    border-radius:8px;
+    transition:0.2s;
+}
+
+.botao-header:hover{
+    background:#dff5e6;
+    color:#176b31;
+}
+
+.botao-menu{
+    font-size:32px;
+}
+
+
+/* =====================================================
+   BARRA LATERAL
+   ===================================================== */
+
+.barra-lateral{
+    position:fixed;
+    top:137px;
+    right:0;
+
+    width:310px;
+    height:calc(100vh - 137px);
+
+    background:#fff;
+
+    display:flex;
+    flex-direction:column;
+
+    box-shadow:-4px 0 18px rgba(0,0,0,0.18);
+
+    z-index:10000;
+
+    transform:translateX(100%);
+    transition:transform 0.3s ease;
+
+    overflow:hidden;
+}
+
+.barra-lateral.aberta{
+    transform:translateX(0);
+}
+
+
+/* FAIXA VERDE */
+
+.barra-topo{
+    width:100%;
+    height:50px;
+    min-height:50px;
+    background:#72c67c;
+}
+
+
+/* FUNDO ATRÁS DA BARRA */
+
+.fundo-barra{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,0.18);
+
+    z-index:9999;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:0.25s;
+}
+
+.fundo-barra.ativo{
+    opacity:1;
+    visibility:visible;
+}
+
+
+/* =====================================================
+   OPÇÃO FIXA SUPERIOR
+   ===================================================== */
+
+.barra-opcao-fixa{
+    width:100%;
+    padding:12px 14px 6px;
+    flex-shrink:0;
+}
+
+.opcao-lateral{
+    min-height:48px;
+    width:100%;
+
+    padding:10px 14px;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    border:2px solid #222;
+    border-radius:14px;
+
+    color:#222;
+    background:#fff;
+
+    text-decoration:none;
+
+    font-size:19px;
+
+    transition:0.2s;
+}
+
+.opcao-lateral:hover{
+    background:#f1fff4;
+    border-color:#72c67c;
+}
+
+.opcao-lateral i{
+    width:24px;
+    text-align:center;
+    color:#72c67c;
+    flex-shrink:0;
+}
+
+
+/* =====================================================
+   NOTIFICAÇÕES COM ROLAGEM
+   ===================================================== */
+
+.area-notificacoes{
+    min-height:0;
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:8px 14px 10px;
+}
+
+.area-notificacoes h2{
+    margin:0;
+    padding:5px 5px 10px;
+
+    font-size:21px;
+    font-weight:normal;
+    color:#222;
+
+    flex-shrink:0;
+}
+
+.lista-notificacoes{
+    flex:1;
+    min-height:0;
+
+    overflow-y:auto;
+
+    padding:0 2px 5px 0;
+
+    scrollbar-width:thin;
+    scrollbar-color:#b8b8b8 transparent;
+}
+
+.lista-notificacoes::-webkit-scrollbar{
+    width:7px;
+}
+
+.lista-notificacoes::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+.lista-notificacoes::-webkit-scrollbar-thumb{
+    background:#bbb;
+    border-radius:10px;
+}
+
+
+/* CADA NOTIFICAÇÃO */
+
+.notificacao{
+    width:100%;
+    min-height:44px;
+
+    margin-bottom:14px;
+    padding:8px 12px;
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    border:2px solid #222;
+    border-radius:14px;
+
+    background:#fff;
+
+    font-size:19px;
+}
+
+.notificacao i{
+    font-size:18px;
+    flex-shrink:0;
+}
+
+.notificacao-ok{
+    color:#5fd477;
+}
+
+.notificacao-erro{
+    color:#e94a43;
+}
+
+
+/* =====================================================
+   LOGOUT FIXO EMBAIXO
+   ===================================================== */
+
+.barra-logout{
+    width:100%;
+
+    padding:10px 14px 16px;
+
+    background:#fff;
+
+    border-top:1px solid #ddd;
+
+    flex-shrink:0;
+}
+
+.barra-logout form{
+    margin:0;
+}
+
+.barra-logout button{
+    width:100%;
+    height:50px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#f5f5f5;
+
+    color:#e34842;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+
+    font-size:19px;
+
+    transition:0.2s;
+}
+
+.barra-logout button:hover{
+    background:#ffe9e8;
+    color:#c92f29;
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE DA BARRA LATERAL
+   ===================================================== */
+
+@media (max-width:768px){
+
+    .acoes-header{
+        width:100%;
+        height:auto;
+        justify-content:flex-end;
+        padding:5px 10px 0;
+    }
+
+    .barra-lateral{
+        top:0;
+        width:min(310px,88vw);
+        height:100vh;
+    }
+
+    .barra-topo{
+        height:55px;
+        min-height:55px;
+    }
+
+    .opcao-lateral{
+        font-size:18px;
+    }
+
+    .notificacao{
+        font-size:17px;
+    }
+
+    .area-notificacoes h2{
+        font-size:20px;
+    }
+}
+
+@media (max-width:480px){
+
+    .botao-header{
+        width:42px;
+        height:42px;
+        font-size:26px;
+    }
+
+    .botao-menu{
+        font-size:29px;
+    }
+
+    .barra-lateral{
+        width:88vw;
+    }
+
+    .notificacao{
+        min-height:42px;
+        margin-bottom:12px;
+        font-size:16px;
+    }
+
+    .opcao-lateral{
+        min-height:45px;
+        font-size:17px;
+    }
+}
+
+
+/* Notificações dinâmicas do menu lateral */
+.notificacao-link {
+    color: inherit;
+    text-decoration: none;
+    align-items: flex-start;
+}
+.notificacao-link:hover {
+    background: #f1fff4;
+    color: inherit;
+    border-color: #72c67c;
+}
+.notificacao-link span {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+.notificacao-link small {
+    color: #666;
+    font-size: 13px;
+}
+.notificacao-pendente {
+    color: #d99b00;
+}
+.contador-notificacoes {
+    margin-left: auto;
+    min-width: 22px;
+    padding: 2px 7px;
+    border-radius: 12px;
+    background: #d92b2b;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
 }
