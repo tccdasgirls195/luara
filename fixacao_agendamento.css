@@ -1,0 +1,957 @@
+
+/* =====================================================
+   CONFIGURAÇÕES GERAIS
+   ===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: white;
+    color: #333;
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   CABEÇALHO
+   ===================================================== */
+
+header {
+    width: 100%;
+    min-height: 137px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 25px 5%;
+    color: #333;
+}
+
+header h1 {
+    font-size: 30px;
+    font-weight: normal;
+    margin-bottom: 8px;
+}
+
+header p {
+    font-size: 16px;
+    color: #555;
+}
+
+
+/* =====================================================
+   FAIXA VERDE / TÍTULO
+   ===================================================== */
+
+.titulo {
+    width: 100%;
+    height: 115px;
+    background: #5dcc7b;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0;
+}
+
+.titulo h1 {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+    font-size: 32px;
+}
+
+
+/* =====================================================
+   CONTEÚDO PRINCIPAL
+   ===================================================== */
+
+main {
+    width: 90%;
+    max-width: 1500px;
+    margin: 30px auto;
+}
+
+
+/* =====================================================
+   FORMULÁRIO E LISTA DE FIXAÇÕES
+   ===================================================== */
+
+.formulario h2,
+.lista-fixacoes h2 {
+    font-size: 25px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+
+/* =====================================================
+   CAMPOS SUPERIORES
+   ===================================================== */
+
+.campos-superiores {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    max-width: 950px;
+    margin: 20px 0 30px;
+}
+
+.campos-superiores .campo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    width: 100%;
+    min-width: 0;
+}
+
+.campos-superiores .campo label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #444;
+}
+
+.campos-superiores .campo select,
+.campos-superiores .campo input {
+    width: 100%;
+    max-width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #aaa;
+    border-radius: 7px;
+    background: white;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+}
+
+.campos-superiores .campo select:focus,
+.campos-superiores .campo input:focus {
+    border-color: #5dcc7b;
+}
+
+
+/* =====================================================
+   GRADE DE HORÁRIOS
+   ===================================================== */
+
+.titulo-grade {
+    margin-bottom: 20px;
+}
+
+.titulo-grade h3 {
+    font-size: 23px;
+    margin-bottom: 9px;
+    color: #333;
+}
+
+.titulo-grade p {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #666;
+}
+
+
+/* =====================================================
+   LEGENDA DA GRADE
+   ===================================================== */
+
+.legenda {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin: 10px 0 18px;
+}
+
+.legenda-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 15px;
+    color: #333;
+}
+
+.quadrado {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: 2px solid #666;
+    border-radius: 4px;
+    background: white;
+}
+
+.quadrado.selecionado {
+    background: #72c67c;
+    border-color: #42b966;
+}
+
+
+/* =====================================================
+   CONTAINER DA GRADE
+   ===================================================== */
+
+.grade-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 2px solid #777;
+    border-radius: 10px;
+}
+
+.grade-horarios {
+    width: 100%;
+    min-width: 1250px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.grade-horarios th,
+.grade-horarios td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px 5px;
+}
+
+.grade-horarios thead th {
+    background: #eaf8ee;
+    color: #333;
+    font-size: 13px;
+    font-weight: bold;
+    height: 65px;
+    line-height: 1.4;
+}
+
+.grade-horarios thead .coluna-dia {
+    width: 145px;
+    min-width: 145px;
+}
+
+.grade-horarios tbody td {
+    height: 60px;
+    background: white;
+}
+
+.grade-horarios .nome-dia {
+    width: 145px;
+    min-width: 145px;
+    background: #f5f8f6;
+    color: #333;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 15px;
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   CÉLULAS DOS HORÁRIOS
+   ===================================================== */
+
+.celula-horario {
+    width: 100%;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.celula-horario input {
+    display: none;
+}
+
+.celula-horario span {
+    display: block;
+    width: 75%;
+    height: 30px;
+    border: 2px solid #666;
+    border-radius: 5px;
+    background: white;
+    transition: 0.2s;
+}
+
+.celula-horario:hover span {
+    border-color: #72c67c;
+    background: #f2fff4;
+}
+
+.celula-horario input:checked + span {
+    background: #72c67c;
+    border: 2px solid #42b966;
+}
+
+
+/* =====================================================
+   AVISO DA GRADE
+   ===================================================== */
+
+.aviso-grade {
+    margin-top: 18px;
+    padding: 15px 18px;
+    background: #f0f9f2;
+    border-left: 4px solid #5dcc7b;
+    border-radius: 5px;
+    color: #45604c;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   BOTÕES DO FORMULÁRIO
+   ===================================================== */
+
+.botoes-formulario {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 28px;
+}
+
+.botao-salvar,
+.botao-cancelar {
+    min-height: 45px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.botao-salvar {
+    background: #72c67c;
+    color: white;
+}
+
+.botao-salvar:hover {
+    background: #5aaa65;
+}
+
+.botao-cancelar {
+    background: #e6e9e7;
+    color: #444;
+}
+
+.botao-cancelar:hover {
+    background: #d8ddda;
+}
+
+
+/* =====================================================
+   MENSAGENS
+   ===================================================== */
+
+.mensagem {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.mensagem.erro {
+    background: #fdeaea;
+    color: #a52a2a;
+    border: 1px solid #f3caca;
+}
+
+.mensagem.sucesso {
+    background: #e9f8ed;
+    color: #267b40;
+    border: 1px solid #c7ebd0;
+}
+
+
+/* =====================================================
+   LISTA DE FIXAÇÕES
+   ===================================================== */
+
+.sem-registros {
+    color: #777;
+    font-size: 16px;
+}
+
+
+/* CONTAINER DA TABELA */
+
+.tabela-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: white;
+}
+
+
+/* TABELA */
+
+.tabela-fixacoes {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: auto;
+}
+
+
+/* CABEÇALHO E CÉLULAS */
+
+.tabela-fixacoes th,
+.tabela-fixacoes td {
+    padding: 19px 20px;
+    text-align: left;
+    font-size: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #222;
+    white-space: nowrap;
+}
+
+
+/* CABEÇALHO VERDE */
+
+.tabela-fixacoes thead th {
+    background: #5dcc7b;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    height: 55px;
+    border-bottom: none;
+}
+
+
+/* CANTOS ARREDONDADOS DO CABEÇALHO */
+
+.tabela-fixacoes thead th:first-child {
+    border-top-left-radius: 11px;
+}
+
+.tabela-fixacoes thead th:last-child {
+    border-top-right-radius: 11px;
+}
+
+
+/* LINHAS DA TABELA */
+
+.tabela-fixacoes tbody tr {
+    background: white;
+    transition: background 0.2s;
+}
+
+.tabela-fixacoes tbody tr:hover {
+    background: #f5fff7;
+}
+
+.tabela-fixacoes tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =====================================================
+   COLUNAS DA TABELA
+   ===================================================== */
+
+.tabela-fixacoes th:nth-child(1),
+.tabela-fixacoes td:nth-child(1) {
+    min-width: 200px;
+}
+
+.tabela-fixacoes th:nth-child(2),
+.tabela-fixacoes td:nth-child(2) {
+    min-width: 160px;
+}
+
+.tabela-fixacoes th:nth-child(3),
+.tabela-fixacoes td:nth-child(3) {
+    min-width: 300px;
+}
+
+.tabela-fixacoes th:nth-child(4),
+.tabela-fixacoes td:nth-child(4) {
+    min-width: 165px;
+}
+
+.tabela-fixacoes th:nth-child(5),
+.tabela-fixacoes td:nth-child(5) {
+    min-width: 170px;
+}
+
+.tabela-fixacoes th:nth-child(6),
+.tabela-fixacoes td:nth-child(6) {
+    min-width: 200px;
+}
+
+
+/* =====================================================
+   BOTÕES DE AÇÃO
+   ===================================================== */
+
+.tabela-fixacoes .acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tabela-fixacoes .acoes form {
+    margin: 0;
+    display: inline-flex;
+}
+
+.tabela-fixacoes .botao-editar,
+.tabela-fixacoes .botao-excluir {
+    min-width: 75px;
+    padding: 11px 17px;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+
+/* EDITAR */
+
+.tabela-fixacoes .botao-editar {
+    background: #5dcc7b;
+    color: white;
+}
+
+.tabela-fixacoes .botao-editar:hover {
+    background: #42b966;
+}
+
+
+/* EXCLUIR */
+
+.tabela-fixacoes .botao-excluir {
+    background: #ed2929;
+    color: white;
+}
+
+.tabela-fixacoes .botao-excluir:hover {
+    background: #d51f1f;
+}
+
+
+/* =====================================================
+   FILTROS DOS DIAS DA SEMANA
+   ===================================================== */
+
+.filtros-dias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0 25px;
+}
+
+.filtro-dia {
+    background-color: #5dcc7b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.filtro-dia:hover {
+    background-color: #49b969;
+    transform: translateY(-2px);
+}
+
+.filtro-dia.ativo {
+    background-color: #278d4b;
+    color: white;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+/* AVISO DE AUSÊNCIA DE FIXAÇÕES */
+
+#semFixacoesDia {
+    margin-top: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+}
+
+.tabela-fixacoes tr[hidden],
+#semFixacoesDia[hidden] {
+    display: none !important;
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+    header {
+        min-height: 100px;
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    header p {
+        font-size: 14px;
+    }
+
+    .titulo {
+        height: 100px;
+        padding: 15px;
+    }
+
+    .titulo h1 {
+        font-size: 25px;
+    }
+
+    main {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .formulario,
+    .lista-fixacoes {
+        padding: 18px;
+    }
+
+    .formulario h2,
+    .lista-fixacoes h2 {
+        font-size: 21px;
+    }
+
+    .campos-superiores {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        max-width: 100%;
+    }
+
+    .botoes-formulario {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .botao-salvar,
+    .botao-cancelar {
+        width: 100%;
+    }
+
+    .legenda {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .grade-horarios {
+        min-width: 1100px;
+    }
+
+    .tabela-fixacoes {
+        min-width: 1100px;
+    }
+}
+
+
+/* =====================================================
+   CELULARES PEQUENOS
+   ===================================================== */
+
+@media (max-width: 480px) {
+
+    header {
+        padding: 18px 15px;
+    }
+
+    header h1 {
+        font-size: 22px;
+    }
+
+    .titulo {
+        height: 85px;
+    }
+
+    .titulo h1 {
+        font-size: 21px;
+    }
+
+    main {
+        width: 94%;
+    }
+
+    .formulario,
+    .lista-fixacoes {
+        padding: 15px;
+    }
+
+    .campos-superiores .campo label {
+        font-size: 15px;
+    }
+
+    .campos-superiores .campo select,
+    .campos-superiores .campo input {
+        font-size: 14px;
+    }
+
+    .titulo-grade h3 {
+        font-size: 19px;
+    }
+
+    .aviso-grade {
+        font-size: 13px;
+    }
+
+    .tabela-fixacoes th,
+    .tabela-fixacoes td {
+        font-size: 15px;
+        padding: 15px;
+    }
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE DOS FILTROS
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    .filtros-dias {
+        gap: 8px;
+    }
+
+    .filtro-dia {
+        flex: 1 1 calc(50% - 8px);
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+}
+
+
+/* =====================================================
+   NOVO VISUAL DA GRADE DE FIXAÇÃO
+   PADRONIZAÇÃO COM A TABELA DE GERENCIAMENTO
+   ===================================================== */
+
+.grade-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.grade-horarios {
+    width: 100%;
+    min-width: 1350px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* CABEÇALHO VERDE */
+
+.grade-horarios thead th {
+    background: #5dcc7b;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    height: 72px;
+    padding: 12px 6px;
+    border: 1px solid #50bd70;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* PRIMEIRA COLUNA */
+
+.grade-horarios thead .coluna-dia {
+    width: 155px;
+    min-width: 155px;
+}
+
+.grade-horarios .nome-dia {
+    width: 155px;
+    min-width: 155px;
+    background: #eaf8ee;
+    color: #333;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+    padding: 15px;
+    border: 1px solid #d9e8dd;
+    white-space: nowrap;
+}
+
+/* CÉLULAS DA TABELA */
+
+.grade-horarios tbody td {
+    height: 65px;
+    padding: 10px 5px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.grade-horarios tbody tr:hover td {
+    background: #f7fff9;
+}
+
+/* QUADRADOS DE SELEÇÃO */
+
+.celula-horario {
+    width: 100%;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.celula-horario input {
+    display: none;
+}
+
+.celula-horario span {
+    display: block;
+    width: 78%;
+    height: 34px;
+    border: 1px solid #999;
+    border-radius: 6px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+
+
+/* HORÁRIOS SELECIONADOS */
+
+.celula-horario input:checked + span {
+    background: #5dcc7b;
+    border: 2px solid #42b966;
+    box-shadow: 0 2px 5px rgba(66, 185, 102, 0.2);
+}
+
+/* LEGENDA */
+
+.legenda {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin: 18px 0 20px;
+}
+
+.legenda-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 15px;
+    color: #333;
+}
+
+.quadrado {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    background: white;
+}
+
+.quadrado.selecionado {
+    background: #5dcc7b;
+    border: 2px solid #42b966;
+}
+
+/* RESPONSIVIDADE DA GRADE */
+
+@media (max-width: 768px) {
+    .grade-container {
+        border-radius: 8px;
+    }
+
+    .grade-horarios {
+        min-width: 1250px;
+    }
+
+    .grade-horarios thead th {
+        font-size: 13px;
+    }
+
+    .grade-horarios .nome-dia {
+        font-size: 14px;
+    }
+
+    .celula-horario span {
+        width: 75%;
+    }
+}
+
+@media (max-width: 480px) {
+    .legenda {
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .legenda-item {
+        font-size: 13px;
+    }
+}
+
+.celula-horario {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.celula-horario span {
+    cursor: pointer;
+}
+
+/* =====================================================
+   HORÁRIOS JÁ FIXADOS
+   ===================================================== */
+
+.celula-horario.ocupado span {
+    background: #ef4444 !important;
+    border: 2px solid #dc2626 !important;
+    cursor: not-allowed;
+    box-shadow: 0 2px 5px rgba(220, 38, 38, 0.20);
+}
+
+/* Impedir seleção de horários ocupados */
+
+.celula-horario.ocupado {
+    cursor: not-allowed;
+}
+
+/* Horários selecionados pelo usuário */
+
+.celula-horario:not(.ocupado) input:checked + span {
+    background: #5dcc7b;
+    border: 2px solid #42b966;
+}
+
+.quadrado.ocupado {
+    background: #ef4444;
+    border: 2px solid #dc2626;
+}
